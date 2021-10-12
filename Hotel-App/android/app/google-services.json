@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "301348829669",
+    "project_id": "license-hotelapplication",
+    "storage_bucket": "license-hotelapplication.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301348829669:android:7c50c226ffd1de5687d70c",
+        "android_client_info": {
+          "package_name": "com.example.first_app_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301348829669-b06mfq193se71e5np5rokfamv0uun6k1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA66NBHw5bM6rPppETn6MfQZK_zE-y0Tgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "301348829669-b06mfq193se71e5np5rokfamv0uun6k1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
