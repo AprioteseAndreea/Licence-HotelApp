@@ -1,3 +1,4 @@
+import 'package:first_app_flutter/screens/authentication/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +16,18 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  late TextEditingController _fullNameController;
+  late TextEditingController _phoneNumberController;
+
   final _formkey = GlobalKey<FormState>();
 
   @override
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _fullNameController = TextEditingController();
+    _phoneNumberController = TextEditingController();
+
     super.initState();
   }
 
@@ -28,7 +35,8 @@ class _RegisterState extends State<Register> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-
+    _fullNameController.dispose();
+    _phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -38,32 +46,28 @@ class _RegisterState extends State<Register> {
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
+        child:
+        SingleChildScrollView(
+          child: Column(
+              children: [
+              Image.asset('assets/images/grand_hotel_logo2.jpeg'), //   <--- image
+          Padding(
             padding: const EdgeInsets.all(20.0),
             child: Form(
               key: _formkey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios),
-                    color: Theme.of(context).primaryColor,
-                    onPressed: (){},),
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 20),
                   const Text(
-                    "Welcome",
+                    "Create account to continue",
                     style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "create account to continue",
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 30),
+
+                  const SizedBox(height: 25),
                   TextFormField(
                     controller: _emailController,
                     validator: (val) => val!.isNotEmpty ? null : "Please enter a email address",
@@ -75,7 +79,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 25),
                   TextFormField(
                     validator: (val) => val!.length <6 ? "Enter more than 6 char": null,
                     controller: _passwordController,
@@ -87,7 +91,30 @@ class _RegisterState extends State<Register> {
                           borderRadius: BorderRadius.circular(10),
                         )),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 25),
+                  TextFormField(
+                    controller: _fullNameController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        hintText: "Full Name",
+                        prefixIcon: const Icon(Icons.person),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                  ),
+                  const SizedBox(height: 25),
+                  TextFormField(
+                    validator: (val) => val!.length <10 ? "Phone number must be 10 characters.": null,
+                    controller: _phoneNumberController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        hintText: "Phone number",
+                        prefixIcon: const Icon(Icons.phone),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                  ),
+                  const SizedBox(height: 25),
                   MaterialButton(
                     onPressed: () async {
                       if(_formkey.currentState!.validate()){
@@ -149,6 +176,8 @@ class _RegisterState extends State<Register> {
                 ],
               ),
             ),
+          ),
+          ],
           ),
         ),
       ),

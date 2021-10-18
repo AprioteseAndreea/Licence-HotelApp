@@ -3,10 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'forgot_password.dart';
+
 class Login extends StatefulWidget {
    final Function toggleScreen;
 
-  const Login({Key? key, required this.toggleScreen}) : super(key: key);
+  const Login({Key? key, required this.toggleScreen }) : super(key: key);
   @override
   _LoginState createState() => _LoginState();
 }
@@ -36,23 +38,29 @@ class _LoginState extends State<Login> {
     final loginProvider = Provider.of<AuthServices>(context);
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
+        child:
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset('assets/images/grand_hotel_logo2.jpeg'), //   <--- image
+              Padding(
           padding: const EdgeInsets.all(20.0),
           child: Form(
             key: _formkey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back_ios),
-                  color: Theme.of(context).primaryColor,
-                  onPressed: (){},),
-                const SizedBox(height: 60),
+                // IconButton(
+                //   icon: const Icon(Icons.arrow_back_ios),
+                //   color: Theme.of(context).primaryColor,
+                //   onPressed: (){},),
+                const SizedBox(height: 30
+                ),
                 const Text(
+
                   "Welcome Back",
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -61,7 +69,7 @@ class _LoginState extends State<Login> {
                   "sign in to continue",
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 25),
                 TextFormField(
                   controller: _emailController,
                    validator: (val) => val!.isNotEmpty ? null : "Please enter a email address",
@@ -73,7 +81,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 25),
                 TextFormField(
                   validator: (val) => val!.length <6 ? "Enter more than 6 char": null,
                   controller: _passwordController,
@@ -85,7 +93,32 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(10),
                       )),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children:  [
+                    // const SizedBox(width: 3),
+                    // TextButton(
+                    //   onPressed: () => widget.forgotPressed(),
+                    //   child:  const Text("Forgot password?"),
+                    // )
+                    TextButton(
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotPassword(),
+                          ),
+                        )
+                      },
+                      child: const Text(
+                        'Forgot Password ?',
+                        style: TextStyle(fontSize: 14.0),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
                 MaterialButton(
                   onPressed: () async {
                     if(_formkey.currentState!.validate()) {
@@ -137,13 +170,15 @@ class _LoginState extends State<Login> {
                       leading: const Icon(Icons.error),
                       trailing: IconButton(
                         icon:const Icon(Icons.close),
-                        onPressed: () => loginProvider.setMessage(null),
+                        onPressed: () => loginProvider.setMessage(""),
                       ),
                     ),
                   )
               ],
             ),
           ),
+          ),
+          ],
         ),
         ),
       ),

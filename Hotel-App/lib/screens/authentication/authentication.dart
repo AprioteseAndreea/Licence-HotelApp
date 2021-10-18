@@ -12,7 +12,14 @@ class Authentication extends StatefulWidget {
 
 class _AuthenticationState extends State<Authentication> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  bool isPressed = false;
   bool isToggle = false;
+
+  void forgotPressed(){
+    setState(() {
+      isPressed = !isPressed;
+    });
+  }
   void toggleScreen(){
     setState(() {
       isToggle = !isToggle;
