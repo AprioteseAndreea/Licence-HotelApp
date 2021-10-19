@@ -12,16 +12,11 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final _formKey = GlobalKey<FormState>();
-
   var email = "";
-
-  // Create a text controller and use it to retrieve the current value
-  // of the TextField.
   final emailController = TextEditingController();
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     emailController.dispose();
     super.dispose();
   }
@@ -40,8 +35,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        // ignore: avoid_print
-        print('No user found for that email.');
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: Colors.orangeAccent,
@@ -58,132 +52,116 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
 
-      ),
-      body: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 20.0),
-            child: const Text(
-              'Reset Link will be sent to your email id !',
-              style: TextStyle(fontSize: 20.0),
-            ),
-          ),
-          Expanded(
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                child: ListView(
+      body: SafeArea(
+        child:
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
                   children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: TextFormField(
-                        autofocus: false,
-                        decoration: const InputDecoration(
-                          labelText: 'Email: ',
-                          labelStyle: TextStyle(fontSize: 20.0),
-                          border: OutlineInputBorder(),
-                          errorStyle:
-                          TextStyle(color: Colors.redAccent, fontSize: 15),
-                        ),
-                        controller: emailController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Enter Email';
-                          } else if (!value.contains('@')) {
-                            return 'Please Enter Valid Email';
-                          }
-                          return null;
-                        },
-                      ),
+                    const SizedBox(height: 30),
+                    const Text(
+                      'Forgot your password?',
+                      style: TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 60.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              // Validate returns true if the form is valid, otherwise false.
-                              if (_formKey.currentState!.validate()) {
-                                setState(() {
-                                  email = emailController.text;
-                                });
-                                resetPassword();
-                              }
-                            },
-                            child: const Text(
-                              'Send Email',
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Enter your registered email below to receive password reset instruction",
+                      style: TextStyle(fontSize: 13, color: Colors.grey,
+                      ),
+                      textAlign: TextAlign.center,
+
+                    ),
+                    const SizedBox(height: 10),
+                    Image.asset('assets/images/forgot_password_img.jpg'),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [ //   <--- image
+                    TextFormField(
+                      autofocus: false,
+                      decoration: const InputDecoration(
+                        labelText: 'Email: ',
+                        labelStyle: TextStyle(fontSize: 17.0),
+                        border: OutlineInputBorder(),
+                        errorStyle:
+                        TextStyle(color: Colors.redAccent, fontSize: 12),
+                      ),
+                      controller: emailController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Email';
+                        } else if (!value.contains('@')) {
+                          return 'Please Enter Valid Email';
+                        }
+                        return null;
+                      },
+                    ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:  [
+                              // ignore: prefer_const_constructors
+                              Text("Remember password?"),
+                              // ignore: prefer_const_constructors
+                              SizedBox(width: 5),
+                              TextButton(
+                                onPressed: () => {
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, a, b) => const Login(),
+                                        transitionDuration: const Duration(seconds: 0),
+                                      ),
+                                          (route) => false)
+                                },
+                                child:  const Text("Login"),
+                              )
+                            ],
+                          ),
+                    const SizedBox(height: 20),
+                        MaterialButton(
+                          onPressed: () {
+                            // Validate returns true if the form is valid, otherwise false.
+                            if (_formKey.currentState!.validate()) {
+                              setState(() {
+                                email = emailController.text;
+                              });
+                              resetPassword();
+                              emailController.text = "";
+                            }
+                          },
+                          height: 55,
+                          minWidth: 200,
+                          color: Theme.of(context).primaryColor,
+                          textColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: const Text(
+                            'Send Email',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold
                             ),
                           ),
-
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-
-                  ],
+              )
+                    ],
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
+
   }
 }
-
-
-// import 'package:first_app_flutter/screens/authentication/password.dart';
-// import 'package:first_app_flutter/screens/authentication/register.dart';
-// import 'package:flutter/material.dart';
-//
-// import 'login.dart';
-//
-// class ForgotPassword extends StatefulWidget {
-//   const ForgotPassword({Key? key}) : super(key: key);
-//
-//   @override
-//   _AuthenticationState createState() => _AuthenticationState();
-// }
-//
-// class _AuthenticationState extends State<ForgotPassword> with SingleTickerProviderStateMixin {
-//   late AnimationController _controller;
-//   bool isPressed = false;
-//   bool isToggle = false;
-//
-//   void forgotPressed(){
-//     setState(() {
-//       isPressed = !isPressed;
-//     });
-//   }
-//   void toggleScreen(){
-//     setState(() {
-//       isToggle = !isToggle;
-//     });
-//   }
-//   @override
-//   void initState() {
-//     super.initState();
-//     _controller = AnimationController(vsync: this);
-//   }
-//
-//   @override
-//   void dispose() {
-//     _controller.dispose();
-//     super.dispose();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     if(isPressed){
-//       return Password(forgotPressed: forgotPressed);
-//     }else{
-//       return Login(toggleScreen: toggleScreen, forgotPressed: forgotPressed);
-//     }
-//   }
-// }

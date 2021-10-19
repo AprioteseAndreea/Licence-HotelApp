@@ -1,4 +1,5 @@
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
+import 'package:first_app_flutter/screens/authentication/register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,9 +7,7 @@ import 'package:provider/provider.dart';
 import 'forgot_password.dart';
 
 class Login extends StatefulWidget {
-   final Function toggleScreen;
-
-  const Login({Key? key, required this.toggleScreen }) : super(key: key);
+  const Login({Key? key}) : super(key: key);
   @override
   _LoginState createState() => _LoginState();
 }
@@ -16,8 +15,9 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
-  final _formkey = GlobalKey<FormState>();
-
+  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  bool _obscuredText = true;
+  bool _checked = false;
   @override
   void initState() {
     _emailController = TextEditingController();
@@ -32,7 +32,11 @@ class _LoginState extends State<Login> {
 
     super.dispose();
   }
-
+  _toggle(){
+    setState(() {
+      _obscuredText = !_obscuredText;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<AuthServices>(context);
@@ -45,7 +49,7 @@ class _LoginState extends State<Login> {
               Image.asset('assets/images/grand_hotel_logo2.jpeg'), //   <--- image
               Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Form(
+            child: Form(
             key: _formkey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,7 +73,7 @@ class _LoginState extends State<Login> {
                   "sign in to continue",
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 20),
                 TextFormField(
                   controller: _emailController,
                    validator: (val) => val!.isNotEmpty ? null : "Please enter a email address",
@@ -81,12 +85,14 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 20),
                 TextFormField(
                   validator: (val) => val!.length <6 ? "Enter more than 6 char": null,
                   controller: _passwordController,
-                  obscureText: true,
+                    obscureText: _obscuredText,
+
                   decoration: InputDecoration(
+                      suffixIcon: FlatButton(onPressed: _toggle, child:Icon(Icons.remove_red_eye, color: _obscuredText ? Colors.black12 : Colors.black54)),
                       hintText: "Password",
                       prefixIcon: const Icon(Icons.vpn_key),
                       border: OutlineInputBorder(
@@ -97,6 +103,7 @@ class _LoginState extends State<Login> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children:  [
+
                     // const SizedBox(width: 3),
                     // TextButton(
                     //   onPressed: () => widget.forgotPressed(),
@@ -118,14 +125,22 @@ class _LoginState extends State<Login> {
                     ),
                   ],
                 ),
+                CheckboxListTile(
+                  title: const Text("Remember me!"),
+                  controlAffinity: ListTileControlAffinity.platform,
+                  value: _checked,
+                  onChanged: (bool? value){
+                    setState(() {
+                      _checked = value!;
+                    });
+                  },
+                  activeColor: Colors.white,
+                  checkColor: Theme.of(context).primaryColor,
+                ),
                 const SizedBox(height: 20),
                 MaterialButton(
                   onPressed: () async {
                     if(_formkey.currentState!.validate()) {
-                      // ignore: avoid_print
-                      print("Email: ${_emailController.text}");
-                      // ignore: avoid_print
-                      print("Password: ${_passwordController.text}");
                       await loginProvider.login(_emailController.text.trim(), _passwordController.text.trim(),);
                     }
                   },
@@ -134,7 +149,7 @@ class _LoginState extends State<Login> {
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   child: loginProvider.isLoading
                   ? const CircularProgressIndicator()
@@ -155,12 +170,20 @@ class _LoginState extends State<Login> {
                     // ignore: prefer_const_constructors
                     SizedBox(width: 5),
                     TextButton(
-                        onPressed: () => widget.toggleScreen(),
+                        // onPressed: () => widget.toggleScreen(),
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Register(),
+                          ),
+                        )
+                      },
                         child:  const Text("Register"),
                     )
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 if(loginProvider.errorMessage !="")
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

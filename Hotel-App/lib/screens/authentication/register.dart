@@ -6,9 +6,8 @@ import 'package:provider/provider.dart';
 import 'authentication_services/auth_services.dart';
 
 class Register extends StatefulWidget {
-  final Function toggleScreen;
 
-  const Register({Key? key, required this.toggleScreen}) : super(key: key);
+  const Register({Key? key}) : super(key: key);
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -154,7 +153,15 @@ class _RegisterState extends State<Register> {
                       // ignore: prefer_const_constructors
                       SizedBox(width: 5),
                       TextButton(
-                        onPressed: () => widget.toggleScreen(),
+                        onPressed: () => {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (context, a, b) => const Login(),
+                                transitionDuration: const Duration(seconds: 0),
+                              ),
+                                  (route) => false)
+                        },
                         child:  const Text("Login"),
                       )
                     ],
