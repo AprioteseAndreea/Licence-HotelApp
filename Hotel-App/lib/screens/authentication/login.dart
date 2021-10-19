@@ -15,7 +15,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
-  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool _obscuredText = true;
   bool _checked = false;
   @override
@@ -54,10 +54,7 @@ class _LoginState extends State<Login> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // IconButton(
-                //   icon: const Icon(Icons.arrow_back_ios),
-                //   color: Theme.of(context).primaryColor,
-                //   onPressed: (){},),
+
                 const SizedBox(height: 30
                 ),
                 const Text(
@@ -92,23 +89,30 @@ class _LoginState extends State<Login> {
                     obscureText: _obscuredText,
 
                   decoration: InputDecoration(
-                      suffixIcon: FlatButton(onPressed: _toggle, child:Icon(Icons.remove_red_eye, color: _obscuredText ? Colors.black12 : Colors.black54)),
+                      suffixIcon: FlatButton(onPressed: _toggle, child:Icon(Icons.remove_red_eye, color: _obscuredText ? Colors.black12 : Theme.of(context).primaryColor)),
                       hintText: "Password",
                       prefixIcon: const Icon(Icons.vpn_key),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       )),
                 ),
-                const SizedBox(height: 10),
+
+                CheckboxListTile(
+                  title: const Text("Remember me"),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: _checked,
+                  onChanged: (bool? value){
+                    setState(() {
+                      _checked = value!;
+                    });
+                  },
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+                  activeColor: Colors.white,
+                  checkColor: Theme.of(context).primaryColor,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children:  [
-
-                    // const SizedBox(width: 3),
-                    // TextButton(
-                    //   onPressed: () => widget.forgotPressed(),
-                    //   child:  const Text("Forgot password?"),
-                    // )
                     TextButton(
                       onPressed: () => {
                         Navigator.push(
@@ -125,18 +129,7 @@ class _LoginState extends State<Login> {
                     ),
                   ],
                 ),
-                CheckboxListTile(
-                  title: const Text("Remember me!"),
-                  controlAffinity: ListTileControlAffinity.platform,
-                  value: _checked,
-                  onChanged: (bool? value){
-                    setState(() {
-                      _checked = value!;
-                    });
-                  },
-                  activeColor: Colors.white,
-                  checkColor: Theme.of(context).primaryColor,
-                ),
+
                 const SizedBox(height: 20),
                 MaterialButton(
                   onPressed: () async {
