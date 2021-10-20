@@ -124,12 +124,12 @@ class _RegisterState extends State<Register> {
                         await loginProvider.register(_emailController.text.trim(), _passwordController.text.trim(),);
                       }
                     },
-                    height: 65,
-                    minWidth: loginProvider.isLoading? null :  double.infinity,
+                    height: 55,
+                    minWidth:loginProvider.isLoading? null :  200,
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                     child:loginProvider.isLoading
                         ? const CircularProgressIndicator(
@@ -139,7 +139,7 @@ class _RegisterState extends State<Register> {
                         :  const Text(
                       "Register",
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

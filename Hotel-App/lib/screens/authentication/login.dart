@@ -3,6 +3,7 @@ import 'package:first_app_flutter/screens/authentication/register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'forgot_password.dart';
 
@@ -15,7 +16,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
-   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
   bool _obscuredText = true;
   bool _checked = false;
   @override
@@ -23,8 +25,21 @@ class _LoginState extends State<Login> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      await _readEmail();
+    });
   }
+  Future<void> _readEmail() async {
+    final _prefs = await SharedPreferences.getInstance();
+    final _value = _prefs.getString('email');
+   if(_value!=null){
+     setState(() {
+       _emailController.text = _value;
+     });
+   }
 
+
+  }
   @override
   void dispose() {
     _emailController.dispose();
@@ -135,21 +150,26 @@ class _LoginState extends State<Login> {
                   onPressed: () async {
                     if(_formkey.currentState!.validate()) {
                       await loginProvider.login(_emailController.text.trim(), _passwordController.text.trim(),);
+                      if(_checked){
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        prefs.setString('email', _emailController.text);
+                      }
+
                     }
                   },
-                  height: 65,
-                  minWidth:loginProvider.isLoading? null :  double.infinity,
+                  height: 55,
+                  minWidth:loginProvider.isLoading? null :  200,
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(30),
                   ),
                   child: loginProvider.isLoading
                   ? const CircularProgressIndicator()
                   : const Text(
                     "Login",
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

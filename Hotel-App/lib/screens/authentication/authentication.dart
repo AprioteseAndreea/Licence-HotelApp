@@ -39,10 +39,7 @@ class _AuthenticationState extends State<Authentication> with SingleTickerProvid
   
   @override
   Widget build(BuildContext context) {
-   if(isToggle){
-     return const Register();
-    }else{
      return const Login();
-   }
+
   }
 }
