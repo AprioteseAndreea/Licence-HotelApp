@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "14.17.5",
+    "npm" : "8.1.0"
+    
+  },
   "scripts": {
     "start": "node public/app.js",
     "dev": "nodemon src/app.ts",
