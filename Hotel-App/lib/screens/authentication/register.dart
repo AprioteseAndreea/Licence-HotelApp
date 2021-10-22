@@ -1,9 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app_flutter/screens/authentication/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'authentication_services/auth_services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Register extends StatefulWidget {
 
@@ -18,7 +19,13 @@ class _RegisterState extends State<Register> {
   late TextEditingController _fullNameController;
   late TextEditingController _phoneNumberController;
 
+  bool _obscuredText = true;
+
   final _formkey = GlobalKey<FormState>();
+  
+  var email="";
+  var name="";
+  var phoneNumber="";
 
   @override
   void initState() {
@@ -38,10 +45,17 @@ class _RegisterState extends State<Register> {
     _phoneNumberController.dispose();
     super.dispose();
   }
-
+  _toggle(){
+    setState(() {
+      _obscuredText = !_obscuredText;
+    });
+  }
+ final Stream<QuerySnapshot> users =
+ FirebaseFirestore.instance.collection('users').snapshots();
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<AuthServices>(context);
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     return Scaffold(
       body: SafeArea(
@@ -77,41 +91,50 @@ class _RegisterState extends State<Register> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
+                    onChanged: (value){
+                      email=value;
+                    },
                   ),
                   const SizedBox(height: 25),
                   TextFormField(
                     validator: (val) => val!.length <6 ? "Enter more than 6 char": null,
                     controller: _passwordController,
-                    obscureText: true,
+                    obscureText: _obscuredText,
                     decoration: InputDecoration(
+                        suffixIcon: FlatButton(onPressed: _toggle, child:Icon(Icons.remove_red_eye, color: _obscuredText ? Colors.black12 : Theme.of(context).primaryColor)),
                         hintText: "Password",
                         prefixIcon: const Icon(Icons.vpn_key),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         )),
+
                   ),
                   const SizedBox(height: 25),
                   TextFormField(
                     controller: _fullNameController,
-                    obscureText: true,
                     decoration: InputDecoration(
                         hintText: "Full Name",
                         prefixIcon: const Icon(Icons.person),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         )),
+                    onChanged: (value){
+                      name=value;
+                    },
                   ),
                   const SizedBox(height: 25),
                   TextFormField(
                     validator: (val) => val!.length <10 ? "Phone number must be 10 characters.": null,
                     controller: _phoneNumberController,
-                    obscureText: true,
                     decoration: InputDecoration(
                         hintText: "Phone number",
                         prefixIcon: const Icon(Icons.phone),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         )),
+                    onChanged: (value){
+                      phoneNumber=value;
+                    },
                   ),
                   const SizedBox(height: 25),
                   MaterialButton(
@@ -123,6 +146,14 @@ class _RegisterState extends State<Register> {
                         print("Password: ${_passwordController.text}");
                         await loginProvider.register(_emailController.text.trim(), _passwordController.text.trim(),);
                       }
+                      users.add({'email':email, 'name':name, 'phoneNumber':phoneNumber, 'role':'user'});
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (context, a, b) => const Login(),
+                            transitionDuration: const Duration(seconds: 0),
+                          ),
+                              (route) => false);
                     },
                     height: 55,
                     minWidth:loginProvider.isLoading? null :  200,
@@ -166,20 +197,7 @@ class _RegisterState extends State<Register> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  if(loginProvider.errorMessage !="")
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      color: Colors.amberAccent,
-                      child: ListTile(
-                        title: Text(loginProvider.errorMessage),
-                        leading: const Icon(Icons.error),
-                        trailing: IconButton(
-                          icon:const Icon(Icons.close),
-                          onPressed: () => loginProvider.setMessage(null),
-                        ),
-                      ),
-                    )
+
                 ],
               ),
             ),
