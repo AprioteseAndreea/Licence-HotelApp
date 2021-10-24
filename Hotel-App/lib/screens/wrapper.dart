@@ -6,16 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'authentication/login.dart';
 
-
 class Wrapper extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
-    if(user != null){
+    if (user != null) {
       return HomeScreen();
-    }else {
+    } else {
       return const Authentication();
     }
   }
-
 }

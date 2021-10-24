@@ -21,4 +21,11 @@ class User {
         phoneNumber: json['phoneNumber'],
         role: json['role']);
   }
+  Map<String, dynamic> toJson() => userToJson(this);
+  Map<String, dynamic> userToJson(User user) => <String, dynamic>{
+        "email": user.email,
+        "name": user.name,
+        "phoneNumber": user.phoneNumber,
+        "role": user.role
+      };
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/authentication/register.dart';
 import 'package:first_app_flutter/models/user_model.dart';
+import 'package:first_app_flutter/screens/homeScreens/home_screen.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +38,12 @@ class _LoginState extends State<Login> {
   Future<void> _readEmail() async {
     final _prefs = await SharedPreferences.getInstance();
     final _value = _prefs.getString('email');
-    if (_value != null) {
+    final _rememberIsChecked = _prefs.getString('rememberIsChecked');
+
+    if (_value != null && _rememberIsChecked == "true") {
       setState(() {
         _emailController.text = _value;
+        _checked = true;
       });
     }
   }
@@ -62,7 +66,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
-    users = userService.getCategories();
+    users = userService.getUsers();
 
     return Scaffold(
       body: SafeArea(
@@ -80,7 +84,7 @@ class _LoginState extends State<Login> {
                     children: [
                       const SizedBox(height: 30),
                       const Text(
-                        "Welcome Back",
+                        "Welcome Back ",
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
@@ -165,12 +169,13 @@ class _LoginState extends State<Login> {
                               _emailController.text.trim(),
                               _passwordController.text.trim(),
                             );
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setString('email', _emailController.text);
                             if (_checked) {
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              prefs.setString('email', _emailController.text);
+                              prefs.setString(
+                                  'rememberIsChecked', _checked.toString());
                             }
-                            saveInSharedPrefs(_emailController.text);
                           }
                         },
                         height: 55,
@@ -236,20 +241,5 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
-  }
-
-  saveInSharedPrefs(String email) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String name = "", phoneNumber = "", role = "";
-    for (int i = 0; i < users.length; i++) {
-      if (users[i].email == email) {
-        name = users[i].name;
-        phoneNumber = users[i].phoneNumber;
-        role = users[i].role;
-      }
-    }
-    prefs.setString('name', name);
-    prefs.setString('phoneNumber', phoneNumber);
-    prefs.setString('role', role);
   }
 }

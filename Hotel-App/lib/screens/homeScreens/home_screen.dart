@@ -10,23 +10,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomeScreen extends StatelessWidget {
   UserService userService = UserService();
   late List<User> users = [];
-
-  getName() async {
-    final _prefs = await SharedPreferences.getInstance();
-    final _value = _prefs.getString('name');
-    if (_value != null) {
-      return _value;
-    }
-  }
+  String name = '';
 
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
-    users = userService.getCategories();
+    name = userService.getName();
+    users = userService.getUsers();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hello ${getName()}'),
+        title: Text('Hello $name'),
         actions: [
           IconButton(
             icon: const Icon(Icons.exit_to_app),
