@@ -62,8 +62,8 @@ class UserService with ChangeNotifier {
         name = _name;
       }
     }
-    _prefs.setString('name', _name);
-    _prefs.setString('phoneNumber', phoneNumber);
-    _prefs.setString('role', role);
+    await _prefs.setString('name', _name);
+    await _prefs.setString('phoneNumber', phoneNumber);
+    await _prefs.setString('role', role);
   }
 }

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:first_app_flutter/models/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart' as FireUser;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app_flutter/models/user_model.dart' as UserModel;
 import 'package:first_app_flutter/repository/user_repository.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
@@ -7,20 +9,53 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<HomeScreen> {
   UserService userService = UserService();
-  late List<User> users = [];
-  String name = '';
+  late List<UserModel.User> users = [];
+  String? name, role;
+  AuthServices authServices = AuthServices();
+
+  @override
+  void initState() {
+    super.initState();
+    authServices.getCurrentUser().then((value) {
+      setState(() {
+        name = value!.displayName!;
+      });
+    });
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      await _readEmail();
+    });
+  }
+
+  Future<void> _readEmail() async {
+    final _prefs = await SharedPreferences.getInstance();
+    final _value = _prefs.getString('phoneNumber');
+
+    if (_value != null) {
+      setState(() {
+        role = _value;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
-    name = userService.getName();
+
     users = userService.getUsers();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hello $name'),
+        title: const Text(
+          'Grand Hotel',
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.exit_to_app),
@@ -28,22 +63,13 @@ class HomeScreen extends StatelessWidget {
           )
         ],
       ),
-
-      // body: StreamBuilder<QuerySnapshot>(
-      //     stream: userRepository.getStream(),
-      //     builder: (context, snapshot) {
-      //       if (!snapshot.hasData) return const LinearProgressIndicator();
-      //
-      //       final data = snapshot.requireData;
-      //       return ListView.builder(
-      //           itemCount: data.size,
-      //           itemBuilder: (context, index) {
-      //             if (data.docs[index]['name'] == 'Andreea') {
-      //               name = data.docs[index]['name'];
-      //             }
-      //             return Text('User name: $name');
-      //           });
-      //     }),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Text('Buna: $name, your role is: ${role} '),
+          ],
+        ),
+      ),
     );
   }
 }

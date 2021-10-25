@@ -67,7 +67,6 @@ class _LoginState extends State<Login> {
     final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
     users = userService.getUsers();
-
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -165,17 +164,19 @@ class _LoginState extends State<Login> {
                       MaterialButton(
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
-                            await loginProvider.login(
-                              _emailController.text.trim(),
-                              _passwordController.text.trim(),
-                            );
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
-                            prefs.setString('email', _emailController.text);
+                            await prefs.setString(
+                                'email', _emailController.text);
                             if (_checked) {
                               prefs.setString(
                                   'rememberIsChecked', _checked.toString());
                             }
+
+                            await loginProvider.login(
+                              _emailController.text.trim(),
+                              _passwordController.text.trim(),
+                            );
                           }
                         },
                         height: 55,

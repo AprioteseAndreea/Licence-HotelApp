@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app_flutter/models/user_model.dart';
 import 'package:first_app_flutter/screens/authentication/login.dart';
+import 'package:first_app_flutter/screens/homeScreens/home_screen.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'authentication_services/auth_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -157,11 +159,19 @@ class _RegisterState extends State<Register> {
                             print("Email: ${_emailController.text}");
                             // ignore: avoid_print
                             print("Password: ${_passwordController.text}");
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            await prefs.setString(
+                                'email', _emailController.text);
                             await loginProvider.register(
-                              _emailController.text.trim(),
-                              _passwordController.text.trim(),
-                            );
+                                _emailController.text.trim(),
+                                _passwordController.text.trim(),
+                                _fullNameController.text.trim(),
+                                _phoneNumberController.text.trim());
                           }
+                          await loginProvider.login(
+                              _emailController.text.trim(),
+                              _passwordController.text.trim());
                           User user = User(
                               email: email,
                               name: name,
@@ -172,7 +182,8 @@ class _RegisterState extends State<Register> {
                           Navigator.pushAndRemoveUntil(
                               context,
                               PageRouteBuilder(
-                                pageBuilder: (context, a, b) => const Login(),
+                                pageBuilder: (context, a, b) =>
+                                    const HomeScreen(),
                                 transitionDuration: const Duration(seconds: 0),
                               ),
                               (route) => false);

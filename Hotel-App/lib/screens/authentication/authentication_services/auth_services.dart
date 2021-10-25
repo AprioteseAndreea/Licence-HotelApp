@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,12 +11,15 @@ class AuthServices with ChangeNotifier {
   String get errorMessage => _errorMessage;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  Future register(String email, String password) async {
+  Future register(
+      String email, String password, String name, String phoneNumber) async {
     try {
       setLoading(true);
       UserCredential authResult = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
       User? user = authResult.user;
+      user!.updateDisplayName(name);
+      // user.updatePhoneNumber(phoneNumber);
       setLoading(false);
       return user;
     } on SocketException {
@@ -31,11 +35,12 @@ class AuthServices with ChangeNotifier {
   Future login(String email, String password) async {
     setLoading(true);
     try {
+      UserService userService = UserService();
       UserCredential authResult = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = authResult.user;
       setLoading(false);
-      // saveInSharedPrefs();
+
       return user;
     } on SocketException {
       setLoading(false);
@@ -59,6 +64,10 @@ class AuthServices with ChangeNotifier {
   void setMessage(message) {
     _errorMessage = message;
     notifyListeners();
+  }
+
+  Future<User?> getCurrentUser() async {
+    return firebaseAuth.currentUser;
   }
 
   Stream<User?> get user =>
