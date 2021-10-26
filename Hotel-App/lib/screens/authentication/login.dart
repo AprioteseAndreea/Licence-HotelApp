@@ -85,14 +85,14 @@ class _LoginState extends State<Login> {
                       const Text(
                         "Welcome Back ",
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 10),
                       const Text(
                         "sign in to continue",
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                        style: TextStyle(fontSize: 13, color: Colors.grey),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(

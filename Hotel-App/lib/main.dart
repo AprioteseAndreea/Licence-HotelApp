@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
               child: MaterialApp(
                 theme: ThemeData(primarySwatch: colorCustom),
                 debugShowCheckedModeBanner: false,
-                home: Wrapper(),
+                home: const Wrapper(),
               ));
         } else {
           return Loading();
