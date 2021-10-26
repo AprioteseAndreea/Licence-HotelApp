@@ -3,38 +3,38 @@ import 'package:firebase_auth/firebase_auth.dart' as FireUser;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/models/user_model.dart' as UserModel;
 import 'package:first_app_flutter/repository/user_repository.dart';
-import 'package:first_app_flutter/screens/authentication/authentication.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
-import 'package:first_app_flutter/screens/homeScreens/staff_home_screen.dart';
-import 'package:first_app_flutter/screens/homeScreens/user_home_screen.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'admin_home_screen.dart';
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class UserHomeScreen extends StatefulWidget {
+  const UserHomeScreen({Key? key}) : super(key: key);
   @override
-  _HomeState createState() => _HomeState();
+  _UserHomeScreen createState() => _UserHomeScreen();
 }
 
-class _HomeState extends State<HomeScreen> {
+class _UserHomeScreen extends State<UserHomeScreen> {
   UserService userService = UserService();
   late List<UserModel.User> users = [];
-  String? role;
+  String? name, role;
   AuthServices authServices = AuthServices();
 
   @override
   void initState() {
     super.initState();
+    authServices.getCurrentUser().then((value) {
+      setState(() {
+        name = value!.displayName!;
+      });
+    });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await _readRole();
+      await _readEmail();
     });
   }
 
-  Future<void> _readRole() async {
+  Future<void> _readEmail() async {
     final _prefs = await SharedPreferences.getInstance();
     final _value = _prefs.getString('role');
 
@@ -47,15 +47,29 @@ class _HomeState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    switch (role) {
-      case 'user':
-        return const UserHomeScreen();
-      case 'admin':
-        return const AdminHomeScreen();
-      case 'staff':
-        return const StaffHomeScreen();
-      default:
-        return const Authentication();
-    }
+    final loginProvider = Provider.of<AuthServices>(context);
+    final userService = Provider.of<UserService>(context);
+
+    users = userService.getUsers();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Grand Hotel - User Interface',
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () async => await loginProvider.logout(),
+          )
+        ],
+      ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Text('Buna: $name, your role is: ${role} '),
+          ],
+        ),
+      ),
+    );
   }
 }
