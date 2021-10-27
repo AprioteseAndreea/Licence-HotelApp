@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as FireUser;
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/models/user_model.dart' as UserModel;
-import 'package:first_app_flutter/repository/user_repository.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
+import 'package:first_app_flutter/screens/homeScreens/side_bar/drawer_painter.dart';
+import 'package:first_app_flutter/screens/homeScreens/side_bar/side_bar_button.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -83,34 +81,39 @@ class _UserHomeScreen extends State<UserHomeScreen> {
 
     Size mediaQuery = MediaQuery.of(context).size;
     double sidebarSize = mediaQuery.width * 0.65;
-    double menuContainerHeight = mediaQuery.height / 2;
+    double menuContainerHeight = mediaQuery.height / 1.5;
 
     users = userService.getUsers();
     return SafeArea(
         child: Scaffold(
-            body: Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(colors: [
-        Color.fromRGBO(255, 65, 108, 1.0),
-        Color.fromRGBO(255, 75, 73, 1.0)
-      ])),
+            body: SizedBox(
       width: mediaQuery.width,
       child: Stack(
         children: <Widget>[
-          Text(
-            'Hello $name',
-            style: const TextStyle(
-              fontSize: 20,
+          Padding(
+            padding: const EdgeInsets.only(left: 25, top: 10),
+            child: Row(
+              children: [
+                Text(
+                  'Hello $name',
+                  style: const TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(width: mediaQuery.width * 0.49),
+                IconButton(
+                  icon: const Icon(Icons.exit_to_app),
+                  onPressed: () async => await loginProvider.logout(),
+                )
+              ],
             ),
           ),
           Center(
-            child: MaterialButton(
-                color: Colors.white,
-                child: const Text(
-                  "Hello World",
-                  style: TextStyle(color: Colors.black),
-                ),
-                onPressed: () {}),
+            child: Stack(
+              children: [
+                Text("$role"),
+              ],
+            ),
           ),
           AnimatedPositioned(
             duration: const Duration(milliseconds: 1500),
@@ -158,13 +161,13 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                               child: Column(
                                 children: <Widget>[
                                   Image.asset(
-                                    "assets/images/grand_hotel_logo2.jpeg",
-                                    width: sidebarSize,
+                                    "assets/images/grand_hotel_logo-removebg-2.png",
+                                    width: sidebarSize / 1.2,
                                   ),
-                                  const Text(
-                                    "Andreea",
-                                    style: TextStyle(
-                                        color: Colors.black45, fontSize: 18),
+                                  Text(
+                                    "$name",
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 18),
                                   ),
                                 ],
                               ),
@@ -183,43 +186,43 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                   text: "My profile",
                                   iconData: Icons.person,
                                   textSize: getSize(0),
-                                  height: (menuContainerHeight) / 8,
+                                  height: (mediaQuery.height / 2) / 6,
                                 ),
                                 MyButton(
                                   text: "Get a room",
                                   iconData: Icons.checkroom,
                                   textSize: getSize(1),
-                                  height: (menuContainerHeight) / 8,
+                                  height: (mediaQuery.height / 2) / 6,
                                 ),
                                 MyButton(
                                   text: "My bookings",
-                                  iconData: Icons.book,
+                                  iconData: Icons.bed,
                                   textSize: getSize(2),
-                                  height: (mediaQuery.height / 2) / 8,
+                                  height: (mediaQuery.height / 2) / 6,
                                 ),
                                 MyButton(
                                   text: "Chat",
                                   iconData: Icons.chat_bubble,
                                   textSize: getSize(1),
-                                  height: (mediaQuery.height / 2) / 8,
+                                  height: (mediaQuery.height / 2) / 6,
                                 ),
                                 MyButton(
                                   text: "Events",
                                   iconData: Icons.event,
                                   textSize: getSize(4),
-                                  height: (menuContainerHeight) / 8,
+                                  height: (mediaQuery.height / 2) / 6,
                                 ),
                                 MyButton(
                                   text: "Menu",
                                   iconData: Icons.emoji_food_beverage,
                                   textSize: getSize(4),
-                                  height: (menuContainerHeight) / 8,
+                                  height: (mediaQuery.height / 2) / 6,
                                 ),
                                 MyButton(
                                   text: "Settings",
                                   iconData: Icons.settings_applications_sharp,
                                   textSize: getSize(4),
-                                  height: (menuContainerHeight) / 8,
+                                  height: (mediaQuery.height / 2) / 6,
                                 ),
                               ],
                             ),
@@ -235,7 +238,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                         enableFeedback: true,
                         icon: const Icon(
                           Icons.keyboard_backspace,
-                          color: Colors.black45,
+                          color: Colors.white,
                           size: 30,
                         ),
                         onPressed: () {
@@ -253,124 +256,5 @@ class _UserHomeScreen extends State<UserHomeScreen> {
         ],
       ),
     )));
-    //   return Scaffold(
-    //     appBar: AppBar(
-    //       title: Row(
-    //         children: [
-    //           const Text(
-    //             'Grand Hotel  ',
-    //             style: TextStyle(
-    //               fontSize: 16,
-    //             ),
-    //           ),
-    //           Image.asset(
-    //             'assets/images/stars.png',
-    //             width: 60,
-    //             height: 14,
-    //           ),
-    //         ],
-    //       ),
-    //       // leading: IconButton(
-    //       //   icon: const Icon(Icons.menu_rounded),
-    //       //   onPressed: () async => await loginProvider.logout(),
-    //       // ),
-    //       actions: [
-    //         IconButton(
-    //           icon: const Icon(Icons.perm_identity_outlined),
-    //           onPressed: () async => await loginProvider.logout(),
-    //         ),
-    //         IconButton(
-    //           icon: const Icon(Icons.exit_to_app),
-    //           onPressed: () async => await loginProvider.logout(),
-    //         )
-    //       ],
-    //     ),
-    //     drawer: Drawer(
-    //       child: ListView(
-    //         children: const <Widget>[
-    //           UserAccountsDrawerHeader(
-    //               accountName: Text("Andreea"),
-    //               accountEmail: Text("text@gmail.com"))
-    //         ],
-    //       ),
-    //     ),
-    //     body: Center(
-    //       child: Column(
-    //         children: <Widget>[
-    //           Text('Buna: $name, your role is: $role '),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-  }
-}
-
-class MyButton extends StatelessWidget {
-  final String? text;
-  final IconData? iconData;
-  final double? textSize;
-  final double? height;
-
-  MyButton({this.text, this.iconData, this.textSize, this.height});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      height: height,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Icon(
-            iconData,
-            color: Colors.black45,
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Text(
-            text!,
-            style: TextStyle(color: Colors.black45, fontSize: textSize),
-          ),
-        ],
-      ),
-      onPressed: () {},
-    );
-  }
-}
-
-class DrawerPainter extends CustomPainter {
-  final Offset? offset;
-
-  DrawerPainter({this.offset});
-
-  double getControlPointX(double width) {
-    if (offset!.dx == 0) {
-      return width;
-    } else {
-      return offset!.dx > width ? offset!.dx : width + 75;
-    }
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
-    Path path = Path();
-    path.moveTo(-size.width, 0);
-    path.lineTo(size.width, 0);
-    path.quadraticBezierTo(
-        getControlPointX(size.width), offset!.dy, size.width, size.height);
-    path.lineTo(-size.width, size.height);
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
-    return true;
   }
 }
