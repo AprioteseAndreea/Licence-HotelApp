@@ -192,6 +192,7 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                                   iconData: Icons.checkroom,
                                   textSize: getSize(0),
                                   height: (mediaQuery.height / 2) / 6,
+                                  onPressed: () {},
                                 ),
                                 MyButton(
                                   text: "Facilities",

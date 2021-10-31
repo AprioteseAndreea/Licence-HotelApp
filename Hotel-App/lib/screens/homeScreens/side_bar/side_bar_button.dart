@@ -6,9 +6,15 @@ class MyButton extends StatelessWidget {
   final IconData? iconData;
   final double? textSize;
   final double? height;
+  final GestureTapCallback? onPressed;
 
   const MyButton(
-      {Key? key, this.text, this.iconData, this.textSize, this.height})
+      {Key? key,
+      this.text,
+      this.iconData,
+      this.textSize,
+      this.height,
+      this.onPressed})
       : super(key: key);
 
   @override
@@ -34,7 +40,7 @@ class MyButton extends StatelessWidget {
           ),
         ],
       ),
-      onPressed: () {},
+      onPressed: onPressed,
     );
   }
 }

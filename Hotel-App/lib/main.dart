@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/screens/authentication/authentication.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/authentication/login.dart';
+import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
 import 'package:first_app_flutter/screens/wrapper.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,13 @@ class MyApp extends StatelessWidget {
                   initialData: null,
                 ),
                 // ChangeNotifierProvider<UserService>.value(value: UserService())
-                ChangeNotifierProvider(create: (_) => UserService())
+                ChangeNotifierProvider(create: (_) => UserService()),
+                ChangeNotifierProvider<SingleNotifier>(
+                  create: (_) => SingleNotifier(),
+                ),
+                ChangeNotifierProvider<MultipleNotifier>(
+                  create: (_) => MultipleNotifier([]),
+                )
               ],
               child: MaterialApp(
                 theme: ThemeData(primarySwatch: colorCustom),

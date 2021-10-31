@@ -3,6 +3,7 @@ import 'package:first_app_flutter/screens/authentication/authentication_services
 import 'package:first_app_flutter/screens/homeScreens/side_bar/drawer_painter.dart';
 import 'package:first_app_flutter/screens/homeScreens/side_bar/side_bar_button.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:first_app_flutter/screens/user_screens/get_room.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,26 +96,65 @@ class _UserHomeScreen extends State<UserHomeScreen> {
             child: Row(
               children: [
                 Text(
-                  'Hello $name',
+                  'Welcome $name !',
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 22,
                   ),
                 ),
-                SizedBox(width: mediaQuery.width * 0.49),
+                SizedBox(width: mediaQuery.width * 0.26),
+                Container(
+                  width: 25,
+                  height: 25,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: NetworkImage(
+                            'https://googleflutter.com/sample_image.jpg'),
+                        fit: BoxFit.fill),
+                  ),
+                ),
+                const SizedBox(width: 10),
                 IconButton(
                   icon: const Icon(Icons.exit_to_app),
                   onPressed: () async => await loginProvider.logout(),
-                )
+                ),
               ],
             ),
           ),
-          Center(
-            child: Stack(
-              children: [
-                Text("$role"),
-              ],
+          Padding(
+              padding: const EdgeInsets.only(left: 25, top: 45),
+              child: Row(
+                children: const [
+                  Text(
+                    'Do you want to visit us?',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              )),
+          Column(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 25, top: 65),
+              child: Column(
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    elevation: 20.0,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Image.asset("assets/images/grand_hotel_logo.jpeg"),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
+          ]),
           AnimatedPositioned(
             duration: const Duration(milliseconds: 1500),
             left: isMenuOpen ? 0 : -sidebarSize + 20,
@@ -167,7 +207,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                   Text(
                                     "$name",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 18),
+                                        color: Colors.white, fontSize: 20),
                                   ),
                                 ],
                               ),
@@ -186,43 +226,51 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                   text: "My profile",
                                   iconData: Icons.person,
                                   textSize: getSize(0),
-                                  height: (mediaQuery.height / 2) / 6,
+                                  height: (mediaQuery.height / 2) / 7,
                                 ),
                                 MyButton(
                                   text: "Get a room",
                                   iconData: Icons.checkroom,
                                   textSize: getSize(1),
-                                  height: (mediaQuery.height / 2) / 6,
+                                  height: (mediaQuery.height / 2) / 7,
+                                  onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const GetRoom(),
+                                      ),
+                                    )
+                                  },
                                 ),
                                 MyButton(
                                   text: "My bookings",
                                   iconData: Icons.bed,
                                   textSize: getSize(2),
-                                  height: (mediaQuery.height / 2) / 6,
+                                  height: (mediaQuery.height / 2) / 7,
                                 ),
                                 MyButton(
                                   text: "Chat",
                                   iconData: Icons.chat_bubble,
                                   textSize: getSize(1),
-                                  height: (mediaQuery.height / 2) / 6,
+                                  height: (mediaQuery.height / 2) / 7,
                                 ),
                                 MyButton(
                                   text: "Events",
                                   iconData: Icons.event,
                                   textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
+                                  height: (mediaQuery.height / 2) / 7,
                                 ),
                                 MyButton(
                                   text: "Menu",
                                   iconData: Icons.emoji_food_beverage,
                                   textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
+                                  height: (mediaQuery.height / 2) / 7,
                                 ),
                                 MyButton(
                                   text: "Settings",
-                                  iconData: Icons.settings_applications_sharp,
+                                  iconData: Icons.settings,
                                   textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
+                                  height: (mediaQuery.height / 2) / 7,
                                 ),
                               ],
                             ),
@@ -233,7 +281,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                     AnimatedPositioned(
                       duration: const Duration(milliseconds: 400),
                       right: (isMenuOpen) ? 10 : sidebarSize,
-                      bottom: 30,
+                      bottom: mediaQuery.height * 0.07,
                       child: IconButton(
                         enableFeedback: true,
                         icon: const Icon(
