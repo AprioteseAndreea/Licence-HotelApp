@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/screens/authentication/authentication.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/authentication/login.dart';
+import 'package:first_app_flutter/screens/services/feedback_service.dart';
 import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
 import 'package:first_app_flutter/screens/wrapper.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
                 ),
                 // ChangeNotifierProvider<UserService>.value(value: UserService())
                 ChangeNotifierProvider(create: (_) => UserService()),
+                ChangeNotifierProvider(create: (_) => FeedbackService()),
                 ChangeNotifierProvider<SingleNotifier>(
                   create: (_) => SingleNotifier(),
                 ),

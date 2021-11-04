@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FireUser;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/models/user_model.dart' as UserModel;
-import 'package:first_app_flutter/repository/user_repository.dart';
 import 'package:first_app_flutter/screens/authentication/authentication.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/homeScreens/staff_home_screen.dart';
