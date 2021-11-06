@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
+import 'add_feedback.dart';
 import 'notifiers.dart';
 
 class Feedback extends StatefulWidget {
@@ -30,6 +31,19 @@ class _Feedback extends State<Feedback> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Feedback'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.add_comment),
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddFeedback(),
+                  ),
+                )
+              },
+            ),
+          ],
         ),
         body: SafeArea(
           child: SingleChildScrollView(
