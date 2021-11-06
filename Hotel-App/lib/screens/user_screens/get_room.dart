@@ -254,43 +254,41 @@ class _GetRoom extends State<GetRoom> {
                             ),
                           ),
                         ),
-                        Container(
-                          child: DropdownButton<String>(
-                            focusColor: Colors.white,
-                            value: _adultsNumberValue,
-                            //elevation: 5,
-                            style: const TextStyle(color: Color(0xFF124559)),
-                            iconEnabledColor: const Color(0xFF124559),
-                            items: <String>[
-                              '1',
-                              '2',
-                              '3',
-                              '4',
-                              '5',
-                              '6',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style:
-                                      const TextStyle(color: Color(0xFF124559)),
-                                ),
-                              );
-                            }).toList(),
-                            hint: const Text(
-                              "Number of adults",
-                              style: TextStyle(
-                                  color: Color(0xFF124559),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onChanged: (String? value) {
-                              setState(() {
-                                _adultsNumberValue = value;
-                              });
-                            },
+                        DropdownButton<String>(
+                          focusColor: Colors.white,
+                          value: _adultsNumberValue,
+                          //elevation: 5,
+                          style: const TextStyle(color: Color(0xFF124559)),
+                          iconEnabledColor: const Color(0xFF124559),
+                          items: <String>[
+                            '1',
+                            '2',
+                            '3',
+                            '4',
+                            '5',
+                            '6',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style:
+                                    const TextStyle(color: Color(0xFF124559)),
+                              ),
+                            );
+                          }).toList(),
+                          hint: const Text(
+                            "Number of adults",
+                            style: TextStyle(
+                                color: Color(0xFF124559),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
                           ),
+                          onChanged: (String? value) {
+                            setState(() {
+                              _adultsNumberValue = value;
+                            });
+                          },
                         ),
                       ],
                     ),

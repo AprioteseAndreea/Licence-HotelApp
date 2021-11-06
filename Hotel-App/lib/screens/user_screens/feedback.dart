@@ -30,7 +30,7 @@ class _Feedback extends State<Feedback> {
     feedbacks = feedbackService.getFeedbacks();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Feedback'),
+          title: Text('Feedback ${feedbacks.length}'),
           actions: [
             IconButton(
               icon: const Icon(Icons.add_comment),
@@ -48,6 +48,7 @@ class _Feedback extends State<Feedback> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: feedbacks.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -63,7 +64,7 @@ class _Feedback extends State<Feedback> {
                           padding: const EdgeInsets.only(
                               left: 20, right: 20, bottom: 10),
                           child: Text(
-                            "${'"'}${feedbacks[index].feedback}${'"'}",
+                            feedbacks[index].feedback,
                             style: const TextStyle(fontStyle: FontStyle.italic),
                             maxLines: 5,
                             overflow: TextOverflow.fade,

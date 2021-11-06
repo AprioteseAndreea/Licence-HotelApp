@@ -30,4 +30,17 @@ class FeedbackService with ChangeNotifier {
       }
     }
   }
+
+  Future<void> addFeedbackInFirebase(FeedbackModel f) async {
+    DocumentReference<Map<String, dynamic>> feedbacks =
+        FirebaseFirestore.instance.collection('users').doc('feedbacks');
+    _feedbacks.add(f);
+    final feedbackMap = <Map<String, dynamic>>[];
+    for (var f in _feedbacks) {
+      feedbackMap.add(f.toJson());
+    }
+    feedbacks.set({
+      'feedbacks': feedbackMap,
+    });
+  }
 }

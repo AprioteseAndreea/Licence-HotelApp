@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:first_app_flutter/screens/services/feedback_service.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,6 +37,7 @@ class AuthServices with ChangeNotifier {
     setLoading(true);
     try {
       UserService userService = UserService();
+      FeedbackService feedbackService = FeedbackService();
       UserCredential authResult = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = authResult.user;
