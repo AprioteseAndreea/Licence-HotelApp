@@ -7,6 +7,7 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class AddFeedback extends StatefulWidget {
   const AddFeedback({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _AddFeedback extends State<AddFeedback> {
   @override
   void initState() {
     DateTime dateToday = DateTime.now();
-    date = dateToday.toString().substring(0, 10);
+    date = DateFormat('MMMM dd, yyyy').format(dateToday);
 
     super.initState();
     _feedbackController = TextEditingController();
@@ -139,7 +140,9 @@ class _AddFeedback extends State<AddFeedback> {
                                 date: date,
                                 feedback: _feedbackController.text,
                                 stars: rating.toString());
-                            feedbackService.addFeedbackInFirebase(feedback);
+                            if (_feedbackController.text != "") {
+                              feedbackService.addFeedbackInFirebase(feedback);
+                            }
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(

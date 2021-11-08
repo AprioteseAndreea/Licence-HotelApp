@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import 'add_feedback.dart';
 import 'notifiers.dart';
@@ -30,7 +31,7 @@ class _Feedback extends State<Feedback> {
     feedbacks = feedbackService.getFeedbacks();
     return Scaffold(
         appBar: AppBar(
-          title: Text('Feedback ${feedbacks.length}'),
+          title: const Text('Feedback'),
           actions: [
             IconButton(
               icon: const Icon(Icons.add_comment),
@@ -59,6 +60,16 @@ class _Feedback extends State<Feedback> {
                         ListTile(
                           title: Text(feedbacks[index].user),
                           subtitle: Text('Posted ${feedbacks[index].date}'),
+                          trailing: SmoothStarRating(
+                            allowHalfRating: true,
+                            rating: double.parse(feedbacks[index].stars),
+                            starCount: 5,
+                            size: 20.0,
+                            isReadOnly: false,
+                            color: const Color(0xFFF0972D),
+                            borderColor: const Color(0xFFCD7700),
+                            spacing: 0.0,
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
