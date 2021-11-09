@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app_flutter/models/user_model.dart';
 import 'package:first_app_flutter/screens/authentication/login.dart';
 import 'package:first_app_flutter/screens/homeScreens/home_screen.dart';

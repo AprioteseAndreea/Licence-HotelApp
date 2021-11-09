@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
- import 'package:first_app_flutter/screens/authentication/login.dart';
- import 'package:first_app_flutter/screens/authentication/register.dart';
+import 'package:first_app_flutter/screens/authentication/login.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -35,7 +34,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: Colors.orangeAccent,
@@ -52,10 +50,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: SafeArea(
-        child:
-        SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -67,45 +63,46 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     const Text(
                       'Forgot your password?',
                       style: TextStyle(
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold),
+                          fontSize: 25.0, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 10),
                     const Text(
                       "Enter your registered email below to receive password reset instruction",
-                      style: TextStyle(fontSize: 13, color: Colors.grey,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey,
                       ),
                       textAlign: TextAlign.center,
-
                     ),
                     const SizedBox(height: 10),
                     Image.asset('assets/images/forgot_password_img.jpg'),
                     Form(
                       key: _formKey,
                       child: Column(
-                        children: [ //   <--- image
-                    TextFormField(
-                      autofocus: false,
-                      decoration: const InputDecoration(
-                        labelText: 'Email: ',
-                        labelStyle: TextStyle(fontSize: 17.0),
-                        border: OutlineInputBorder(),
-                        errorStyle:
-                        TextStyle(color: Colors.redAccent, fontSize: 12),
-                      ),
-                      controller: emailController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please Enter Email';
-                        } else if (!value.contains('@')) {
-                          return 'Please Enter Valid Email';
-                        }
-                        return null;
-                      },
-                    ),
+                        children: [
+                          //   <--- image
+                          TextFormField(
+                            autofocus: false,
+                            decoration: const InputDecoration(
+                              labelText: 'Email: ',
+                              labelStyle: TextStyle(fontSize: 17.0),
+                              border: OutlineInputBorder(),
+                              errorStyle: TextStyle(
+                                  color: Colors.redAccent, fontSize: 12),
+                            ),
+                            controller: emailController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please Enter Email';
+                              } else if (!value.contains('@')) {
+                                return 'Please Enter Valid Email';
+                              }
+                              return null;
+                            },
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children:  [
+                            children: [
                               // ignore: prefer_const_constructors
                               Text("Remember password?"),
                               // ignore: prefer_const_constructors
@@ -115,46 +112,46 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       PageRouteBuilder(
-                                        pageBuilder: (context, a, b) => const Login(),
-                                        transitionDuration: const Duration(seconds: 0),
+                                        pageBuilder: (context, a, b) =>
+                                            const Login(),
+                                        transitionDuration:
+                                            const Duration(seconds: 0),
                                       ),
-                                          (route) => false)
+                                      (route) => false)
                                 },
-                                child:  const Text("Login"),
+                                child: const Text("Login"),
                               )
                             ],
                           ),
-                    const SizedBox(height: 20),
-                        MaterialButton(
-                          onPressed: () {
-                            // Validate returns true if the form is valid, otherwise false.
-                            if (_formKey.currentState!.validate()) {
-                              setState(() {
-                                email = emailController.text;
-                              });
-                              resetPassword();
-                              emailController.text = "";
-                            }
-                          },
-                          height: 55,
-                          minWidth: 200,
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: const Text(
-                            'Send Email',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold
+                          const SizedBox(height: 20),
+                          MaterialButton(
+                            onPressed: () {
+                              // Validate returns true if the form is valid, otherwise false.
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  email = emailController.text;
+                                });
+                                resetPassword();
+                                emailController.text = "";
+                              }
+                            },
+                            height: 55,
+                            minWidth: 200,
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: const Text(
+                              'Send Email',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-              )
-                    ],
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               ),
             ],
@@ -162,6 +159,5 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         ),
       ),
     );
-
   }
 }

@@ -6,6 +6,7 @@ import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:first_app_flutter/screens/user_screens/feedback.dart'
     as FeedbackScreen;
 import 'package:first_app_flutter/screens/user_screens/get_room.dart';
+import 'package:first_app_flutter/screens/user_screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
   UserService userService = UserService();
   late List<UserModel.User> users = [];
   String? name, role;
+  String profilePicture = "";
   AuthServices authServices = AuthServices();
 
   Offset _offset = const Offset(0, 0);
@@ -37,6 +39,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     authServices.getCurrentUser().then((value) {
       setState(() {
         name = value!.displayName!;
+        profilePicture = value.photoURL!;
       });
     });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
@@ -110,8 +113,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: NetworkImage(
-                            'https://googleflutter.com/sample_image.jpg'),
+                        image: NetworkImage("assets/images/hotel_front.jpg"),
                         fit: BoxFit.fill),
                   ),
                 ),
@@ -142,14 +144,22 @@ class _UserHomeScreen extends State<UserHomeScreen> {
               child: Column(
                 children: [
                   Card(
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                      borderRadius: BorderRadius.circular(25.0),
                     ),
-                    elevation: 20.0,
+                    elevation: 40.0,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Image.asset("assets/images/grand_hotel_logo.jpeg"),
+                        SizedBox(
+                          height: 200.0,
+                          child: Image.asset(
+                            "assets/images/dashboard_image.jpg",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ],
                     ),
                   )
@@ -229,6 +239,14 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                   iconData: Icons.person,
                                   textSize: getSize(0),
                                   height: (mediaQuery.height / 2) / 7,
+                                  onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Profile(),
+                                      ),
+                                    )
+                                  },
                                 ),
                                 MyButton(
                                   text: "Get a room",

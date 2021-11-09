@@ -3,7 +3,6 @@ import 'package:first_app_flutter/screens/services/feedback_service.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthServices with ChangeNotifier {
   bool _isLoading = false;
@@ -20,6 +19,7 @@ class AuthServices with ChangeNotifier {
           .createUserWithEmailAndPassword(email: email, password: password);
       User? user = authResult.user;
       user!.updateDisplayName(name);
+      // user.updatePhotoURL('assets/images/blank_profile_picture.png');
       // user.updatePhoneNumber(phoneNumber);
       setLoading(false);
       return user;

@@ -101,7 +101,15 @@ class _GetRoom extends State<GetRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Grand Hotel'),
+          iconTheme: const IconThemeData(
+            color: Color(0xFF124559), //change your color here
+          ),
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: const Text(
+            'Grand Hotel',
+            style: TextStyle(color: Color(0xFF124559)),
+          ),
         ),
         body: SafeArea(
           child: SingleChildScrollView(

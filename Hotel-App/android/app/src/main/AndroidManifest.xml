@@ -3,6 +3,7 @@
    <application
         android:label="first_app_flutter"
         android:icon="@mipmap/ic_launcher">
+       android:requestLegacyExternalStorage="true"
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
