@@ -44,6 +44,7 @@ class _AddFeedback extends State<AddFeedback> {
 
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text('Feedback'),
         ),
         body: SafeArea(

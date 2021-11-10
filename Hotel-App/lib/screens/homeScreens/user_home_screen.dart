@@ -3,13 +3,19 @@ import 'package:first_app_flutter/screens/authentication/authentication_services
 import 'package:first_app_flutter/screens/homeScreens/side_bar/drawer_painter.dart';
 import 'package:first_app_flutter/screens/homeScreens/side_bar/side_bar_button.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:first_app_flutter/screens/user_screens/bookings.dart';
 import 'package:first_app_flutter/screens/user_screens/feedback.dart'
     as FeedbackScreen;
 import 'package:first_app_flutter/screens/user_screens/get_room.dart';
+import 'package:first_app_flutter/screens/user_screens/menu.dart';
 import 'package:first_app_flutter/screens/user_screens/profile.dart';
+import 'package:first_app_flutter/screens/user_screens/settings.dart';
+import 'package:first_app_flutter/screens/user_screens/user_chat.dart';
+import 'package:first_app_flutter/screens/user_screens/user_events.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({Key? key}) : super(key: key);
@@ -119,7 +125,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                 ),
                 const SizedBox(width: 6),
                 IconButton(
-                  icon: const Icon(Icons.exit_to_app),
+                  icon: const Icon(EvaIcons.power),
                   onPressed: () async => await loginProvider.logout(),
                 ),
               ],
@@ -267,24 +273,57 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                   iconData: Icons.bed,
                                   textSize: getSize(2),
                                   height: (mediaQuery.height / 2) / 7,
+                                  onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Bookings(),
+                                      ),
+                                    )
+                                  },
                                 ),
                                 MyButton(
                                   text: "Chat",
                                   iconData: Icons.chat_bubble,
                                   textSize: getSize(1),
                                   height: (mediaQuery.height / 2) / 7,
+                                  onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const UserChat(),
+                                      ),
+                                    )
+                                  },
                                 ),
                                 MyButton(
                                   text: "Events",
                                   iconData: Icons.event,
                                   textSize: getSize(4),
                                   height: (mediaQuery.height / 2) / 7,
+                                  onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const UserEvents(),
+                                      ),
+                                    )
+                                  },
                                 ),
                                 MyButton(
                                   text: "Menu",
                                   iconData: Icons.emoji_food_beverage,
                                   textSize: getSize(4),
                                   height: (mediaQuery.height / 2) / 7,
+                                  onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Menu(),
+                                      ),
+                                    )
+                                  },
                                 ),
                                 MyButton(
                                   text: "Feedback",
@@ -306,6 +345,14 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                   iconData: Icons.settings,
                                   textSize: getSize(4),
                                   height: (mediaQuery.height / 2) / 7,
+                                  onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Settings(),
+                                      ),
+                                    )
+                                  },
                                 ),
                               ],
                             ),
