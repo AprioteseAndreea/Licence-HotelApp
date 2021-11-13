@@ -44,7 +44,7 @@ dependencies:
   smooth_star_rating: ^1.1.1
   image_picker: ^0.8.4
   eva_icons_flutter: ^3.0.2
-
+  step_progress_indicator: ^1.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import 'notifiers.dart';
 
@@ -22,22 +23,27 @@ class _GetRoom extends State<GetRoom> {
 
   TextEditingController nameController = TextEditingController();
 
-  late String _checkInDay = '1';
-  late String _checkInMonth = 'JANUARY';
-  late String _checkInYear = '2021';
+  late String _checkInDay = DateTime.now().day.toString();
+  late String _checkInMonth = DateFormat.MMMM().format(DateTime.now());
+  late String _checkInYear = DateTime.now().year.toString();
 
-  late String _checkOutDay = '1';
-  late String _checkOutMonth = 'JANUARY';
-  late String _checkOutYear = '2021';
-  int guests = 0;
+  late String _checkOutDay = DateTime.now().day.toString();
+  late String _checkOutMonth = DateFormat.MMMM().format(DateTime.now());
+  late String _checkOutYear = DateTime.now().year.toString();
+  int adults = 0;
+  int children = 0;
+
   late String day = '';
-  String? _adultsNumberValue;
-  String? _childrenNumberValue;
-  String? _roomsNumberValue;
+
   static const List<String> specialFacilities = <String>[
-    'kitchen',
-    "TV",
-    "baby room"
+    'Car parking',
+    "Breakfast",
+    "Baby room",
+    "Pool&Jacuzzi access",
+    "Spa",
+    "Sauna",
+    "Laundry service",
+    "Dogs allowed"
   ];
   List<String> selectedSpecialFacilities = [];
   _showMultipleChoiceDialog(BuildContext context) => showDialog(
@@ -94,18 +100,34 @@ class _GetRoom extends State<GetRoom> {
     }
   }
 
-  incrementGuests(BuildContext context) {
+  incrementAdults(BuildContext context) {
     setState(() {
-      if (guests < 5) {
-        guests++;
+      if (adults < 5) {
+        adults++;
       }
     });
   }
 
-  decrementGuests(BuildContext context) {
+  decrementAdults(BuildContext context) {
     setState(() {
-      if (guests > 0) {
-        guests--;
+      if (adults > 0) {
+        adults--;
+      }
+    });
+  }
+
+  incrementChildren(BuildContext context) {
+    setState(() {
+      if (children < 5) {
+        children++;
+      }
+    });
+  }
+
+  decrementChildren(BuildContext context) {
+    setState(() {
+      if (children > 0) {
+        children--;
       }
     });
   }
@@ -128,12 +150,10 @@ class _GetRoom extends State<GetRoom> {
 
   @override
   Widget build(BuildContext context) {
-    Size mediaQuery = MediaQuery.of(context).size;
-
     return Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(
-            color: Color(0xFF124559), //change your color here
+            color: Color(0xFF124559),
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
@@ -148,6 +168,13 @@ class _GetRoom extends State<GetRoom> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const StepProgressIndicator(
+                  totalSteps: 3,
+                  currentStep: 1,
+                  size: 13,
+                  selectedColor: Color(0xFF124559),
+                  unselectedColor: Color(0xFF72B0D4),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -369,14 +396,14 @@ class _GetRoom extends State<GetRoom> {
                                             ),
                                             tooltip: 'Tap to open date picker',
                                             onPressed: () {
-                                              decrementGuests(context);
+                                              decrementAdults(context);
                                             },
                                           ),
                                         ),
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(right: 0),
-                                          child: Text(guests.toString(),
+                                          child: Text(adults.toString(),
                                               style: const TextStyle(
                                                   fontSize: 30,
                                                   color: Color(0xFF49758B))),
@@ -392,7 +419,7 @@ class _GetRoom extends State<GetRoom> {
                                             ),
                                             tooltip: 'Tap to open date picker',
                                             onPressed: () {
-                                              incrementGuests(context);
+                                              incrementAdults(context);
                                             },
                                           ),
                                         ),
@@ -428,14 +455,14 @@ class _GetRoom extends State<GetRoom> {
                                             ),
                                             tooltip: 'Tap to open date picker',
                                             onPressed: () {
-                                              decrementGuests(context);
+                                              decrementChildren(context);
                                             },
                                           ),
                                         ),
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(right: 0),
-                                          child: Text(guests.toString(),
+                                          child: Text(children.toString(),
                                               style: const TextStyle(
                                                   fontSize: 30,
                                                   color: Color(0xFF49758B))),
@@ -451,7 +478,7 @@ class _GetRoom extends State<GetRoom> {
                                             ),
                                             tooltip: 'Tap to open date picker',
                                             onPressed: () {
-                                              incrementGuests(context);
+                                              incrementChildren(context);
                                             },
                                           ),
                                         ),
@@ -584,14 +611,25 @@ class _GetRoom extends State<GetRoom> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      child: const Text(
-                        'Choose a room',
-                        style: TextStyle(
-                          fontSize: 15,
+                        child: Wrap(
+                          children: const <Widget>[
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: 5, bottom: 2, top: 2, right: 5),
+                              child: Text("Found a room",
+                                  style: TextStyle(fontSize: 15)),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(Icons.arrow_forward,
+                                color: Colors.white, size: 24.0),
+                          ],
                         ),
-                      ),
-                      onPressed: () => _showMultipleChoiceDialog(context),
-                    ),
+                        onPressed: () {}),
                   ],
                 ),
               ],
