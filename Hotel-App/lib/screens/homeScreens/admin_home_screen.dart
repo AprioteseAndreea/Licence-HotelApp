@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FireUser;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/models/user_model.dart' as UserModel;
+import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/homeScreens/side_bar/drawer_painter.dart';
 import 'package:first_app_flutter/screens/homeScreens/side_bar/side_bar_button.dart';
@@ -191,7 +192,14 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                                   iconData: Icons.checkroom,
                                   textSize: getSize(0),
                                   height: (mediaQuery.height / 2) / 6,
-                                  onPressed: () {},
+                                  onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Rooms(),
+                                      ),
+                                    )
+                                  },
                                 ),
                                 MyButton(
                                   text: "Facilities",
