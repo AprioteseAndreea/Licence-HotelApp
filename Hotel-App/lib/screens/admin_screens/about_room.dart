@@ -1,35 +1,79 @@
 import 'package:first_app_flutter/models/room_model.dart';
+import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/services/rooms_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 
-class AddRoom extends StatefulWidget {
-  const AddRoom({Key? key}) : super(key: key);
+class AboutRoom extends StatefulWidget {
+  final RoomModel roomModel;
+  const AboutRoom({Key? key, required this.roomModel}) : super(key: key);
   @override
-  _AddRoom createState() => _AddRoom();
+  _AboutRoom createState() => _AboutRoom();
 }
 
-class _AddRoom extends State<AddRoom> {
+class _AboutRoom extends State<AboutRoom> {
   late List<String> facilities = [];
   late List<RoomModel> rooms = [];
 
   late TextEditingController _numberController;
   late TextEditingController _maxGuestsController;
   late TextEditingController _priceController;
-
+  late RoomsService roomsService;
   @override
   void initState() {
     super.initState();
     _numberController = TextEditingController();
     _maxGuestsController = TextEditingController();
     _priceController = TextEditingController();
+    _numberController.text = super.widget.roomModel.number;
+    _maxGuestsController.text = super.widget.roomModel.maxGuests;
+    _priceController.text = super.widget.roomModel.cost;
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget okButton = TextButton(
+      child: const Text("Ok"),
+      onPressed: () {
+        roomsService.deleteRoomInFirebase(super.widget.roomModel);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Rooms(),
+            ),
+            ModalRoute.withName('/'));
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Delete room"),
+      content:
+          Text("Do you want to delete room ${super.widget.roomModel.number}?"),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final roomsService = Provider.of<RoomsService>(context);
+    roomsService = Provider.of<RoomsService>(context);
     rooms = roomsService.getRooms();
     return Scaffold(
         appBar: AppBar(
@@ -38,8 +82,17 @@ class _AddRoom extends State<AddRoom> {
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: const Text('Add new room',
-              style: TextStyle(color: Color(0xFF124559))),
+          title: Text('ROOM ${super.widget.roomModel.number}',
+              style: const TextStyle(color: Color(0xFF124559))),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                CupertinoIcons.delete,
+                size: 25,
+              ),
+              onPressed: () => {showAlertDialog(context)},
+            ),
+          ],
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -60,17 +113,6 @@ class _AddRoom extends State<AddRoom> {
                         ),
                       ),
                     )),
-                const Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  child: Text(
-                    'Add a new room for your guests',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF124559),
-                    ),
-                  ),
-                ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -124,6 +166,22 @@ class _AddRoom extends State<AddRoom> {
                   ],
                 ),
                 Padding(
+                  padding: const EdgeInsets.only(left: 13, top: 5, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      for (var f in super.widget.roomModel.facilities)
+                        Text(
+                          '$f, ',
+                          style: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 14,
+                              color: Color(0xFF124559)),
+                        )
+                    ],
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.all(10),
                   child: TextFieldTags(
                     tagsStyler: TagsStyler(
@@ -139,29 +197,29 @@ class _AddRoom extends State<AddRoom> {
                             size: 18.0, color: Color(0xFFF0972D)),
                         tagPadding: const EdgeInsets.all(6.0)),
                     onTag: (tag) {
-                      facilities.add(tag);
+                      super.widget.roomModel.facilities.add(tag);
                     },
                     textFieldStyler: TextFieldStyler(
                       cursorColor: const Color(0xFF124559),
                     ),
                     onDelete: (String tag) {
-                      facilities.remove(tag);
+                      super.widget.roomModel.facilities.remove(tag);
                     },
                   ),
                 ),
                 MaterialButton(
                   onPressed: () {
-                    RoomModel room = RoomModel(
-                        number: _numberController.text,
-                        cost: _priceController.text,
-                        maxGuests: _maxGuestsController.text,
-                        free: true,
-                        pending: false,
-                        idUser: "none",
-                        interval: "none",
-                        facilities: facilities);
+                    super.widget.roomModel.maxGuests =
+                        _maxGuestsController.text;
+                    super.widget.roomModel.cost = _priceController.text;
 
-                    roomsService.addRoomInFirebase(room);
+                    roomsService.updateRoomInFirebase(super.widget.roomModel);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Rooms(),
+                        ),
+                        ModalRoute.withName('/'));
                   },
                   height: 40,
                   color: const Color(0xFFF0972D),
@@ -170,7 +228,7 @@ class _AddRoom extends State<AddRoom> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Text(
-                    "Add room",
+                    "Update room",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
