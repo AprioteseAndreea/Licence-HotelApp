@@ -9,7 +9,17 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'notifiers.dart';
 
 class GetRoomS2 extends StatefulWidget {
-  const GetRoomS2({Key? key}) : super(key: key);
+  final DateTime checkInDate;
+  final DateTime checkOutDate;
+  final int adults, children;
+
+  const GetRoomS2(
+      {Key? key,
+      required this.checkInDate,
+      required this.checkOutDate,
+      required this.adults,
+      required this.children})
+      : super(key: key);
   @override
   _GetRoomS2 createState() => _GetRoomS2();
 }

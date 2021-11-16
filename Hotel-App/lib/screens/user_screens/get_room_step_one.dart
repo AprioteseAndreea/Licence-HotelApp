@@ -168,7 +168,6 @@ class _GetRoom extends State<GetRoom> {
   @override
   Widget build(BuildContext context) {
     final foundRoomProvider = Provider.of<FoundRoomServices>(context);
-    final facilitiesProvider = Provider.of<FacilityService>(context);
     return Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(
@@ -627,7 +626,11 @@ class _GetRoom extends State<GetRoom> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const GetRoomS2(),
+                                builder: (context) => GetRoomS2(
+                                    checkInDate: checkIn,
+                                    checkOutDate: checkOut,
+                                    adults: adults,
+                                    children: children),
                               ));
                         }
                       },

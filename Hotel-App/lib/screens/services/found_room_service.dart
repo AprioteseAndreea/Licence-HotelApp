@@ -18,8 +18,7 @@ class FoundRoomServices with ChangeNotifier {
     String checkOutDate = DateFormat("yyyy-MM-dd").format(checkOut);
     if (checkInDate == checkOutDate) {
       setMessage('Please enter different date');
-    } else if (checkIn.isBefore(DateTime.now()) ||
-        checkOut.isBefore(DateTime.now())) {
+    } else if (checkOut.isBefore(DateTime.now())) {
       setMessage('Please enter a valid date');
     } else if (checkIn.isAfter(checkOut)) {
       setMessage('Check-in date is before check-out date');
