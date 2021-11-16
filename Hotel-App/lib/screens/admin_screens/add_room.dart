@@ -1,4 +1,5 @@
 import 'package:first_app_flutter/models/room_model.dart';
+import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/services/rooms_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -162,6 +163,12 @@ class _AddRoom extends State<AddRoom> {
                         facilities: facilities);
 
                     roomsService.addRoomInFirebase(room);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Rooms(),
+                        ),
+                        ModalRoute.withName('/'));
                   },
                   height: 40,
                   color: const Color(0xFFF0972D),

@@ -6,7 +6,7 @@ import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:first_app_flutter/screens/user_screens/bookings.dart';
 import 'package:first_app_flutter/screens/user_screens/feedback.dart'
     as FeedbackScreen;
-import 'package:first_app_flutter/screens/user_screens/get_room.dart';
+import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
 import 'package:first_app_flutter/screens/user_screens/menu.dart';
 import 'package:first_app_flutter/screens/user_screens/profile.dart';
 import 'package:first_app_flutter/screens/user_screens/settings.dart';
