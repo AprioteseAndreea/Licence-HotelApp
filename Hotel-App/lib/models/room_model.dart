@@ -6,7 +6,7 @@ class RoomModel {
   late bool pending;
   late String idUser;
   late String interval;
-  List<String> facilities = [];
+  late List<String> facilities = [];
 
   RoomModel(
       {required this.number,

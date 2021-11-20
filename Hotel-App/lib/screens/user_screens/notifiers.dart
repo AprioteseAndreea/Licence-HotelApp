@@ -1,3 +1,4 @@
+import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:flutter/material.dart';
 
 import 'data.dart';
@@ -17,20 +18,20 @@ class SingleNotifier extends ChangeNotifier {
 }
 
 class MultipleNotifier extends ChangeNotifier {
-  final List<String> _selectedItems;
+  final List<FacilityModel> _selectedItems;
   MultipleNotifier(this._selectedItems);
-  List<String> get selectedItems => _selectedItems;
+  List<FacilityModel> get selectedItems => _selectedItems;
 
-  bool isHaveItem(String value) => _selectedItems.contains(value);
+  bool isHaveItem(FacilityModel value) => _selectedItems.contains(value);
 
-  addItem(String value) {
+  addItem(FacilityModel value) {
     if (!isHaveItem(value)) {
       _selectedItems.add(value);
       notifyListeners();
     }
   }
 
-  removeItem(String value) {
+  removeItem(FacilityModel value) {
     if (isHaveItem(value)) {
       _selectedItems.remove(value);
       notifyListeners();

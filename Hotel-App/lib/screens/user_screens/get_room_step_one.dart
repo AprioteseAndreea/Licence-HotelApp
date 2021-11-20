@@ -1,4 +1,5 @@
 import 'package:first_app_flutter/models/extra_facility_model.dart';
+import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/services/facilities_service.dart';
 import 'package:first_app_flutter/screens/services/found_room_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,7 +47,7 @@ class _GetRoom extends State<GetRoom> {
     "Dogs allowed"
   ];
   List<FacilityModel> facilitiesCollection = [];
-  List<String> selectedSpecialFacilities = [];
+  List<FacilityModel> selectedSpecialFacilities = [];
   late FacilityService facilityService = FacilityService();
   @override
   void initState() {
@@ -76,13 +77,11 @@ class _GetRoom extends State<GetRoom> {
                             onChanged: (value) {
                               if (value != null) {
                                 value
-                                    ? _multipleNotifier
-                                        .addItem(e.facility.toString())
-                                    : _multipleNotifier
-                                        .removeItem(e.facility.toString());
+                                    ? _multipleNotifier.addItem(e)
+                                    : _multipleNotifier.removeItem(e);
                               }
                             },
-                            value: _multipleNotifier.isHaveItem(e.facility),
+                            value: _multipleNotifier.isHaveItem(e),
                           ))
                       .toList(),
                 )),
@@ -589,7 +588,7 @@ class _GetRoom extends State<GetRoom> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 20, bottom: 5, top: 20),
+                      padding: EdgeInsets.only(left: 15, bottom: 5, top: 10),
                       child: Text(
                         "OTHER DETAILS",
                         style: TextStyle(
@@ -622,19 +621,24 @@ class _GetRoom extends State<GetRoom> {
                       onPressed: () async {
                         await foundRoomProvider.checkData(checkIn, checkOut,
                             adults, children, selectedSpecialFacilities);
+                        RoomModel roomModel = foundRoomProvider.roomModel;
                         if (foundRoomProvider.errorMessage == "") {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => GetRoomS2(
-                                    checkInDate: checkIn,
-                                    checkOutDate: checkOut,
-                                    adults: adults,
-                                    children: children),
+                                  checkInDate: checkIn,
+                                  checkOutDate: checkOut,
+                                  adults: adults,
+                                  children: children,
+                                  selectedSpecialFacilities:
+                                      selectedSpecialFacilities,
+                                  room: roomModel,
+                                ),
                               ));
                         }
                       },
-                      height: 55,
+                      height: 40,
                       minWidth: foundRoomProvider.isLoading ? null : 200,
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,

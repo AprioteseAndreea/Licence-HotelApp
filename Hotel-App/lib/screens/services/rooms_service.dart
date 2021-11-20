@@ -16,9 +16,11 @@ class RoomsService with ChangeNotifier {
   }
   Future<void> getRoomsCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
-    CollectionReference categories = _instance!.collection('users');
+    CollectionReference users = _instance!.collection('users');
 
-    DocumentSnapshot snapshot = await categories.doc('rooms').get();
+    DocumentSnapshot snapshot = await users.doc('rooms').get();
+    DocumentSnapshot reservations = await users.doc('reservations').get();
+
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       var roomsData = data['rooms'] as List<dynamic>;
