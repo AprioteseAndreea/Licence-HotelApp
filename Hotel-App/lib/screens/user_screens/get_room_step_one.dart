@@ -2,6 +2,7 @@ import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/services/facilities_service.dart';
 import 'package:first_app_flutter/screens/services/found_room_service.dart';
+import 'package:first_app_flutter/screens/user_screens/not_found_room.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -621,21 +622,30 @@ class _GetRoom extends State<GetRoom> {
                       onPressed: () async {
                         await foundRoomProvider.checkData(checkIn, checkOut,
                             adults, children, selectedSpecialFacilities);
-                        RoomModel roomModel = foundRoomProvider.roomModel;
+
                         if (foundRoomProvider.errorMessage == "") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => GetRoomS2(
-                                  checkInDate: checkIn,
-                                  checkOutDate: checkOut,
-                                  adults: adults,
-                                  children: children,
-                                  selectedSpecialFacilities:
-                                      selectedSpecialFacilities,
-                                  room: roomModel,
-                                ),
-                              ));
+                          List<RoomModel> rooms = foundRoomProvider.getRooms();
+                          if (rooms.isNotEmpty) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GetRoomS2(
+                                    checkInDate: checkIn,
+                                    checkOutDate: checkOut,
+                                    adults: adults,
+                                    children: children,
+                                    selectedSpecialFacilities:
+                                        selectedSpecialFacilities,
+                                    room: rooms[0],
+                                  ),
+                                ));
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const NotFoundRoom()));
+                          }
                         }
                       },
                       height: 40,

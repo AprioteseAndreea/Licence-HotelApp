@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/extra_facility_model.dart';
+import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -22,17 +23,19 @@ class FoundRoomServices with ChangeNotifier {
     if (checkInDate == checkOutDate) {
       setMessage('Please enter different date');
     } else if (checkOut.isBefore(DateTime.now())) {
-      setMessage('Please enter a valid date');
+      setMessage('Check-out date is before now');
     } else if (checkIn.isAfter(checkOut)) {
-      setMessage('Check-in date is before check-out date');
+      setMessage('Check-in date is after check-out date');
     } else {
-      foundRoom();
+      await foundRoom(checkIn, checkOut, adults, children);
     }
     setLoading(false);
     notifyListeners();
   }
 
-  Future<void> foundRoom() async {
+  Future<void> foundRoom(
+      DateTime checkIn, DateTime checkOut, int adults, int children) async {
+    _rooms.clear();
     _instance = FirebaseFirestore.instance;
     CollectionReference users = _instance!.collection('users');
 
@@ -43,33 +46,59 @@ class FoundRoomServices with ChangeNotifier {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       var roomsData = data['rooms'] as List<dynamic>;
       for (var roomData in roomsData) {
-        //if guests ... atunci caut in rezervari
-        if (reservations.exists) {
-          //trebuie creat modelul pt rezervari si prelucrat timestampul din BD
-          Map<String, dynamic> r = reservations.data() as Map<String, dynamic>;
-          var reservationsData = r['reservations'] as List<dynamic>;
+        RoomModel currentRoom = RoomModel.fromJson(roomData);
+        bool isFoundRoomInReserv = false;
+        if (int.parse(currentRoom.maxGuests) + 2 >= (adults + children)) {
+          if (reservations.exists) {
+            Map<String, dynamic> r =
+                reservations.data() as Map<String, dynamic>;
+            var reservationsData = r['reservations'] as List<dynamic>;
+            List<DateTime> allDates = [];
+            for (var booking in reservationsData) {
+              ReservationModel r = ReservationModel.fromJson(booking);
+              if (r.room == currentRoom.number) {
+                isFoundRoomInReserv = true;
+                DateTime checkInReserv = DateTime.parse(r.checkIn);
+                DateTime checkOutReserv = DateTime.parse(r.checkOut);
+                allDates.add(checkInReserv);
+                allDates.add(checkOutReserv);
+              }
+            }
+            bool okCheckIn = true;
+            bool okCheckOut = true;
+            for (var i = 0; i < allDates.length; i += 2) {
+              if (allDates[i] == checkIn ||
+                  (allDates[i].isAfter(checkIn) &&
+                      allDates[i].isBefore(checkOut))) {
+                okCheckIn = false;
+                break;
+              }
+            }
 
-          for (var reserv in reservationsData) {}
+            if (okCheckIn == true) {
+              for (var i = 1; i < allDates.length; i += 2) {
+                if (allDates[i] == checkOut ||
+                    (allDates[i].isAfter(checkIn) &&
+                        allDates[i].isBefore(checkOut))) {
+                  okCheckOut = false;
+                }
+              }
+              if (okCheckOut == true) {
+                _rooms.add(currentRoom);
+              }
+            }
+          }
         }
-
-        RoomModel room = RoomModel.fromJson(roomData);
-        _rooms.add(room);
+        if (!isFoundRoomInReserv) {
+          _rooms.add(currentRoom);
+        }
       }
     }
   }
-  // Future<RoomModel> foundRoom() async {
-  //   List<String> facilities = [];
-  //   roomModel = RoomModel(
-  //       number: "undefined",
-  //       cost: "100",
-  //       maxGuests: "3",
-  //       free: true,
-  //       pending: false,
-  //       idUser: "undefined",
-  //       interval: "undefined",
-  //       facilities: facilities);
-  //   return roomModel;
-  // }
+
+  List<RoomModel> getRooms() {
+    return _rooms;
+  }
 
   void setLoading(val) {
     _isLoading = val;

@@ -350,41 +350,41 @@ class _GetRoomS2 extends State<GetRoomS2> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ListTile(
-                      title: const Text(
-                        'ROOM 102',
-                        style: TextStyle(
+                      title: Text(
+                        'ROOM ${super.widget.room.number}',
+                        style: const TextStyle(
                             color: Color(0xFF124559),
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
-                      subtitle: const Text(
-                        'FACILITIES: ',
-                        style: TextStyle(
-                          color: Color(0xFF124559),
-                          fontSize: 13,
-                        ),
-                      ),
+                      // subtitle: const Text(
+                      //   'FACILITIES: ',
+                      //   style: TextStyle(
+                      //     color: Color(0xFF124559),
+                      //     fontSize: 13,
+                      //   ),
+                      // ),
                       leading: Image.asset(
                         'assets/images/key.jpg',
                         height: 50,
                       ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
-                        children: const <Widget>[
-                          Icon(
+                        children: <Widget>[
+                          const Icon(
                             Icons.euro,
                             color: Color(0xFF124559),
                             size: 25.0,
                           ),
                           Text(
-                            '120',
-                            style: TextStyle(
+                            super.widget.room.cost,
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF72B0D4),
                             ),
                           ),
-                          Text(
+                          const Text(
                             '/night',
                             style: TextStyle(
                               fontSize: 12,
