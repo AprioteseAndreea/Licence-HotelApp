@@ -172,7 +172,7 @@ class _AboutRoom extends State<AboutRoom> {
                     children: [
                       for (var f in super.widget.roomModel.facilities)
                         Text(
-                          '$f, ',
+                          ' • $f',
                           style: const TextStyle(
                               fontStyle: FontStyle.italic,
                               fontSize: 14,

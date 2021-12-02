@@ -37,25 +37,12 @@ class _GetRoom extends State<GetRoom> {
 
   late String day = '';
 
-  static const List<String> specialFacilities = <String>[
-    'Car parking',
-    "Breakfast",
-    "Baby room",
-    "Pool&Jacuzzi access",
-    "Spa",
-    "Sauna",
-    "Laundry service",
-    "Dogs allowed"
-  ];
   List<FacilityModel> facilitiesCollection = [];
   List<FacilityModel> selectedSpecialFacilities = [];
   late FacilityService facilityService = FacilityService();
   @override
   void initState() {
     facilitiesCollection = facilityService.getFacilities();
-    for (var f in facilitiesCollection) {
-      specialFacilities.add(f.facility);
-    }
     super.initState();
     initializeDateFormatting();
   }

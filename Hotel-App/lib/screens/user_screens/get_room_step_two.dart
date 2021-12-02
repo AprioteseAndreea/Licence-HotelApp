@@ -1,11 +1,15 @@
 import 'package:first_app_flutter/models/extra_facility_model.dart';
+import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
+import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/screens/user_screens/confirm_reservation.dart';
 import 'package:first_app_flutter/screens/user_screens/not_found_room.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class GetRoomS2 extends StatefulWidget {
@@ -34,6 +38,7 @@ class _GetRoomS2 extends State<GetRoomS2> {
   late int extraFacilities = 0;
   late int roomCost = 0;
   late int nights = 0;
+  late int total = 0;
   @override
   void initState() {
     super.initState();
@@ -52,10 +57,13 @@ class _GetRoomS2 extends State<GetRoomS2> {
         super.widget.checkOutDate.difference(super.widget.checkInDate).inDays +
             1;
     roomCost = int.parse(super.widget.room.cost) * nights;
+    total = roomCost + (extraBeds * 10) + extraFacilities;
   }
 
   @override
   Widget build(BuildContext context) {
+    final reservationProvider = Provider.of<ReservationService>(context);
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
@@ -509,7 +517,7 @@ class _GetRoomS2 extends State<GetRoomS2> {
                             size: 25.0,
                           ),
                           Text(
-                            '${roomCost + (extraBeds * 10) + extraFacilities}',
+                            '$total',
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -526,7 +534,28 @@ class _GetRoomS2 extends State<GetRoomS2> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   MaterialButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      List<String> facilities = [];
+                      for (var f in super.widget.selectedSpecialFacilities) {
+                        facilities.add(f.facility);
+                      }
+                      final _prefs = await SharedPreferences.getInstance();
+                      final _value = _prefs.getString('email');
+                      if (_value != null) {
+                        ReservationModel r = ReservationModel(
+                            checkIn: super.widget.checkInDate.toString(),
+                            checkOut: super.widget.checkOutDate.toString(),
+                            price: total,
+                            room: super.widget.room.number,
+                            user: _value,
+                            approved: false,
+                            facilities: facilities,
+                            guests:
+                                super.widget.adults + super.widget.children);
+
+                        reservationProvider.addReservationsInFirebase(r);
+                      }
+
                       Navigator.push(
                           context,
                           MaterialPageRoute(

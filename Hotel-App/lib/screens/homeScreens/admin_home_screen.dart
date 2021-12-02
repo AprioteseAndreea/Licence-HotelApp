@@ -1,5 +1,6 @@
 import 'package:first_app_flutter/models/user_model.dart' as UserModel;
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
+import 'package:first_app_flutter/screens/admin_screens/users_screen.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/homeScreens/side_bar/drawer_painter.dart';
 import 'package:first_app_flutter/screens/homeScreens/side_bar/side_bar_button.dart';
@@ -227,6 +228,15 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                                   iconData: Icons.people,
                                   textSize: getSize(4),
                                   height: (mediaQuery.height / 2) / 6,
+                                  onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const UsersScreen(),
+                                      ),
+                                    )
+                                  },
                                 ),
                                 MyButton(
                                   text: "Staff",

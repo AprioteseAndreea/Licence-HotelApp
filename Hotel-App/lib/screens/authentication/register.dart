@@ -1,13 +1,17 @@
+import 'package:first_app_flutter/models/gender.dart';
 import 'package:first_app_flutter/models/user_model.dart';
 import 'package:first_app_flutter/screens/authentication/login.dart';
 import 'package:first_app_flutter/screens/homeScreens/home_screen.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'authentication_services/auth_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'custom_radio.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -24,7 +28,7 @@ class _RegisterState extends State<Register> {
   bool _obscuredText = true;
 
   final _formkey = GlobalKey<FormState>();
-
+  List<Gender> genders = [];
   var email = "";
   var name = "";
   var phoneNumber = "";
@@ -35,7 +39,8 @@ class _RegisterState extends State<Register> {
     _passwordController = TextEditingController();
     _fullNameController = TextEditingController();
     _phoneNumberController = TextEditingController();
-
+    genders.add(Gender("Male", Icons.male, false));
+    genders.add(Gender("Female", Icons.female, false));
     super.initState();
   }
 
@@ -68,24 +73,27 @@ class _RegisterState extends State<Register> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const SizedBox(height: 5),
               Image.asset(
-                  'assets/images/grand_hotel_logo2.jpeg'), //   <--- image
+                  'assets/images/grand_hotel_logo4.jpg'), //   <--- image
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.only(
+                    top: 10, bottom: 10, left: 20, right: 20),
                 child: Form(
                   key: _formkey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       const Text(
                         "Create account to continue",
                         style: TextStyle(
+                          color: Color(0xFF124559),
                           fontSize: 20,
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 15),
                       TextFormField(
                         controller: _emailController,
                         validator: (val) => val!.isNotEmpty
@@ -93,7 +101,8 @@ class _RegisterState extends State<Register> {
                             : "Please enter a email address",
                         decoration: InputDecoration(
                           hintText: "Email",
-                          prefixIcon: const Icon(Icons.mail),
+                          prefixIcon:
+                              const Icon(Icons.mail, color: Color(0xFFF0972D)),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -102,7 +111,7 @@ class _RegisterState extends State<Register> {
                           email = value;
                         },
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 15),
                       TextFormField(
                         validator: (val) =>
                             val!.length < 6 ? "Enter more than 6 char" : null,
@@ -116,17 +125,19 @@ class _RegisterState extends State<Register> {
                                         ? Colors.black12
                                         : Theme.of(context).primaryColor)),
                             hintText: "Password",
-                            prefixIcon: const Icon(Icons.vpn_key),
+                            prefixIcon: const Icon(Icons.vpn_key,
+                                color: Color(0xFFF0972D)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             )),
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 15),
                       TextFormField(
                         controller: _fullNameController,
                         decoration: InputDecoration(
                             hintText: "Full Name",
-                            prefixIcon: const Icon(Icons.person),
+                            prefixIcon: const Icon(Icons.person,
+                                color: Color(0xFFF0972D)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             )),
@@ -134,7 +145,7 @@ class _RegisterState extends State<Register> {
                           name = value;
                         },
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 15),
                       TextFormField(
                         validator: (val) => val!.length < 10
                             ? "Phone number must be 10 characters."
@@ -142,7 +153,8 @@ class _RegisterState extends State<Register> {
                         controller: _phoneNumberController,
                         decoration: InputDecoration(
                             hintText: "Phone number",
-                            prefixIcon: const Icon(Icons.phone),
+                            prefixIcon: const Icon(Icons.phone,
+                                color: Color(0xFFF0972D)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             )),
@@ -150,7 +162,37 @@ class _RegisterState extends State<Register> {
                           phoneNumber = value;
                         },
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          InkWell(
+                            splashColor: const Color(0xFFF0972D),
+                            onTap: () {
+                              setState(() {
+                                for (var gender in genders) {
+                                  gender.isSelected = false;
+                                }
+                                genders[0].isSelected = true;
+                              });
+                            },
+                            child: CustomRadio(genders[0]),
+                          ),
+                          InkWell(
+                            splashColor: const Color(0xFFF0972D),
+                            onTap: () {
+                              setState(() {
+                                for (var gender in genders) {
+                                  gender.isSelected = false;
+                                }
+                                genders[1].isSelected = true;
+                              });
+                            },
+                            child: CustomRadio(genders[1]),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
                       MaterialButton(
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
@@ -168,26 +210,34 @@ class _RegisterState extends State<Register> {
                                 _fullNameController.text.trim(),
                                 _phoneNumberController.text.trim());
                           }
-                          await loginProvider.login(
-                              _emailController.text.trim(),
-                              _passwordController.text.trim());
+                          // await loginProvider.login(
+                          //     _emailController.text.trim(),
+                          //     _passwordController.text.trim());
+                          String gender = '';
+                          if (genders[0].isSelected) {
+                            gender = 'Male';
+                          } else if (genders[1].isSelected) {
+                            gender = 'Female';
+                          } else {
+                            gender = 'Other';
+                          }
                           User user = User(
                               email: email,
                               name: name,
                               phoneNumber: phoneNumber,
-                              role: 'user');
+                              role: 'user',
+                              gender: gender);
                           userService.addUserInFirebase(user);
 
                           Navigator.pushAndRemoveUntil(
                               context,
                               PageRouteBuilder(
-                                pageBuilder: (context, a, b) =>
-                                    const HomeScreen(),
+                                pageBuilder: (context, a, b) => const Login(),
                                 transitionDuration: const Duration(seconds: 0),
                               ),
                               (route) => false);
                         },
-                        height: 55,
+                        height: 45,
                         minWidth: loginProvider.isLoading ? null : 200,
                         color: Theme.of(context).primaryColor,
                         textColor: Colors.white,
@@ -203,7 +253,7 @@ class _RegisterState extends State<Register> {
                             : const Text(
                                 "Register",
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -213,9 +263,11 @@ class _RegisterState extends State<Register> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // ignore: prefer_const_constructors
-                          Text("Already have an account?"),
+                          Text("Already have an account?",
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
                           // ignore: prefer_const_constructors
-                          SizedBox(width: 5),
+                          SizedBox(width: 3),
                           TextButton(
                             onPressed: () => {
                               Navigator.pushAndRemoveUntil(
@@ -228,7 +280,8 @@ class _RegisterState extends State<Register> {
                                   ),
                                   (route) => false)
                             },
-                            child: const Text("Login"),
+                            child: const Text("Login",
+                                style: TextStyle(fontSize: 15)),
                           )
                         ],
                       ),

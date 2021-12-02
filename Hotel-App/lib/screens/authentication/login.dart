@@ -4,6 +4,7 @@ import 'package:first_app_flutter/models/user_model.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -70,8 +71,11 @@ class _LoginState extends State<Login> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const SizedBox(
+                height: 10,
+              ),
               Image.asset(
-                  'assets/images/grand_hotel_logo2.jpeg'), //   <--- image
+                  'assets/images/grand_hotel_logo4.jpg'), //   <--- image
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Form(
@@ -79,18 +83,19 @@ class _LoginState extends State<Login> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       const Text(
                         "Welcome Back ",
                         style: TextStyle(
-                          fontSize: 20,
+                          color: Color(0xFF124559),
+                          fontSize: 25,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 10),
                       const Text(
                         "sign in to continue",
-                        style: TextStyle(fontSize: 13, color: Colors.grey),
+                        style: TextStyle(fontSize: 15, color: Colors.grey),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
@@ -100,7 +105,10 @@ class _LoginState extends State<Login> {
                             : "Please enter a email address",
                         decoration: InputDecoration(
                           hintText: "Email",
-                          prefixIcon: const Icon(Icons.mail),
+                          prefixIcon: const Icon(
+                            Icons.mail,
+                            color: Color(0xFF124559),
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -118,15 +126,23 @@ class _LoginState extends State<Login> {
                                 child: Icon(Icons.remove_red_eye,
                                     color: _obscuredText
                                         ? Colors.black12
-                                        : Theme.of(context).primaryColor)),
+                                        : const Color(0xFFF0972D))),
                             hintText: "Password",
-                            prefixIcon: const Icon(Icons.vpn_key),
+                            prefixIcon: const Icon(
+                              Icons.vpn_key,
+                              color: Color(0xFF124559),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             )),
                       ),
                       CheckboxListTile(
-                        title: const Text("Remember me"),
+                        title: const Text(
+                          "Remember me",
+                          style: TextStyle(
+                              color: Color(0xFF124559),
+                              fontWeight: FontWeight.bold),
+                        ),
                         controlAffinity: ListTileControlAffinity.leading,
                         value: _checked,
                         onChanged: (bool? value) {
@@ -153,12 +169,15 @@ class _LoginState extends State<Login> {
                             },
                             child: const Text(
                               'Forgot Password ?',
-                              style: TextStyle(fontSize: 14.0),
+                              style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: Color(0xFFF0972D),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 30),
                       MaterialButton(
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
@@ -177,7 +196,7 @@ class _LoginState extends State<Login> {
                             );
                           }
                         },
-                        height: 55,
+                        height: 45,
                         minWidth: loginProvider.isLoading ? null : 200,
                         color: Theme.of(context).primaryColor,
                         textColor: Colors.white,
@@ -189,7 +208,7 @@ class _LoginState extends State<Login> {
                             : const Text(
                                 "Login",
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -199,7 +218,10 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // ignore: prefer_const_constructors
-                          Text("Don't have an account?"),
+                          Text(
+                            "Don't have an account?",
+                            style: const TextStyle(fontSize: 14),
+                          ),
                           // ignore: prefer_const_constructors
                           SizedBox(width: 5),
                           TextButton(
@@ -212,7 +234,13 @@ class _LoginState extends State<Login> {
                                 ),
                               )
                             },
-                            child: const Text("Register"),
+                            child: const Text(
+                              "Register",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFFF0972D),
+                                  fontWeight: FontWeight.bold),
+                            ),
                           )
                         ],
                       ),
