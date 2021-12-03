@@ -48,6 +48,7 @@ dependencies:
   flutter_tags: ^0.4.9+1
   textfield_tags: ^1.4.2
   cool_datepicker: ^1.0.3
+  flutter_swiper: ^1.1.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

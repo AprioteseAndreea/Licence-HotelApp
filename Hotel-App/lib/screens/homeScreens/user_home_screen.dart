@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({Key? key}) : super(key: key);
@@ -29,6 +30,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
   String? name, role;
   String profilePicture = "";
   AuthServices authServices = AuthServices();
+  List<String> photoPaths = [];
 
   Offset _offset = const Offset(0, 0);
   GlobalKey globalKey = GlobalKey();
@@ -51,6 +53,13 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       await _readEmail();
     });
+    photoPaths.add("assets/images/boston2.jpg");
+    photoPaths.add("assets/images/boston3.jpg");
+    photoPaths.add("assets/images/boston4.jpg");
+    photoPaths.add("assets/images/boston5.jpg");
+    photoPaths.add("assets/images/boston6.jpg");
+    photoPaths.add("assets/images/boston7.jpg");
+    photoPaths.add("assets/images/boston8.jpg");
   }
 
   getPosition(duration) {
@@ -105,6 +114,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 25, top: 10),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Welcome $name !',
@@ -112,7 +122,6 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                     fontSize: 22,
                   ),
                 ),
-                SizedBox(width: mediaQuery.width * 0.22),
                 Container(
                   width: 25,
                   height: 25,
@@ -144,35 +153,118 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                   ),
                 ],
               )),
-          Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 25, top: 65),
-              child: Column(
-                children: [
-                  Card(
-                    semanticContainer: true,
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    elevation: 40.0,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 200.0,
-                          child: Image.asset(
-                            "assets/images/dashboard_image.jpg",
-                            fit: BoxFit.cover,
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 25, top: 65, right: 5),
+                child: Column(
+                  children: [
+                    Card(
+                      semanticContainer: true,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      elevation: 25,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 150.0,
+                            child: Image.asset(
+                              "assets/images/reception.jpg",
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  )
-                ],
+                    // SizedBox(
+                    //   height: 140, // card height
+                    //   child: PageView.builder(
+                    //     itemCount: 10,
+                    //     controller: PageController(viewportFraction: 0.7),
+                    //     onPageChanged: (int index) =>
+                    //         setState(() => _index = index),
+                    //     itemBuilder: (_, i) {
+                    //       return Transform.scale(
+                    //         scale: i == _index ? 1 : 0.9,
+                    //         child: Card(
+                    //           semanticContainer: true,
+                    //           clipBehavior: Clip.antiAliasWithSaveLayer,
+                    //           shape: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.circular(25.0),
+                    //           ),
+                    //           elevation: 10,
+                    //           child: Column(
+                    //             mainAxisSize: MainAxisSize.min,
+                    //             children: <Widget>[
+                    //               SizedBox(
+                    //                 height: 150,
+                    //                 child: Image.asset(
+                    //                   "assets/images/reception.jpg",
+                    //                   fit: BoxFit.cover,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
-            ),
-          ]),
+              Padding(
+                  padding: const EdgeInsets.only(left: 25, top: 20),
+                  child: Row(
+                    children: const [
+                      Text(
+                        'Our hotel',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  )),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, top: 5),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                          left: 10, top: 20, bottom: 20, right: 5),
+                      height: MediaQuery.of(context).size.height * 0.21,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: photoPaths.length,
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: Card(
+                                semanticContainer: true,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                                color: const Color(0xFF124559),
+                                child: Center(
+                                  child: Image.asset(
+                                    photoPaths[index].toString(),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
           AnimatedPositioned(
             duration: const Duration(milliseconds: 1500),
             left: isMenuOpen ? 0 : -sidebarSize + 20,

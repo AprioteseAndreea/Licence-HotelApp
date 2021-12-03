@@ -82,67 +82,82 @@ class _UsersScreen extends State<UsersScreen> {
                                         children: <Widget>[
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                                MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment.center,
                                             children: [
-                                              if (user['gender'] == 'Male')
-                                                const Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 7,
-                                                        top: 7,
-                                                        bottom: 4),
-                                                    child: CircleAvatar(
-                                                        radius: 20,
-                                                        backgroundImage: AssetImage(
-                                                            'assets/images/male2.png'))),
-                                              if (user['gender'] == 'Female')
-                                                const Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 7,
-                                                        top: 7,
-                                                        bottom: 4),
-                                                    child: CircleAvatar(
-                                                        radius: 20,
-                                                        backgroundImage: AssetImage(
-                                                            'assets/images/female.png'))),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 7, top: 7, bottom: 4),
-                                                child: Text(
-                                                  '${user['name']}',
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  if (user['gender'] == 'Male')
+                                                    const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 7,
+                                                                top: 7,
+                                                                bottom: 4),
+                                                        child: CircleAvatar(
+                                                            radius: 20,
+                                                            backgroundImage:
+                                                                AssetImage(
+                                                                    'assets/images/male2.png'))),
+                                                  if (user['gender'] ==
+                                                      'Female')
+                                                    const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 7,
+                                                                top: 7,
+                                                                bottom: 4),
+                                                        child: CircleAvatar(
+                                                            radius: 20,
+                                                            backgroundImage:
+                                                                AssetImage(
+                                                                    'assets/images/female.png'))),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 7,
+                                                            top: 7,
+                                                            bottom: 4),
+                                                    child: Text(
+                                                      '${user['name']}',
+                                                      style: const TextStyle(
+                                                        fontSize: 17,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
+                                                ],
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 7,
-                                                    top: 7,
-                                                    bottom: 7,
-                                                    right: 7),
-                                                child: Row(
-                                                  children: const [
-                                                    // Icon(
-                                                    //   Icons.euro,
-                                                    //   color: Color(0xFF124559),
-                                                    //   size: 25.0,
-                                                    // ),
-                                                    // Text(
-                                                    //   room['cost'].toString(),
-                                                    //   style: const TextStyle(
-                                                    //     fontSize: 20,
-                                                    //     fontWeight:
-                                                    //         FontWeight.bold,
-                                                    //     color:
-                                                    //         Color(0xFF72B0D4),
-                                                    //   ),
-                                                    // ),
-                                                  ],
-                                                ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 7,
+                                                            top: 7,
+                                                            bottom: 4,
+                                                            right: 5),
+                                                    child: Text(
+                                                      '${user['phoneNumber']}',
+                                                      style: const TextStyle(
+                                                        fontSize: 15,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const Icon(Icons.phone,
+                                                      color: Color(0xFFF0972D)),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  )
+                                                ],
                                               ),
                                             ],
                                           ),
