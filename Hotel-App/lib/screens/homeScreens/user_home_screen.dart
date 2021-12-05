@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({Key? key}) : super(key: key);
@@ -30,7 +29,26 @@ class _UserHomeScreen extends State<UserHomeScreen> {
   String? name, role;
   String profilePicture = "";
   AuthServices authServices = AuthServices();
-  List<String> photoPaths = [];
+  List<String> facilities = [];
+  List<String> placeToVisitPath = [];
+
+  List<String> facilitiesLabel = [
+    "Spa",
+    "Restaurant",
+    "Pool",
+    "Babysitter",
+    "Car parking",
+    "Pet Friendly"
+  ];
+  List<String> placesToVisit = [
+    "Statue of Liberty",
+    "Central Park",
+    "Rockefeller Center",
+    "Metropolitan Museum of Art",
+    "Empire State Building",
+    "Times Square",
+    "Brooklyn Bridge"
+  ];
 
   Offset _offset = const Offset(0, 0);
   GlobalKey globalKey = GlobalKey();
@@ -53,13 +71,21 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       await _readEmail();
     });
-    photoPaths.add("assets/images/boston2.jpg");
-    photoPaths.add("assets/images/boston3.jpg");
-    photoPaths.add("assets/images/boston4.jpg");
-    photoPaths.add("assets/images/boston5.jpg");
-    photoPaths.add("assets/images/boston6.jpg");
-    photoPaths.add("assets/images/boston7.jpg");
-    photoPaths.add("assets/images/boston8.jpg");
+
+    facilities.add("assets/images/spa.png");
+    facilities.add("assets/images/restaurant.png");
+    facilities.add("assets/images/pool.png");
+    facilities.add("assets/images/babysitter.png");
+    facilities.add("assets/images/car.png");
+    facilities.add("assets/images/pet.png");
+
+    placeToVisitPath.add("assets/images/ptv1.jpg");
+    placeToVisitPath.add("assets/images/ptv2.jpg");
+    placeToVisitPath.add("assets/images/ptv3.jpg");
+    placeToVisitPath.add("assets/images/ptv4.jpg");
+    placeToVisitPath.add("assets/images/ptv5.jpg");
+    placeToVisitPath.add("assets/images/ptv6.jpg");
+    placeToVisitPath.add("assets/images/ptv7.jpg");
   }
 
   getPosition(duration) {
@@ -95,6 +121,8 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     }
   }
 
+  Color gradientStart = Colors.transparent;
+  Color gradientEnd = Colors.black;
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<AuthServices>(context);
@@ -112,14 +140,14 @@ class _UserHomeScreen extends State<UserHomeScreen> {
       child: Stack(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 25, top: 10),
+            padding: const EdgeInsets.only(left: 25, top: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Welcome $name !',
                   style: const TextStyle(
-                    fontSize: 22,
+                    fontSize: 20,
                   ),
                 ),
                 Container(
@@ -141,78 +169,75 @@ class _UserHomeScreen extends State<UserHomeScreen> {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.only(left: 25, top: 45),
-              child: Row(
-                children: const [
-                  Text(
+            padding: const EdgeInsets.only(left: 25, top: 20, right: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 35),
+                  child: Text(
                     'Do you want to visit us?',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 18,
                       color: Colors.grey,
                     ),
                   ),
-                ],
-              )),
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(top: 40),
+                    child: MaterialButton(
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const GetRoom(),
+                          ),
+                        )
+                      },
+                      height: 27,
+                      minWidth: 75,
+                      color: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Text(
+                        "Book now",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          ),
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 65, right: 5),
+                padding: const EdgeInsets.only(left: 25, top: 105, right: 5),
                 child: Column(
                   children: [
                     Card(
                       semanticContainer: true,
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
+                        borderRadius: BorderRadius.circular(20.0),
                       ),
                       elevation: 25,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           SizedBox(
-                            height: 150.0,
+                            height: 170.0,
                             child: Image.asset(
-                              "assets/images/reception.jpg",
+                              "assets/images/boston2.jpg",
                               fit: BoxFit.cover,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    // SizedBox(
-                    //   height: 140, // card height
-                    //   child: PageView.builder(
-                    //     itemCount: 10,
-                    //     controller: PageController(viewportFraction: 0.7),
-                    //     onPageChanged: (int index) =>
-                    //         setState(() => _index = index),
-                    //     itemBuilder: (_, i) {
-                    //       return Transform.scale(
-                    //         scale: i == _index ? 1 : 0.9,
-                    //         child: Card(
-                    //           semanticContainer: true,
-                    //           clipBehavior: Clip.antiAliasWithSaveLayer,
-                    //           shape: RoundedRectangleBorder(
-                    //             borderRadius: BorderRadius.circular(25.0),
-                    //           ),
-                    //           elevation: 10,
-                    //           child: Column(
-                    //             mainAxisSize: MainAxisSize.min,
-                    //             children: <Widget>[
-                    //               SizedBox(
-                    //                 height: 150,
-                    //                 child: Image.asset(
-                    //                   "assets/images/reception.jpg",
-                    //                   fit: BoxFit.cover,
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -221,7 +246,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                   child: Row(
                     children: const [
                       Text(
-                        'Our hotel',
+                        'Facilities',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.grey,
@@ -230,33 +255,131 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                     ],
                   )),
               Padding(
-                padding: const EdgeInsets.only(left: 10, top: 5),
+                padding: const EdgeInsets.only(
+                  left: 10,
+                ),
                 child: Column(
                   children: [
                     Container(
                       padding: const EdgeInsets.only(
-                          left: 10, top: 20, bottom: 20, right: 5),
-                      height: MediaQuery.of(context).size.height * 0.21,
+                          left: 10, top: 10, bottom: 20, right: 5),
+                      height: MediaQuery.of(context).size.height * 0.18,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: photoPaths.length,
+                          itemCount: facilities.length,
                           itemBuilder: (context, index) {
                             return SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.5,
+                              width: MediaQuery.of(context).size.width * 0.22,
                               child: Card(
                                 semanticContainer: true,
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25.0),
                                 ),
-                                color: const Color(0xFF124559),
-                                child: Center(
-                                  child: Image.asset(
-                                    photoPaths[index].toString(),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                                color: const Color(0xFFFFFFFF),
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        facilities[index].toString(),
+                                        fit: BoxFit.cover,
+                                        width: 35,
+                                      ),
+                                      Text(
+                                        facilitiesLabel[index].toString(),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 13),
+                                      ),
+                                    ]),
                               ),
+                            );
+                          }),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 25, top: 5),
+                  child: Row(
+                    children: const [
+                      Text(
+                        'Places to visited',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  )),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 10,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                          left: 10, top: 10, bottom: 20, right: 5),
+                      height: MediaQuery.of(context).size.height * 0.20,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: placeToVisitPath.length,
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: Card(
+                                  semanticContainer: true,
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                  ),
+                                  color: const Color(0xFFFFFFFF),
+                                  child: Stack(
+                                    children: [
+                                      ShaderMask(
+                                        shaderCallback: (rect) {
+                                          return LinearGradient(
+                                            begin: Alignment.center,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              gradientStart,
+                                              gradientEnd
+                                            ],
+                                          ).createShader(Rect.fromLTRB(
+                                              0, -50, rect.width, rect.height));
+                                        },
+                                        blendMode: BlendMode.darken,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: ExactAssetImage(
+                                                  placeToVisitPath[index]
+                                                      .toString()),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10, bottom: 5),
+                                            child: Text(
+                                              placesToVisit[index].toString(),
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.white),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  )),
                             );
                           }),
                     ),
@@ -317,7 +440,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                   Text(
                                     "$name",
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 20),
+                                        color: Colors.white, fontSize: 18),
                                   ),
                                 ],
                               ),
@@ -399,20 +522,6 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             const UserEvents(),
-                                      ),
-                                    )
-                                  },
-                                ),
-                                MyButton(
-                                  text: "Menu",
-                                  iconData: Icons.emoji_food_beverage,
-                                  textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 7,
-                                  onPressed: () => {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const Menu(),
                                       ),
                                     )
                                   },

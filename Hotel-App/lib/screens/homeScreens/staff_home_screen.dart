@@ -16,7 +16,7 @@ class StaffHomeScreen extends StatefulWidget {
 class _StaffHomeScreen extends State<StaffHomeScreen> {
   UserService userService = UserService();
   late List<UserModel.User> users = [];
-  String? name, role;
+  String? name, role, gender;
   AuthServices authServices = AuthServices();
 
   Offset _offset = const Offset(0, 0);
@@ -30,15 +30,11 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       getPosition;
     });
-    super.initState();
-    authServices.getCurrentUser().then((value) {
-      setState(() {
-        name = value!.displayName!;
-      });
-    });
+
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await _readEmail();
+      await _readData();
     });
+    super.initState();
   }
 
   getPosition(duration) {
@@ -63,13 +59,25 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
     return size;
   }
 
-  Future<void> _readEmail() async {
+  Future<void> _readData() async {
     final _prefs = await SharedPreferences.getInstance();
-    final _value = _prefs.getString('role');
+    String? _value = _prefs.getString('role');
+    String? _name = _prefs.getString('name');
+    String? _gender = _prefs.getString('gender');
 
     if (_value != null) {
       setState(() {
         role = _value;
+      });
+    }
+    if (_name != null) {
+      setState(() {
+        name = _name;
+      });
+    }
+    if (_gender != null) {
+      setState(() {
+        gender = _gender;
       });
     }
   }
@@ -209,12 +217,6 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                 MyButton(
                                   text: "Events",
                                   iconData: Icons.event,
-                                  textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Menu",
-                                  iconData: Icons.emoji_food_beverage,
                                   textSize: getSize(4),
                                   height: (mediaQuery.height / 2) / 6,
                                 ),

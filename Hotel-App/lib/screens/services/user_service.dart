@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService with ChangeNotifier {
   FirebaseFirestore? _instance;
-
   final List<User> _users = [];
   String name = "";
 
@@ -18,10 +17,10 @@ class UserService with ChangeNotifier {
   }
 
   UserService() {
-    getCategoriesCollectionFromFirebase();
+    getUsersCollectionFromFirebase();
     getNameFromSharedPrefs();
   }
-  Future<void> getCategoriesCollectionFromFirebase() async {
+  Future<void> getUsersCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');
 
@@ -53,17 +52,18 @@ class UserService with ChangeNotifier {
   Future<void> getNameFromSharedPrefs() async {
     final _prefs = await SharedPreferences.getInstance();
     String? email = _prefs.getString('email');
-    String _name = "", phoneNumber = "", role = "";
+    String name = "", phoneNumber = "", role = "", gender = "";
     for (int i = 0; i < _users.length; i++) {
       if (_users[i].email == email) {
-        _name = _users[i].name;
+        name = _users[i].name;
         phoneNumber = _users[i].phoneNumber;
         role = _users[i].role;
-        name = _name;
+        gender = _users[i].gender;
       }
     }
-    await _prefs.setString('name', _name);
+    await _prefs.setString('name', name);
     await _prefs.setString('phoneNumber', phoneNumber);
     await _prefs.setString('role', role);
+    await _prefs.setString('gender', gender);
   }
 }
