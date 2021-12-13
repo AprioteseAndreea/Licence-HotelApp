@@ -19,44 +19,12 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
   String? name, role, gender;
   AuthServices authServices = AuthServices();
 
-  Offset _offset = const Offset(0, 0);
-  GlobalKey globalKey = GlobalKey();
-  List<double> limits = [];
-
-  bool isMenuOpen = false;
   @override
   void initState() {
-    limits = [0, 0, 0, 0, 0, 0];
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      getPosition;
-    });
-
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       await _readData();
     });
     super.initState();
-  }
-
-  getPosition(duration) {
-    RenderBox renderBox =
-        globalKey.currentContext!.findRenderObject() as RenderBox;
-    final position = renderBox.localToGlobal(Offset.zero);
-    double start = position.dy - 20;
-    double contLimit = position.dy + renderBox.size.height - 20;
-    double step = (contLimit - start) / 5;
-    limits = [];
-    for (double x = start; x <= contLimit; x = x + step) {
-      limits.add(x);
-    }
-    setState(() {
-      limits = limits;
-    });
-  }
-
-  double getSize(int x) {
-    double size =
-        (_offset.dy > limits[x] && _offset.dy < limits[x + 1]) ? 25 : 20;
-    return size;
   }
 
   Future<void> _readData() async {
@@ -84,183 +52,306 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
-
     Size mediaQuery = MediaQuery.of(context).size;
-    double sidebarSize = mediaQuery.width * 0.65;
-    double menuContainerHeight = mediaQuery.height / 1.5;
+    final loginProvider = Provider.of<AuthServices>(context);
 
     users = userService.getUsers();
     return SafeArea(
         child: Scaffold(
             body: SizedBox(
       width: mediaQuery.width,
-      child: Stack(
+      child: Column(
         children: <Widget>[
+          const SizedBox(
+            height: 20,
+          ),
+          Image.asset('assets/images/grand_hotel_logo4.jpg'),
+          const SizedBox(
+            height: 30,
+          ),
           Padding(
-            padding: const EdgeInsets.only(left: 25, top: 10),
-            child: Row(
+            padding: const EdgeInsets.all(10),
+            child: Column(
               children: [
-                Text(
-                  'Hello $name',
-                  style: const TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(width: mediaQuery.width * 0.49),
-                IconButton(
-                  icon: const Icon(Icons.exit_to_app),
-                  onPressed: () async => await loginProvider.logout(),
-                )
-              ],
-            ),
-          ),
-          Center(
-            child: Stack(
-              children: [
-                Text("$role"),
-              ],
-            ),
-          ),
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 1500),
-            left: isMenuOpen ? 0 : -sidebarSize + 20,
-            top: 0,
-            curve: Curves.elasticOut,
-            child: SizedBox(
-              width: sidebarSize,
-              child: GestureDetector(
-                onPanUpdate: (details) {
-                  if (details.localPosition.dx <= sidebarSize) {
-                    setState(() {
-                      _offset = details.localPosition;
-                    });
-                  }
-
-                  if (details.localPosition.dx > sidebarSize - 20 &&
-                      details.delta.distanceSquared > 2) {
-                    setState(() {
-                      isMenuOpen = true;
-                    });
-                  }
-                },
-                onPanEnd: (details) {
-                  setState(() {
-                    _offset = const Offset(0, 0);
-                  });
-                },
-                child: Stack(
-                  children: <Widget>[
-                    CustomPaint(
-                      size: Size(sidebarSize, mediaQuery.height),
-                      painter: DrawerPainter(offset: _offset),
-                    ),
-                    SizedBox(
-                      height: mediaQuery.height,
-                      width: sidebarSize,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          SizedBox(
-                            height: mediaQuery.height * 0.20,
-                            child: Center(
-                              child: Column(
-                                children: <Widget>[
-                                  Image.asset(
-                                    "assets/images/grand_hotel_logo-removebg-2.png",
-                                    width: sidebarSize / 1.2,
-                                  ),
-                                  Text(
-                                    "$name",
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 18),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Divider(
-                            thickness: 1,
-                          ),
-                          SizedBox(
-                            key: globalKey,
-                            width: double.infinity,
-                            height: menuContainerHeight,
-                            child: Column(
-                              children: <Widget>[
-                                MyButton(
-                                  text: "My profile",
-                                  iconData: Icons.person,
-                                  textSize: getSize(0),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Bookings",
-                                  iconData: Icons.approval,
-                                  textSize: getSize(1),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Rooms",
-                                  iconData: Icons.auto_stories,
-                                  textSize: getSize(2),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Chat",
-                                  iconData: Icons.chat_bubble,
-                                  textSize: getSize(1),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Events",
-                                  iconData: Icons.event,
-                                  textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Settings",
-                                  iconData: Icons.settings_applications_sharp,
-                                  textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Statistics",
-                                  iconData: Icons.stacked_bar_chart,
-                                  textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    AnimatedPositioned(
-                      duration: const Duration(milliseconds: 400),
-                      right: (isMenuOpen) ? 10 : sidebarSize,
-                      bottom: 30,
-                      child: IconButton(
-                        enableFeedback: true,
-                        icon: const Icon(
-                          Icons.keyboard_backspace,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isMenuOpen = false;
-                          });
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () => {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const Rooms(),
+                          //   ),
+                          // )
                         },
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/staff.png",
+                                        fit: BoxFit.cover,
+                                        width: 40,
+                                      ),
+                                      const Text(
+                                        'MY PROFILE',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    )
-                  ],
+                      GestureDetector(
+                        onTap: () => {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const Bookings(),
+                          //   ),
+                          // )
+                        },
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/bookings.png",
+                                        fit: BoxFit.cover,
+                                        width: 45,
+                                      ),
+                                      const Text(
+                                        'BOOKINGS',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]),
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () => {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const UsersScreen(),
+                          //   ),
+                          // )
+                        },
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/rooms.png",
+                                        fit: BoxFit.cover,
+                                        width: 40,
+                                      ),
+                                      const Text(
+                                        'ROOMS',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const Rooms(),
+                          //   ),
+                          // )
+                        },
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/chat.png",
+                                        fit: BoxFit.cover,
+                                        width: 45,
+                                      ),
+                                      const Text(
+                                        'CHAT',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () => {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const Rooms(),
+                          //   ),
+                          // )
+                        },
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/statistics.png",
+                                        fit: BoxFit.cover,
+                                        width: 40,
+                                      ),
+                                      const Text(
+                                        'STATISTICS',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () async => await loginProvider.logout(),
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/logout.png",
+                                        fit: BoxFit.cover,
+                                        width: 40,
+                                      ),
+                                      const Text(
+                                        'LOGOUT',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]),
+              ],
             ),
-          )
+          ),
         ],
       ),
     )));

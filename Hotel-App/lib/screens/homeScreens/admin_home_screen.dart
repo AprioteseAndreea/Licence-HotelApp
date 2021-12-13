@@ -2,12 +2,10 @@ import 'package:first_app_flutter/models/user_model.dart' as UserModel;
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/admin_screens/users_screen.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
-import 'package:first_app_flutter/screens/homeScreens/side_bar/drawer_painter.dart';
-import 'package:first_app_flutter/screens/homeScreens/side_bar/side_bar_button.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:first_app_flutter/screens/user_screens/bookings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({Key? key}) : super(key: key);
@@ -18,267 +16,318 @@ class AdminHomeScreen extends StatefulWidget {
 class _AdminHomeScreen extends State<AdminHomeScreen> {
   UserService userService = UserService();
   late List<UserModel.User> users = [];
-  String? name, role;
   AuthServices authServices = AuthServices();
-
-  Offset _offset = const Offset(0, 0);
   GlobalKey globalKey = GlobalKey();
   List<double> limits = [];
-
   bool isMenuOpen = false;
 
   @override
   void initState() {
-    limits = [0, 0, 0, 0, 0, 0];
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      getPosition;
-    });
     super.initState();
-    authServices.getCurrentUser().then((value) {
-      setState(() {
-        name = value!.displayName!;
-      });
-    });
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await _readEmail();
-    });
-  }
-
-  getPosition(duration) {
-    RenderBox renderBox =
-        globalKey.currentContext!.findRenderObject() as RenderBox;
-    final position = renderBox.localToGlobal(Offset.zero);
-    double start = position.dy - 20;
-    double contLimit = position.dy + renderBox.size.height - 20;
-    double step = (contLimit - start) / 5;
-    limits = [];
-    for (double x = start; x <= contLimit; x = x + step) {
-      limits.add(x);
-    }
-    setState(() {
-      limits = limits;
-    });
-  }
-
-  double getSize(int x) {
-    double size =
-        (_offset.dy > limits[x] && _offset.dy < limits[x + 1]) ? 25 : 20;
-    return size;
-  }
-
-  Future<void> _readEmail() async {
-    final _prefs = await SharedPreferences.getInstance();
-    final _value = _prefs.getString('role');
-
-    if (_value != null) {
-      setState(() {
-        role = _value;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
-
     Size mediaQuery = MediaQuery.of(context).size;
-    double sidebarSize = mediaQuery.width * 0.65;
-    double menuContainerHeight = mediaQuery.height / 1.5;
+    final loginProvider = Provider.of<AuthServices>(context);
 
     users = userService.getUsers();
     return SafeArea(
         child: Scaffold(
             body: SizedBox(
       width: mediaQuery.width,
-      child: Stack(
+      child: Column(
         children: <Widget>[
+          const SizedBox(
+            height: 20,
+          ),
+          Image.asset('assets/images/grand_hotel_logo4.jpg'),
+          const SizedBox(
+            height: 30,
+          ),
           Padding(
-            padding: const EdgeInsets.only(left: 25, top: 10),
-            child: Row(
+            padding: const EdgeInsets.all(10),
+            child: Column(
               children: [
-                Text(
-                  'Hello $name',
-                  style: const TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(width: mediaQuery.width * 0.49),
-                IconButton(
-                  icon: const Icon(Icons.exit_to_app),
-                  onPressed: () async => await loginProvider.logout(),
-                )
-              ],
-            ),
-          ),
-          Center(
-            child: Stack(
-              children: [
-                Text("$role"),
-              ],
-            ),
-          ),
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 1500),
-            left: isMenuOpen ? 0 : -sidebarSize + 20,
-            top: 0,
-            curve: Curves.elasticOut,
-            child: SizedBox(
-              width: sidebarSize,
-              child: GestureDetector(
-                onPanUpdate: (details) {
-                  if (details.localPosition.dx <= sidebarSize) {
-                    setState(() {
-                      _offset = details.localPosition;
-                    });
-                  }
-
-                  if (details.localPosition.dx > sidebarSize - 20 &&
-                      details.delta.distanceSquared > 2) {
-                    setState(() {
-                      isMenuOpen = true;
-                    });
-                  }
-                },
-                onPanEnd: (details) {
-                  setState(() {
-                    _offset = const Offset(0, 0);
-                  });
-                },
-                child: Stack(
-                  children: <Widget>[
-                    CustomPaint(
-                      size: Size(sidebarSize, mediaQuery.height),
-                      painter: DrawerPainter(offset: _offset),
-                    ),
-                    SizedBox(
-                      height: mediaQuery.height,
-                      width: sidebarSize,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          SizedBox(
-                            height: mediaQuery.height * 0.20,
-                            child: Center(
-                              child: Column(
-                                children: <Widget>[
-                                  Image.asset(
-                                    "assets/images/grand_hotel_logo-removebg-2.png",
-                                    width: sidebarSize / 1.2,
-                                  ),
-                                  Text(
-                                    "$name",
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 18),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Divider(
-                            thickness: 1,
-                          ),
-                          SizedBox(
-                            key: globalKey,
-                            width: double.infinity,
-                            height: menuContainerHeight,
-                            child: Column(
-                              children: <Widget>[
-                                MyButton(
-                                  text: "Rooms",
-                                  iconData: Icons.checkroom,
-                                  textSize: getSize(0),
-                                  height: (mediaQuery.height / 2) / 6,
-                                  onPressed: () => {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const Rooms(),
-                                      ),
-                                    )
-                                  },
-                                ),
-                                MyButton(
-                                  text: "Facilities",
-                                  iconData: Icons.spa,
-                                  textSize: getSize(1),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Events",
-                                  iconData: Icons.event,
-                                  textSize: getSize(2),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Menu",
-                                  iconData: Icons.emoji_food_beverage,
-                                  textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Bookings",
-                                  iconData: Icons.book,
-                                  textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Users",
-                                  iconData: Icons.people,
-                                  textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
-                                  onPressed: () => {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const UsersScreen(),
-                                      ),
-                                    )
-                                  },
-                                ),
-                                MyButton(
-                                  text: "Staff",
-                                  iconData: Icons.work,
-                                  textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                                MyButton(
-                                  text: "Statistics",
-                                  iconData: Icons.auto_graph_sharp,
-                                  textSize: getSize(4),
-                                  height: (mediaQuery.height / 2) / 6,
-                                ),
-                              ],
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Rooms(),
                             ),
                           )
-                        ],
-                      ),
-                    ),
-                    AnimatedPositioned(
-                      duration: const Duration(milliseconds: 400),
-                      right: (isMenuOpen) ? 10 : sidebarSize,
-                      bottom: 30,
-                      child: IconButton(
-                        enableFeedback: true,
-                        icon: const Icon(
-                          Icons.keyboard_backspace,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isMenuOpen = false;
-                          });
                         },
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/rooms.png",
+                                        fit: BoxFit.cover,
+                                        width: 40,
+                                      ),
+                                      const Text(
+                                        'ROOMS',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    )
-                  ],
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Bookings(),
+                            ),
+                          )
+                        },
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/bookings.png",
+                                        fit: BoxFit.cover,
+                                        width: 45,
+                                      ),
+                                      const Text(
+                                        'BOOKINGS',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]),
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const UsersScreen(),
+                            ),
+                          )
+                        },
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/users.png",
+                                        fit: BoxFit.cover,
+                                        width: 40,
+                                      ),
+                                      const Text(
+                                        'USERS',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Rooms(),
+                            ),
+                          )
+                        },
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/staff.png",
+                                        fit: BoxFit.cover,
+                                        width: 45,
+                                      ),
+                                      const Text(
+                                        'STAFF',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Rooms(),
+                            ),
+                          )
+                        },
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/statistics.png",
+                                        fit: BoxFit.cover,
+                                        width: 40,
+                                      ),
+                                      const Text(
+                                        'STATISTICS',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () async => await loginProvider.logout(),
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/logout.png",
+                                        fit: BoxFit.cover,
+                                        width: 40,
+                                      ),
+                                      const Text(
+                                        'LOGOUT',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]),
+              ],
             ),
-          )
+          ),
         ],
       ),
     )));
