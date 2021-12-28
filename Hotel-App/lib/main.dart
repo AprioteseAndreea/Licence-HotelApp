@@ -7,6 +7,7 @@ import 'package:first_app_flutter/screens/services/feedback_service.dart';
 import 'package:first_app_flutter/screens/services/found_room_service.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/screens/services/rooms_service.dart';
+import 'package:first_app_flutter/screens/services/statistics_service.dart';
 import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
 import 'package:first_app_flutter/screens/wrapper.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
@@ -60,6 +61,8 @@ class MyApp extends StatelessWidget {
                 ChangeNotifierProvider(create: (_) => RoomsService()),
                 ChangeNotifierProvider(create: (_) => FacilityService()),
                 ChangeNotifierProvider(create: (_) => ReservationService()),
+                ChangeNotifierProvider(create: (_) => StatisticsService()),
+
                 ChangeNotifierProvider<SingleNotifier>(
                   create: (_) => SingleNotifier(),
                 ),

@@ -1,5 +1,7 @@
 import 'package:first_app_flutter/models/user_model.dart' as UserModel;
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
+import 'package:first_app_flutter/screens/admin_screens/staff_screen.dart';
+import 'package:first_app_flutter/screens/admin_screens/statistics.dart';
 import 'package:first_app_flutter/screens/admin_screens/users_screen.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
@@ -197,7 +199,7 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Rooms(),
+                              builder: (context) => const StaffScreen(),
                             ),
                           )
                         },
@@ -248,7 +250,7 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Rooms(),
+                              builder: (context) => const Statistics(),
                             ),
                           )
                         },

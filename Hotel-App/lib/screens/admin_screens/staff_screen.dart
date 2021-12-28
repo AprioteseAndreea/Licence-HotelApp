@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class UsersScreen extends StatefulWidget {
-  const UsersScreen({Key? key}) : super(key: key);
+class StaffScreen extends StatefulWidget {
+  const StaffScreen({Key? key}) : super(key: key);
   @override
-  _UsersScreen createState() => _UsersScreen();
+  _StaffScreen createState() => _StaffScreen();
 }
 
-class _UsersScreen extends State<UsersScreen> {
+class _StaffScreen extends State<StaffScreen> {
   final ScrollController _controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +28,7 @@ class _UsersScreen extends State<UsersScreen> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
-          'Users',
+          'Staff',
           style: TextStyle(color: Color(0xFF124559)),
         ),
       ),
@@ -46,52 +47,34 @@ class _UsersScreen extends State<UsersScreen> {
                       controller: _controller,
                       children: asyncSnapshot.data!.docs
                           .firstWhere(
-                              (element) => element.id == 'myUsers')['users']
+                              (element) => element.id == 'staff')['staff']
                           .map<Widget>((user) => Card(
                                 margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
                                 elevation: 6,
                                 shadowColor: const Color(0xFF124559),
                                 child: ListTile(
-                                  title: Text(
-                                    user['name'],
-                                    style: const TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  subtitle:
-                                      Text('Since: ${user['old'].toString()}'),
-                                  leading: user['gender'] == 'Male'
+                                  title: Text(user['name']),
+                                  subtitle: Text(user['position']),
+                                  leading: user['gender'] == 'female'
                                       ? const Padding(
                                           padding: EdgeInsets.only(
                                               top: 7, bottom: 4),
                                           child: CircleAvatar(
                                               radius: 25,
-                                              backgroundColor:
-                                                  Color(0xFFF0972D),
-                                              child: CircleAvatar(
-                                                  radius: 20,
-                                                  backgroundImage: AssetImage(
-                                                      'assets/images/male2.png'))),
-                                        )
+                                              backgroundImage: AssetImage(
+                                                  'assets/images/femalestaff.jpg')))
                                       : const Padding(
                                           padding: EdgeInsets.only(
                                               top: 7, bottom: 4),
                                           child: CircleAvatar(
                                               radius: 25,
-                                              backgroundColor:
-                                                  Color(0xFFF0972D),
-                                              child: CircleAvatar(
-                                                  radius: 20,
-                                                  backgroundImage: AssetImage(
-                                                      'assets/images/female.png'))),
-                                        ),
+                                              backgroundImage: AssetImage(
+                                                  'assets/images/malestaff.jpg'))),
                                   trailing: IconButton(
                                     icon: const Icon(Icons.phone),
                                     color: const Color(0xFFF0972D),
                                     onPressed: () {
-                                      launch('tel: +${user['phoneNumber']}');
+                                      launch('tel: +${user['phone']}');
                                     },
                                   ),
                                 ),

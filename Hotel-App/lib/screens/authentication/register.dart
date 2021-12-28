@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'authentication_services/auth_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:intl/intl.dart';
 import 'custom_radio.dart';
 
 class Register extends StatefulWidget {
@@ -32,6 +32,7 @@ class _RegisterState extends State<Register> {
   var email = "";
   var name = "";
   var phoneNumber = "";
+  String date = "";
 
   @override
   void initState() {
@@ -41,6 +42,9 @@ class _RegisterState extends State<Register> {
     _phoneNumberController = TextEditingController();
     genders.add(Gender("Male", Icons.male, false));
     genders.add(Gender("Female", Icons.female, false));
+    DateTime dateToday = DateTime.now();
+    date = DateFormat('MMMM dd, yyyy').format(dateToday);
+
     super.initState();
   }
 
@@ -226,7 +230,8 @@ class _RegisterState extends State<Register> {
                               name: name,
                               phoneNumber: phoneNumber,
                               role: 'user',
-                              gender: gender);
+                              gender: gender,
+                              old: date);
                           userService.addUserInFirebase(user);
 
                           Navigator.pushAndRemoveUntil(

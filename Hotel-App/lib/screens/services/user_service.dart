@@ -33,6 +33,7 @@ class UserService with ChangeNotifier {
         _users.add(user);
       }
     }
+
     getNameFromSharedPrefs();
   }
 
