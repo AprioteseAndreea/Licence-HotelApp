@@ -10,6 +10,7 @@ class MonthlyRModel {
       numberOfR: json['numberOfR'],
     );
   }
+
   Map<String, dynamic> toJson() => facilityToJson(this);
   Map<String, dynamic> facilityToJson(MonthlyRModel f) => <String, dynamic>{
         "month": f.month,
