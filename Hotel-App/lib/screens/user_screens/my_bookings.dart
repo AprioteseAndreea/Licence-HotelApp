@@ -6,13 +6,13 @@ import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'avatar.dart';
 
-class Bookings extends StatefulWidget {
-  const Bookings({Key? key}) : super(key: key);
+class MyBookings extends StatefulWidget {
+  const MyBookings({Key? key}) : super(key: key);
   @override
-  _Bookings createState() => _Bookings();
+  _MyBookings createState() => _MyBookings();
 }
 
-class _Bookings extends State<Bookings> {
+class _MyBookings extends State<MyBookings> {
   @override
   void initState() {
     super.initState();

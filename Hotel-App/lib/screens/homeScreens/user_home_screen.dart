@@ -3,7 +3,7 @@ import 'package:first_app_flutter/screens/authentication/authentication_services
 import 'package:first_app_flutter/screens/homeScreens/side_bar/drawer_painter.dart';
 import 'package:first_app_flutter/screens/homeScreens/side_bar/side_bar_button.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
-import 'package:first_app_flutter/screens/user_screens/bookings.dart';
+import 'package:first_app_flutter/screens/user_screens/my_bookings.dart';
 import 'package:first_app_flutter/screens/user_screens/feedback.dart'
     as FeedbackScreen;
 import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
@@ -492,7 +492,8 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const Bookings(),
+                                        builder: (context) =>
+                                            const MyBookings(),
                                       ),
                                     )
                                   },

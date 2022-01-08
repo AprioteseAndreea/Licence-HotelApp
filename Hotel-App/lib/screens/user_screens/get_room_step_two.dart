@@ -542,6 +542,8 @@ class _GetRoomS2 extends State<GetRoomS2> {
                       }
                       final _prefs = await SharedPreferences.getInstance();
                       final _value = _prefs.getString('email');
+                      final _name = _prefs.getString('name');
+
                       if (_value != null) {
                         ReservationModel r = ReservationModel(
                             checkIn: super.widget.checkInDate.toString(),
@@ -551,8 +553,8 @@ class _GetRoomS2 extends State<GetRoomS2> {
                             user: _value,
                             approved: false,
                             facilities: facilities,
-                            guests:
-                                super.widget.adults + super.widget.children);
+                            guests: super.widget.adults + super.widget.children,
+                            name: _name);
 
                         reservationProvider.addReservationsInFirebase(r);
                         roomsProvider.updateRoomStatusInFirebase(
