@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-
 import 'get_room_step_two.dart';
 import 'notifiers.dart';
 

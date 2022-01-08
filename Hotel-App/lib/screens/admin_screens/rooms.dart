@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/room_model.dart';
+import 'package:first_app_flutter/screens/services/reservation_service.dart';
+import 'package:first_app_flutter/screens/services/rooms_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:provider/provider.dart';
 import 'about_room.dart';
 import 'add_room.dart';
 
@@ -20,6 +23,9 @@ class _Rooms extends State<Rooms> {
 
   @override
   Widget build(BuildContext context) {
+    final roomsProvider = Provider.of<RoomsService>(context);
+    final reservationProvider = Provider.of<ReservationService>(context);
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
@@ -58,6 +64,8 @@ class _Rooms extends State<Rooms> {
                 if (asyncSnapshot.hasData) {
                   return ListView(
                       shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: const ClampingScrollPhysics(),
                       children: asyncSnapshot.data!.docs
                           .firstWhere(
                               (element) => element.id == 'rooms')['rooms']
@@ -152,6 +160,8 @@ class _Rooms extends State<Rooms> {
                                             ],
                                           ),
                                           Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               if (room['pending'].toString() ==
                                                   'true')
@@ -212,6 +222,36 @@ class _Rooms extends State<Rooms> {
                                                         ),
                                                       ),
                                                     )),
+                                              if (room['pending'].toString() ==
+                                                  "true")
+                                                Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(2),
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        roomsProvider
+                                                            .updateRoomStatusInFirebase(
+                                                                room['number'],
+                                                                "occupied");
+                                                      },
+                                                      child: const Card(
+                                                        color: Colors.green,
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(3),
+                                                          child: Text(
+                                                            'ACCEPT',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ))
                                             ],
                                           ),
                                           if (room['id_user'].toString() !=

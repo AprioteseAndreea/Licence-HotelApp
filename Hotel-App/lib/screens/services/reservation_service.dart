@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/reservation_model.dart';
+import 'package:first_app_flutter/screens/services/rooms_service.dart';
 import 'package:flutter/cupertino.dart';
 
 class ReservationService with ChangeNotifier {
@@ -12,6 +13,7 @@ class ReservationService with ChangeNotifier {
 
   ReservationService() {
     getReservationsCollectionFromFirebase();
+    actualizeInformation();
   }
   Future<void> getReservationsCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
@@ -24,6 +26,20 @@ class ReservationService with ChangeNotifier {
       for (var r in reservationsData) {
         ReservationModel f = ReservationModel.fromJson(r);
         _reservations.add(f);
+      }
+    }
+  }
+
+  Future<void> actualizeInformation() async {
+    RoomsService roomsService = RoomsService();
+    await getReservationsCollectionFromFirebase();
+    for (var r in _reservations) {
+      DateTime checkOutReserv = DateTime.parse(r.checkOut);
+      DateTime now = DateTime.now();
+      if (checkOutReserv.isBefore(now)) {
+        roomsService.updateRoomStatusInFirebase(r.room, "free");
+      } else {
+        roomsService.updateRoomStatusInFirebase(r.room, "occupied");
       }
     }
   }

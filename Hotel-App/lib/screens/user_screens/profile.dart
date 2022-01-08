@@ -3,8 +3,6 @@ import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
-import 'avatar.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);

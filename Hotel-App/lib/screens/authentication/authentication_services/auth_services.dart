@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:first_app_flutter/screens/services/feedback_service.dart';
+import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/screens/services/statistics_service.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ class AuthServices with ChangeNotifier {
       UserService userService = UserService();
       FeedbackService feedbackService = FeedbackService();
       StatisticsService statisticsService = StatisticsService();
+      ReservationService reservationService = ReservationService();
 
       UserCredential authResult = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);

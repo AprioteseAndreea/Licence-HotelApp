@@ -19,7 +19,7 @@ class RoomsService with ChangeNotifier {
     CollectionReference users = _instance!.collection('users');
 
     DocumentSnapshot snapshot = await users.doc('rooms').get();
-    DocumentSnapshot reservations = await users.doc('reservations').get();
+    //DocumentSnapshot reservations = await users.doc('reservations').get();
 
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
@@ -53,6 +53,35 @@ class RoomsService with ChangeNotifier {
         _rooms[i].maxGuests = r.maxGuests;
         _rooms[i].cost = r.cost;
         _rooms[i].facilities = r.facilities;
+      }
+    }
+    final roomsMap = <Map<String, dynamic>>[];
+    for (var f in _rooms) {
+      roomsMap.add(f.toJson());
+    }
+    rooms.set({
+      'rooms': roomsMap,
+    });
+  }
+
+  Future<void> updateRoomStatusInFirebase(
+      String roomNumber, String status) async {
+    DocumentReference<Map<String, dynamic>> rooms =
+        FirebaseFirestore.instance.collection('users').doc('rooms');
+
+    for (int i = 0; i < _rooms.length; i++) {
+      if (_rooms[i].number == roomNumber) {
+        if (status == "pending") {
+          _rooms[i].pending = true;
+        }
+        if (status == "free") {
+          _rooms[i].free = true;
+          _rooms[i].pending = false;
+        }
+        if (status == "occupied") {
+          _rooms[i].free = false;
+          _rooms[i].pending = false;
+        }
       }
     }
     final roomsMap = <Map<String, dynamic>>[];

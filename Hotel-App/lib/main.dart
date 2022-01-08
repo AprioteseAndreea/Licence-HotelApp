@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_app_flutter/screens/authentication/authentication.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
-import 'package:first_app_flutter/screens/authentication/login.dart';
 import 'package:first_app_flutter/screens/services/facilities_service.dart';
 import 'package:first_app_flutter/screens/services/feedback_service.dart';
 import 'package:first_app_flutter/screens/services/found_room_service.dart';
@@ -35,6 +33,8 @@ Map<int, Color> color = {
 };
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     MaterialColor colorCustom = MaterialColor(0xFF124559, color);
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       future: _init,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return ErrorWidget();
+          return const ErrorWidget();
         } else if (snapshot.hasData) {
           return MultiProvider(
               providers: [
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
                 home: const Wrapper(),
               ));
         } else {
-          return Loading();
+          return const Loading();
         }
       },
     );
@@ -84,6 +84,8 @@ class MyApp extends StatelessWidget {
 }
 
 class ErrorWidget extends StatelessWidget {
+  const ErrorWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,6 +97,8 @@ class ErrorWidget extends StatelessWidget {
 }
 
 class Loading extends StatelessWidget {
+  const Loading({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

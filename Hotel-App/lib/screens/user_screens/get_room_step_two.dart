@@ -2,8 +2,8 @@ import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
+import 'package:first_app_flutter/screens/services/rooms_service.dart';
 import 'package:first_app_flutter/screens/user_screens/confirm_reservation.dart';
-import 'package:first_app_flutter/screens/user_screens/not_found_room.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -63,6 +63,7 @@ class _GetRoomS2 extends State<GetRoomS2> {
   @override
   Widget build(BuildContext context) {
     final reservationProvider = Provider.of<ReservationService>(context);
+    final roomsProvider = Provider.of<RoomsService>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -554,6 +555,8 @@ class _GetRoomS2 extends State<GetRoomS2> {
                                 super.widget.adults + super.widget.children);
 
                         reservationProvider.addReservationsInFirebase(r);
+                        roomsProvider.updateRoomStatusInFirebase(
+                            super.widget.room.number, "pending");
                       }
 
                       Navigator.push(
