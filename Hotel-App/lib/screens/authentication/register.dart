@@ -122,7 +122,7 @@ class _RegisterState extends State<Register> {
                         controller: _passwordController,
                         obscureText: _obscuredText,
                         decoration: InputDecoration(
-                            suffixIcon: FlatButton(
+                            suffixIcon: TextButton(
                                 onPressed: _toggle,
                                 child: Icon(Icons.remove_red_eye,
                                     color: _obscuredText

@@ -163,12 +163,14 @@ class _AddRoom extends State<AddRoom> {
                         facilities: facilities);
 
                     roomsService.addRoomInFirebase(room);
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Rooms(),
-                        ),
-                        ModalRoute.withName('/'));
+                    if (roomsService.errorMessage == "") {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Rooms(),
+                          ),
+                          ModalRoute.withName('/'));
+                    }
                   },
                   height: 40,
                   color: const Color(0xFFF0972D),
@@ -184,6 +186,20 @@ class _AddRoom extends State<AddRoom> {
                     ),
                   ),
                 ),
+                if (roomsService.errorMessage != "")
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    color: Colors.amberAccent,
+                    child: ListTile(
+                      title: Text(roomsService.errorMessage),
+                      leading: const Icon(Icons.error),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () => roomsService.setMessage(""),
+                      ),
+                    ),
+                  )
               ],
             ),
           ),

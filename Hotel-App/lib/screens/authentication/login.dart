@@ -65,6 +65,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
+
     users = userService.getUsers();
     return Scaffold(
       body: SafeArea(
@@ -121,7 +122,7 @@ class _LoginState extends State<Login> {
                         controller: _passwordController,
                         obscureText: _obscuredText,
                         decoration: InputDecoration(
-                            suffixIcon: FlatButton(
+                            suffixIcon: TextButton(
                                 onPressed: _toggle,
                                 child: Icon(Icons.remove_red_eye,
                                     color: _obscuredText

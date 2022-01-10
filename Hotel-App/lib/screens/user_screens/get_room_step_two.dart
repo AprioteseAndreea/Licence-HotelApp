@@ -546,15 +546,22 @@ class _GetRoomS2 extends State<GetRoomS2> {
 
                       if (_value != null) {
                         ReservationModel r = ReservationModel(
-                            checkIn: super.widget.checkInDate.toString(),
-                            checkOut: super.widget.checkOutDate.toString(),
-                            price: total,
-                            room: super.widget.room.number,
-                            user: _value,
-                            approved: false,
-                            facilities: facilities,
-                            guests: super.widget.adults + super.widget.children,
-                            name: _name);
+                          checkIn: super.widget.checkInDate.toString(),
+                          checkOut: super.widget.checkOutDate.toString(),
+                          date: DateTime.now().toString(),
+                          price: total,
+                          room: super.widget.room.number,
+                          user: _value,
+                          approved: false,
+                          facilities: facilities,
+                          guests: super.widget.adults + super.widget.children,
+                          name: _name,
+                          id: DateTime.now().hour.toString() +
+                              DateTime.now().minute.toString() +
+                              DateTime.now().day.toString() +
+                              DateTime.now().month.toString() +
+                              DateTime.now().year.toString(),
+                        );
 
                         reservationProvider.addReservationsInFirebase(r);
                         roomsProvider.updateRoomStatusInFirebase(

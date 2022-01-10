@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomRadio extends StatelessWidget {
-  Gender _gender;
+  final Gender _gender;
 
-  CustomRadio(this._gender);
+  const CustomRadio(this._gender);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: _gender.isSelected ? Color(0xFF124559) : Colors.white,
+        color: _gender.isSelected ? const Color(0xFF124559) : Colors.white,
         child: Container(
           height: 50,
           width: 50,

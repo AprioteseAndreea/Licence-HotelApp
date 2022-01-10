@@ -42,8 +42,6 @@ class _FirstScreenState extends State<FirstScreen> {
             charts.MaterialPalette.blue.shadeDefault));
   }
 
-  late List<MonthlyRModel> _monthlyIncome;
-
   late List<charts.Series<MonthlyRModel, num>> seriesTwo = [];
 
   _generateDataTwo(monthlyIncome) {

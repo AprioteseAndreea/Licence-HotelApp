@@ -18,7 +18,7 @@ class ReservationService with ChangeNotifier {
   Future<void> getReservationsCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');
-
+    _reservations.clear();
     DocumentSnapshot snapshot = await categories.doc('reservations').get();
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
@@ -28,10 +28,12 @@ class ReservationService with ChangeNotifier {
         _reservations.add(f);
       }
     }
+    sortReservationByDate();
   }
 
   Future<void> actualizeInformation() async {
     RoomsService roomsService = RoomsService();
+    _reservations.clear();
     await getReservationsCollectionFromFirebase();
     for (var r in _reservations) {
       DateTime checkOutReserv = DateTime.parse(r.checkOut);
@@ -44,13 +46,36 @@ class ReservationService with ChangeNotifier {
     }
   }
 
+  Future<void> sortReservationByDate() async {
+    _reservations.sort((a, b) => a.date.compareTo(b.date));
+  }
+
   Future<void> addReservationsInFirebase(ReservationModel f) async {
     DocumentReference<Map<String, dynamic>> reservations =
         FirebaseFirestore.instance.collection('users').doc('reservations');
     _reservations.add(f);
+    sortReservationByDate();
     final reservationsMap = <Map<String, dynamic>>[];
     for (var f in _reservations) {
       reservationsMap.add(f.toJson());
+    }
+    reservations.set({
+      'reservations': reservationsMap,
+    });
+  }
+
+  Future<void> updateReservationInFirebase(String id) async {
+    DocumentReference<Map<String, dynamic>> reservations =
+        FirebaseFirestore.instance.collection('users').doc('reservations');
+
+    for (int i = 0; i < _reservations.length; i++) {
+      if (_reservations[i].id == id) {
+        _reservations[i].approved = true;
+      }
+    }
+    final reservationsMap = <Map<String, dynamic>>[];
+    for (int i = 0; i < _reservations.length / 2; i++) {
+      reservationsMap.add(_reservations[i].toJson());
     }
     reservations.set({
       'reservations': reservationsMap,

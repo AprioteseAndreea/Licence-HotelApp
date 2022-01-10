@@ -40,7 +40,7 @@ class _Statistics extends State<Statistics> {
               ],
             ),
           ),
-          body: TabBarView(
+          body: const TabBarView(
             children: [FirstScreen(), SecondScreen()],
           )),
     );

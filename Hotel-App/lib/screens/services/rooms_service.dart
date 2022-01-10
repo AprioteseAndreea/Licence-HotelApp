@@ -4,6 +4,12 @@ import 'package:flutter/cupertino.dart';
 
 class RoomsService with ChangeNotifier {
   FirebaseFirestore? _instance;
+  String _errorMessage = "";
+  String get errorMessage => _errorMessage;
+  void setMessage(message) {
+    _errorMessage = message;
+    notifyListeners();
+  }
 
   final List<RoomModel> _rooms = [];
 
@@ -31,17 +37,31 @@ class RoomsService with ChangeNotifier {
     }
   }
 
-  Future<void> addRoomInFirebase(RoomModel f) async {
-    DocumentReference<Map<String, dynamic>> rooms =
-        FirebaseFirestore.instance.collection('users').doc('rooms');
-    _rooms.add(f);
-    final roomsMap = <Map<String, dynamic>>[];
+  bool verifyRoomNumber(String number) {
+    bool ok = true;
     for (var f in _rooms) {
-      roomsMap.add(f.toJson());
+      if (f.number == number) {
+        ok = false;
+        setMessage('Room number already exist!');
+        break;
+      }
     }
-    rooms.set({
-      'rooms': roomsMap,
-    });
+    return ok;
+  }
+
+  Future<void> addRoomInFirebase(RoomModel f) async {
+    if (verifyRoomNumber(f.number)) {
+      DocumentReference<Map<String, dynamic>> rooms =
+          FirebaseFirestore.instance.collection('users').doc('rooms');
+      _rooms.add(f);
+      final roomsMap = <Map<String, dynamic>>[];
+      for (var f in _rooms) {
+        roomsMap.add(f.toJson());
+      }
+      rooms.set({
+        'rooms': roomsMap,
+      });
+    }
   }
 
   Future<void> updateRoomInFirebase(RoomModel r) async {

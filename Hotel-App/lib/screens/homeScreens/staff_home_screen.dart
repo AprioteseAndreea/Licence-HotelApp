@@ -1,7 +1,5 @@
 import 'package:first_app_flutter/models/user_model.dart' as UserModel;
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
-import 'package:first_app_flutter/screens/homeScreens/side_bar/drawer_painter.dart';
-import 'package:first_app_flutter/screens/homeScreens/side_bar/side_bar_button.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

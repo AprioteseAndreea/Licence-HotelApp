@@ -504,6 +504,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.2"
+  timeline_node:
+    dependency: "direct main"
+    description:
+      name: timeline_node
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   transformer_page_view:
     dependency: transitive
     description:

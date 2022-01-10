@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/screens/admin_screens/about_reservation.dart';
+import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class Bookings extends StatefulWidget {
   const Bookings({Key? key}) : super(key: key);
@@ -16,9 +19,17 @@ class _Bookings extends State<Bookings> {
     super.initState();
   }
 
+  String formatDate(String date) {
+    final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
+    final DateFormat serverFormater = DateFormat('MMM d, yyyy');
+    final DateTime displayDate = displayFormater.parse(date);
+    final String formatted = serverFormater.format(displayDate);
+    return formatted;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Size mediaQuery = MediaQuery.of(context).size;
+    final reservationProvider = Provider.of<ReservationService>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -50,14 +61,29 @@ class _Bookings extends State<Bookings> {
                                   element.id == 'reservations')['reservations']
                               .map<Widget>(
                                 (reservation) => GestureDetector(
-                                  onTap: () => {
+                                  onTap: () {
+                                    ReservationModel resCurrent =
+                                        ReservationModel(
+                                            checkIn: reservation['checkIn'],
+                                            checkOut: reservation['checkOut'],
+                                            date: reservation['date'],
+                                            price: reservation['price'],
+                                            room: reservation['room'],
+                                            user: reservation['user'],
+                                            approved: reservation['approved'],
+                                            facilities:
+                                                reservation['facilities']
+                                                    .cast<String>(),
+                                            guests: reservation['guests'],
+                                            name: reservation['name'],
+                                            id: reservation['id']);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => AboutReservation(
-                                            reservationModel: reservation),
+                                            reservationModel: resCurrent),
                                       ),
-                                    )
+                                    );
                                   },
                                   child: Card(
                                     semanticContainer: true,
@@ -85,7 +111,7 @@ class _Bookings extends State<Bookings> {
                                                 children: [
                                                   Image.asset(
                                                     'assets/images/tourist_avatar.png',
-                                                    height: 40,
+                                                    height: 35,
                                                   ),
                                                   Text(
                                                     ' ${reservation['name']}',
@@ -94,7 +120,7 @@ class _Bookings extends State<Bookings> {
                                                             Color(0xFF124559),
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 20),
+                                                        fontSize: 18),
                                                   ),
                                                 ],
                                               ),
@@ -136,9 +162,10 @@ class _Bookings extends State<Bookings> {
                                                     MainAxisAlignment
                                                         .spaceEvenly,
                                                 children: [
-                                                  const Text(
-                                                    '21 Nov \'21',
-                                                    style: TextStyle(
+                                                  Text(
+                                                    formatDate(
+                                                        reservation['checkIn']),
+                                                    style: const TextStyle(
                                                       color: Color(0xFFFFFFFF),
                                                       fontSize: 18,
                                                     ),
@@ -148,9 +175,10 @@ class _Bookings extends State<Bookings> {
                                                     height: 25,
                                                     width: 25,
                                                   ),
-                                                  const Text(
-                                                    '29 Nov \'21',
-                                                    style: TextStyle(
+                                                  Text(
+                                                    formatDate(reservation[
+                                                        'checkOut']),
+                                                    style: const TextStyle(
                                                       color: Color(0xFFFFFFFF),
                                                       fontSize: 18,
                                                     ),
@@ -159,49 +187,71 @@ class _Bookings extends State<Bookings> {
                                               ),
                                             )),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          if (reservation['approved']
-                                                  .toString() ==
-                                              'true')
-                                            const Padding(
-                                                padding: EdgeInsets.all(2),
-                                                child: Card(
-                                                  color: Colors.green,
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(3),
-                                                    child: Text(
-                                                      'APPROVED',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white,
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 25, right: 15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Date: ${formatDate(reservation['date'])}',
+                                              style: const TextStyle(
+                                                  color: Color(0xFFE16A10),
+                                                  fontSize: 14,
+                                                  fontStyle: FontStyle.italic),
+                                            ),
+                                            if (reservation['approved']
+                                                    .toString() ==
+                                                'true')
+                                              const Padding(
+                                                  padding: EdgeInsets.all(2),
+                                                  child: Card(
+                                                    color: Colors.green,
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(3),
+                                                      child: Text(
+                                                        'APPROVED',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                )),
-                                          if (reservation['approved']
-                                                  .toString() ==
-                                              'false')
-                                            const Padding(
-                                                padding: EdgeInsets.all(2),
-                                                child: Card(
-                                                  color: Colors.orange,
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(3),
-                                                    child: Text(
-                                                      'APPROVE',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white,
+                                                  )),
+                                            if (reservation['approved']
+                                                    .toString() ==
+                                                'false')
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(2),
+                                                child: GestureDetector(
+                                                    onTap: () => {
+                                                          reservationProvider
+                                                              .updateReservationInFirebase(
+                                                                  reservation[
+                                                                      'id']),
+                                                        },
+                                                    child: const Card(
+                                                      color: Colors.orange,
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(3),
+                                                        child: Text(
+                                                          'APPROVE',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                )),
-                                        ],
+                                                    )),
+                                              ),
+                                          ],
+                                        ),
                                       )
                                     ]),
                                   ),
