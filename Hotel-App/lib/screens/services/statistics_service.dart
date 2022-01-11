@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/monthly_reservation_model.dart';
 import 'package:first_app_flutter/models/reservation_model.dart';
+import 'package:first_app_flutter/models/rooms_statistics.dart';
 import 'package:first_app_flutter/models/staff_model.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 
 class StatisticsService with ChangeNotifier {
   FirebaseFirestore? _instance;
   final List<MonthlyRModel> _monthlyReservations = [];
   final List<MonthlyRModel> _monthlyIncome = [];
+  final List<RoomStatisticsModel> _roomStatistics = [];
 
   List<MonthlyRModel> getMonthlyReservations() {
     return _monthlyReservations;
@@ -21,6 +22,7 @@ class StatisticsService with ChangeNotifier {
   StatisticsService() {
     getMonthlyReservationsCollectionFromFirebase();
     getMonthlyIncomeCollectionFromFirebase();
+    getRoomStatisticsCollectionFromFirebase();
     // calculateMonthlyReservations();
     //calculateMonthlyIncome();
   }
@@ -37,6 +39,21 @@ class StatisticsService with ChangeNotifier {
       for (var catData in monthlyRData) {
         MonthlyRModel m = MonthlyRModel.fromJson(catData);
         _monthlyReservations.add(m);
+      }
+    }
+  }
+
+  Future<void> getRoomStatisticsCollectionFromFirebase() async {
+    _instance = FirebaseFirestore.instance;
+    CollectionReference categories = _instance!.collection('users');
+
+    DocumentSnapshot snapshot = await categories.doc('roomStatistics').get();
+    if (snapshot.exists) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      var roomStatisticsData = data['roomStatistics'] as List<dynamic>;
+      for (var catData in roomStatisticsData) {
+        RoomStatisticsModel m = RoomStatisticsModel.fromJson(catData);
+        _roomStatistics.add(m);
       }
     }
   }

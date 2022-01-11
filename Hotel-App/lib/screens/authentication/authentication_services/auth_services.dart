@@ -39,11 +39,11 @@ class AuthServices with ChangeNotifier {
   Future login(String email, String password) async {
     setLoading(true);
     try {
-      UserService userService = UserService();
-      RoomsService roomsService = RoomsService();
-      FeedbackService feedbackService = FeedbackService();
-      StatisticsService statisticsService = StatisticsService();
-      ReservationService reservationService = ReservationService();
+      // UserService userService = UserService();
+      // RoomsService roomsService = RoomsService();
+      // FeedbackService feedbackService = FeedbackService();
+      // StatisticsService statisticsService = StatisticsService();
+      //  ReservationService reservationService = ReservationService();
 
       UserCredential authResult = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);

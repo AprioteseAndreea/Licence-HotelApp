@@ -82,8 +82,8 @@ class _AboutRoom extends State<AboutRoom> {
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: Text('ROOM ${super.widget.roomModel.number}',
-              style: const TextStyle(color: Color(0xFF124559))),
+          title: const Text('Room details',
+              style: TextStyle(color: Color(0xFF124559))),
           actions: [
             IconButton(
               icon: const Icon(
@@ -103,50 +103,181 @@ class _AboutRoom extends State<AboutRoom> {
                     elevation: 6,
                     shadowColor: const Color(0xFF124559),
                     child: Container(
-                      height: 125,
+                      height: 145,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
                               "assets/images/hotel_details_rooms.jpg"),
                           fit: BoxFit.fitWidth,
-                          alignment: Alignment.topCenter,
+                          alignment: Alignment.center,
                         ),
                       ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          if (super.widget.roomModel.free.toString() == 'true')
+                            const Padding(
+                                padding: EdgeInsets.all(2),
+                                child: Card(
+                                  color: Colors.green,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Text(
+                                      'FREE',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                )),
+                          if (super.widget.roomModel.free.toString() == 'false')
+                            const Padding(
+                                padding: EdgeInsets.all(2),
+                                child: Card(
+                                  color: Colors.red,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Text(
+                                      'OCCUPIED',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                )),
+                        ],
+                      ),
                     )),
+                const SizedBox(
+                  height: 10,
+                ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                  child: TextField(
-                    controller: _numberController,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.confirmation_number,
-                          color: Color(0xFF124559)),
-                      border: OutlineInputBorder(),
-                      hintText: 'Rooms\' number',
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    'Below you can see information about the room ${super.widget.roomModel.number}',
+                    style: const TextStyle(
+                      fontSize: 17,
+                      color: Color(0xFF124559),
+                    ),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: const [
+                            Icon(Icons.confirmation_number,
+                                color: Color(0xFF124559)),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'ROOM',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xFFE16A10),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              super.widget.roomModel.number,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color(0xFF124559),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                  child: TextField(
-                    controller: _maxGuestsController,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.people, color: Color(0xFF124559)),
-                      border: OutlineInputBorder(),
-                      hintText: 'Max guests',
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: const [
+                            Icon(Icons.people, color: Color(0xFF124559)),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'MAX GUESTS',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xFFE16A10),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              super.widget.roomModel.maxGuests,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color(0xFF124559),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                  child: TextField(
-                    controller: _priceController,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.euro, color: Color(0xFF124559)),
-                      border: OutlineInputBorder(),
-                      hintText: 'Price',
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: const [
+                            Icon(Icons.euro, color: Color(0xFF124559)),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'PRICE',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xFFE16A10),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              super.widget.roomModel.cost,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color(0xFF124559),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -167,18 +298,16 @@ class _AboutRoom extends State<AboutRoom> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 13, top: 5, bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
+                  child: RichText(
+                    text: TextSpan(children: <InlineSpan>[
                       for (var f in super.widget.roomModel.facilities)
-                        Text(
-                          ' • $f',
-                          style: const TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontSize: 14,
-                              color: Color(0xFF124559)),
-                        )
-                    ],
+                        TextSpan(
+                            text: ' • $f',
+                            style: const TextStyle(
+                                color: Color(0xFF124559),
+                                fontSize: 14,
+                                fontStyle: FontStyle.italic)),
+                    ]),
                   ),
                 ),
                 Padding(
@@ -223,7 +352,7 @@ class _AboutRoom extends State<AboutRoom> {
                   },
                   height: 40,
                   color: const Color(0xFFF0972D),
-                  textColor: const Color(0xFF124559),
+                  textColor: const Color(0xFFFFFFFF),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),

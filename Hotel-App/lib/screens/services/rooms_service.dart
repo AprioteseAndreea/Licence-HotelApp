@@ -84,23 +84,20 @@ class RoomsService with ChangeNotifier {
     });
   }
 
-  Future<void> updateRoomStatusInFirebase(
-      String roomNumber, String status) async {
+  Future<void> updateRoomStatusInFirebase(String roomNumber, String status,
+      String? userName, String? interval) async {
     DocumentReference<Map<String, dynamic>> rooms =
         FirebaseFirestore.instance.collection('users').doc('rooms');
 
     for (int i = 0; i < _rooms.length; i++) {
       if (_rooms[i].number == roomNumber) {
-        if (status == "pending") {
-          _rooms[i].pending = true;
-        }
         if (status == "free") {
           _rooms[i].free = true;
-          _rooms[i].pending = false;
         }
         if (status == "occupied") {
           _rooms[i].free = false;
-          _rooms[i].pending = false;
+          _rooms[i].idUser = userName!;
+          _rooms[i].interval = interval!;
         }
       }
     }

@@ -564,8 +564,6 @@ class _GetRoomS2 extends State<GetRoomS2> {
                         );
 
                         reservationProvider.addReservationsInFirebase(r);
-                        roomsProvider.updateRoomStatusInFirebase(
-                            super.widget.room.number, "pending");
                       }
 
                       Navigator.push(

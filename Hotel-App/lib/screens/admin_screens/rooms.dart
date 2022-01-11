@@ -80,7 +80,6 @@ class _Rooms extends State<Rooms> {
                                           cost: room['cost'],
                                           maxGuests: room['maxGuests'],
                                           free: room['free'],
-                                          pending: room['pending'],
                                           idUser: room['id_user'],
                                           interval: room['interval'],
                                           facilities: room['facilities']
@@ -98,9 +97,9 @@ class _Rooms extends State<Rooms> {
                                       decoration: const BoxDecoration(
                                         image: DecorationImage(
                                           image: AssetImage(
-                                              "assets/images/hotel_details_rooms.jpg"),
+                                              "assets/images/room_background.jpg"),
                                           fit: BoxFit.fitWidth,
-                                          alignment: Alignment.topCenter,
+                                          alignment: Alignment.bottomCenter,
                                         ),
                                       ),
                                       child: Column(
@@ -111,51 +110,70 @@ class _Rooms extends State<Rooms> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 7, top: 7, bottom: 4),
-                                                child: Text(
-                                                  'ROOM ${room['number']}',
-                                                  style: const TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
+                                              Card(
+                                                color: const Color(0xFF124559),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 7,
+                                                          right: 7,
+                                                          top: 5,
+                                                          bottom: 5),
+                                                  child: Text(
+                                                    'ROOM ${room['number']}',
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 7,
-                                                    top: 7,
-                                                    bottom: 7,
-                                                    right: 7),
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.euro,
-                                                      color: Color(0xFF124559),
-                                                      size: 25.0,
-                                                    ),
-                                                    Text(
-                                                      room['cost'].toString(),
-                                                      style: const TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color:
-                                                            Color(0xFF72B0D4),
+                                              Card(
+                                                color: Colors.white,
+                                                child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(3),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 3,
+                                                              top: 3,
+                                                              bottom: 3,
+                                                              right: 3),
+                                                      child: Row(
+                                                        children: [
+                                                          const Icon(
+                                                            Icons.euro,
+                                                            color: Color(
+                                                                0xFF124559),
+                                                            size: 23.0,
+                                                          ),
+                                                          Text(
+                                                            room['cost']
+                                                                .toString(),
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Color(
+                                                                  0xFF124559),
+                                                            ),
+                                                          ),
+                                                          const Text(
+                                                            '/night',
+                                                            style: TextStyle(
+                                                              fontSize: 15,
+                                                              color: Color(
+                                                                  0xFF124559),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                    const Text(
-                                                      '/night',
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        color:
-                                                            Color(0xFF124559),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                    )),
                                               ),
                                             ],
                                           ),
@@ -163,29 +181,8 @@ class _Rooms extends State<Rooms> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              if (room['pending'].toString() ==
-                                                  'true')
-                                                const Padding(
-                                                    padding: EdgeInsets.all(2),
-                                                    child: Card(
-                                                      color: Colors.orange,
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(3),
-                                                        child: Text(
-                                                          'PENDING',
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )),
                                               if (room['free'].toString() ==
-                                                      'true' &&
-                                                  room['pending'].toString() ==
-                                                      'false')
+                                                  'true')
                                                 const Padding(
                                                     padding: EdgeInsets.all(2),
                                                     child: Card(
@@ -222,36 +219,6 @@ class _Rooms extends State<Rooms> {
                                                         ),
                                                       ),
                                                     )),
-                                              if (room['pending'].toString() ==
-                                                  "true")
-                                                Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(2),
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        roomsProvider
-                                                            .updateRoomStatusInFirebase(
-                                                                room['number'],
-                                                                "occupied");
-                                                      },
-                                                      child: const Card(
-                                                        color: Colors.green,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(3),
-                                                          child: Text(
-                                                            'ACCEPT',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ))
                                             ],
                                           ),
                                           if (room['id_user'].toString() !=

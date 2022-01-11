@@ -39,7 +39,7 @@ class _FirstScreenState extends State<FirstScreen> {
         domainFn: (MonthlyRModel series, _) => months[int.parse(series.month)],
         measureFn: (MonthlyRModel series, _) => series.numberOfR,
         colorFn: (MonthlyRModel m, _) =>
-            charts.MaterialPalette.blue.shadeDefault));
+            charts.Color.fromHex(code: "#285668")));
   }
 
   late List<charts.Series<MonthlyRModel, num>> seriesTwo = [];
@@ -51,7 +51,7 @@ class _FirstScreenState extends State<FirstScreen> {
         domainFn: (MonthlyRModel series, _) => int.parse(series.month) + 1,
         measureFn: (MonthlyRModel series, _) => series.numberOfR,
         colorFn: (MonthlyRModel m, _) =>
-            charts.MaterialPalette.blue.shadeDefault));
+            charts.Color.fromHex(code: "#124559")));
   }
 
   @override

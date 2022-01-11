@@ -28,7 +28,7 @@ class ReservationService with ChangeNotifier {
         _reservations.add(f);
       }
     }
-    sortReservationByDate();
+    // sortReservationByDate();
   }
 
   Future<void> actualizeInformation() async {
@@ -37,24 +37,28 @@ class ReservationService with ChangeNotifier {
     await getReservationsCollectionFromFirebase();
     for (var r in _reservations) {
       DateTime checkOutReserv = DateTime.parse(r.checkOut);
+      DateTime checkInReserv = DateTime.parse(r.checkIn);
+
       DateTime now = DateTime.now();
-      if (checkOutReserv.isBefore(now)) {
-        roomsService.updateRoomStatusInFirebase(r.room, "free");
+      if (checkOutReserv.isAfter(now) && checkInReserv.isBefore(now)) {
+        roomsService.updateRoomStatusInFirebase(
+            r.room, "free", r.name, '$checkInReserv - $checkOutReserv');
       } else {
-        roomsService.updateRoomStatusInFirebase(r.room, "occupied");
+        roomsService.updateRoomStatusInFirebase(r.room, "occupied", r.name,
+            '${checkInReserv.day}/${checkInReserv.month} - ${checkOutReserv.day}/${checkOutReserv.month}');
       }
     }
   }
-
-  Future<void> sortReservationByDate() async {
-    _reservations.sort((a, b) => a.date.compareTo(b.date));
-  }
+  //
+  // Future<void> sortReservationByDate() async {
+  //   _reservations.sort((a, b) => a.date.compareTo(b.date));
+  // }
 
   Future<void> addReservationsInFirebase(ReservationModel f) async {
     DocumentReference<Map<String, dynamic>> reservations =
         FirebaseFirestore.instance.collection('users').doc('reservations');
     _reservations.add(f);
-    sortReservationByDate();
+    // sortReservationByDate();
     final reservationsMap = <Map<String, dynamic>>[];
     for (var f in _reservations) {
       reservationsMap.add(f.toJson());

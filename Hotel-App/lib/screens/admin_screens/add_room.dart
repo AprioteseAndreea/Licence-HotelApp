@@ -57,7 +57,7 @@ class _AddRoom extends State<AddRoom> {
                           image: AssetImage(
                               "assets/images/hotel_details_rooms.jpg"),
                           fit: BoxFit.fitWidth,
-                          alignment: Alignment.topCenter,
+                          alignment: Alignment.center,
                         ),
                       ),
                     )),
@@ -157,7 +157,6 @@ class _AddRoom extends State<AddRoom> {
                         cost: _priceController.text,
                         maxGuests: _maxGuestsController.text,
                         free: true,
-                        pending: false,
                         idUser: "none",
                         interval: "none",
                         facilities: facilities);
