@@ -1,6 +1,8 @@
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/authentication/register.dart';
 import 'package:first_app_flutter/models/user_model.dart';
+import 'package:first_app_flutter/screens/services/reservation_service.dart';
+import 'package:first_app_flutter/screens/services/rooms_service.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +67,8 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
-
+    // final roomsService = Provider.of<RoomsService>(context);
+    // roomsService.getRoomsCollectionFromFirebase();
     users = userService.getUsers();
     return Scaffold(
       body: SafeArea(
@@ -117,8 +120,6 @@ class _LoginState extends State<Login> {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
-                        validator: (val) =>
-                            val!.length < 6 ? "Enter more than 6 char" : null,
                         controller: _passwordController,
                         obscureText: _obscuredText,
                         decoration: InputDecoration(

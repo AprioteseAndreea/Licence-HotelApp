@@ -93,6 +93,8 @@ class RoomsService with ChangeNotifier {
       if (_rooms[i].number == roomNumber) {
         if (status == "free") {
           _rooms[i].free = true;
+          _rooms[i].idUser = "none";
+          _rooms[i].interval = "none";
         }
         if (status == "occupied") {
           _rooms[i].free = false;

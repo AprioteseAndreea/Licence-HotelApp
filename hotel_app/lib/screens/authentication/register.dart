@@ -3,6 +3,7 @@ import 'package:first_app_flutter/models/user_model.dart';
 import 'package:first_app_flutter/screens/authentication/login.dart';
 import 'package:first_app_flutter/screens/homeScreens/home_screen.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -100,9 +101,9 @@ class _RegisterState extends State<Register> {
                       const SizedBox(height: 15),
                       TextFormField(
                         controller: _emailController,
-                        validator: (val) => val!.isNotEmpty
+                        validator: (value) => EmailValidator.validate(value)
                             ? null
-                            : "Please enter a email address",
+                            : "Please enter a valid email",
                         decoration: InputDecoration(
                           hintText: "Email",
                           prefixIcon:
@@ -138,6 +139,8 @@ class _RegisterState extends State<Register> {
                       const SizedBox(height: 15),
                       TextFormField(
                         controller: _fullNameController,
+                        validator: (val) =>
+                            val!.isNotEmpty ? null : "Please enter full name",
                         decoration: InputDecoration(
                             hintText: "Full Name",
                             prefixIcon: const Icon(Icons.person,
@@ -200,10 +203,6 @@ class _RegisterState extends State<Register> {
                       MaterialButton(
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
-                            // ignore: avoid_print
-                            print("Email: ${_emailController.text}");
-                            // ignore: avoid_print
-                            print("Password: ${_passwordController.text}");
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             await prefs.setString(
@@ -213,34 +212,35 @@ class _RegisterState extends State<Register> {
                                 _passwordController.text.trim(),
                                 _fullNameController.text.trim(),
                                 _phoneNumberController.text.trim());
+                            String gender = '';
+                            if (genders[0].isSelected) {
+                              gender = 'Male';
+                            } else if (genders[1].isSelected) {
+                              gender = 'Female';
+                            } else {
+                              gender = 'Other';
+                            }
+                            User user = User(
+                                email: email,
+                                name: name,
+                                phoneNumber: phoneNumber,
+                                role: 'user',
+                                gender: gender,
+                                old: date);
+                            userService.addUserInFirebase(user);
+
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, a, b) => const Login(),
+                                  transitionDuration:
+                                      const Duration(seconds: 0),
+                                ),
+                                (route) => false);
                           }
                           // await loginProvider.login(
                           //     _emailController.text.trim(),
                           //     _passwordController.text.trim());
-                          String gender = '';
-                          if (genders[0].isSelected) {
-                            gender = 'Male';
-                          } else if (genders[1].isSelected) {
-                            gender = 'Female';
-                          } else {
-                            gender = 'Other';
-                          }
-                          User user = User(
-                              email: email,
-                              name: name,
-                              phoneNumber: phoneNumber,
-                              role: 'user',
-                              gender: gender,
-                              old: date);
-                          userService.addUserInFirebase(user);
-
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (context, a, b) => const Login(),
-                                transitionDuration: const Duration(seconds: 0),
-                              ),
-                              (route) => false);
                         },
                         height: 45,
                         minWidth: loginProvider.isLoading ? null : 200,

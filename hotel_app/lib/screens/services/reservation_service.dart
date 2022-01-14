@@ -13,7 +13,6 @@ class ReservationService with ChangeNotifier {
 
   ReservationService() {
     getReservationsCollectionFromFirebase();
-    actualizeInformation();
   }
   Future<void> getReservationsCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
@@ -41,11 +40,14 @@ class ReservationService with ChangeNotifier {
 
       DateTime now = DateTime.now();
       if (checkOutReserv.isAfter(now) && checkInReserv.isBefore(now)) {
-        roomsService.updateRoomStatusInFirebase(
-            r.room, "free", r.name, '$checkInReserv - $checkOutReserv');
-      } else {
-        roomsService.updateRoomStatusInFirebase(r.room, "occupied", r.name,
+        await roomsService.updateRoomStatusInFirebase(
+            r.room,
+            "occupied",
+            r.name,
             '${checkInReserv.day}/${checkInReserv.month} - ${checkOutReserv.day}/${checkOutReserv.month}');
+      } else {
+        await roomsService.updateRoomStatusInFirebase(
+            r.room, "free", r.name, '$checkInReserv - $checkOutReserv');
       }
     }
   }

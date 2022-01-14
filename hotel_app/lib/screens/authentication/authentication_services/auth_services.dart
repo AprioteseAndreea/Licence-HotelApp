@@ -39,11 +39,12 @@ class AuthServices with ChangeNotifier {
   Future login(String email, String password) async {
     setLoading(true);
     try {
-      // UserService userService = UserService();
-      // RoomsService roomsService = RoomsService();
-      // FeedbackService feedbackService = FeedbackService();
-      // StatisticsService statisticsService = StatisticsService();
-      //  ReservationService reservationService = ReservationService();
+      UserService userService = UserService();
+      RoomsService roomsService = RoomsService();
+      FeedbackService feedbackService = FeedbackService();
+      StatisticsService statisticsService = StatisticsService();
+      //ReservationService reservationService = ReservationService();
+      // await reservationService.actualizeInformation();
 
       UserCredential authResult = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -63,6 +64,13 @@ class AuthServices with ChangeNotifier {
 
   Future logout() async {
     await firebaseAuth.signOut();
+    notifyListeners();
+    await actualizeInformation();
+  }
+
+  Future<void> actualizeInformation() async {
+    ReservationService reservationService = ReservationService();
+    await reservationService.actualizeInformation();
   }
 
   void setLoading(val) {
