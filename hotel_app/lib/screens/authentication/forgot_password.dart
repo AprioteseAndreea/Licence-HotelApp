@@ -119,7 +119,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       ),
                                       (route) => false)
                                 },
-                                child: const Text("Login"),
+                                child: const Text(
+                                  "Login",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
                               )
                             ],
                           ),

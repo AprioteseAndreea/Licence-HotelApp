@@ -15,14 +15,15 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  // options: const FirebaseOptions(
-  //     apiKey: "AIzaSyBgaJM8Qfu8iTIm79eW2z-BN8vseP-28wE",
-  //     authDomain: "license-hotelapplication.firebaseapp.com",
-  //     projectId: "license-hotelapplication",
-  //     storageBucket: "license-hotelapplication.appspot.com",
-  //     messagingSenderId: "301348829669",
-  //     appId: "1:301348829669:web:ec91e24ba3399d5287d70c")
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyBgaJM8Qfu8iTIm79eW2z-BN8vseP-28wE",
+          authDomain: "license-hotelapplication.firebaseapp.com",
+          projectId: "license-hotelapplication",
+          storageBucket: "license-hotelapplication.appspot.com",
+          messagingSenderId: "301348829669",
+          appId: "1:301348829669:web:ec91e24ba3399d5287d70c"));
+
   runApp(const MyApp());
 }
 
@@ -45,7 +46,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MaterialColor colorCustom = MaterialColor(0xFF124559, color);
-    final _init = Firebase.initializeApp();
+    final _init = Firebase.initializeApp(
+        options: const FirebaseOptions(
+            apiKey: "AIzaSyBgaJM8Qfu8iTIm79eW2z-BN8vseP-28wE",
+            authDomain: "license-hotelapplication.firebaseapp.com",
+            projectId: "license-hotelapplication",
+            storageBucket: "license-hotelapplication.appspot.com",
+            messagingSenderId: "301348829669",
+            appId: "1:301348829669:web:ec91e24ba3399d5287d70c"));
     return FutureBuilder(
       future: _init,
       builder: (context, snapshot) {

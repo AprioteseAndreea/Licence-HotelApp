@@ -18,7 +18,7 @@ class GetRoomS2 extends StatefulWidget {
   final int adults, children;
   final List<FacilityModel> selectedSpecialFacilities;
   final RoomModel room;
-
+  final String name;
   const GetRoomS2(
       {Key? key,
       required this.checkInDate,
@@ -26,7 +26,8 @@ class GetRoomS2 extends StatefulWidget {
       required this.adults,
       required this.children,
       required this.selectedSpecialFacilities,
-      required this.room})
+      required this.room,
+      required this.name})
       : super(key: key);
   @override
   _GetRoomS2 createState() => _GetRoomS2();
@@ -555,7 +556,9 @@ class _GetRoomS2 extends State<GetRoomS2> {
                           approved: false,
                           facilities: facilities,
                           guests: super.widget.adults + super.widget.children,
-                          name: _name,
+                          name: super.widget.name != ""
+                              ? super.widget.name
+                              : _name,
                           id: DateTime.now().hour.toString() +
                               DateTime.now().minute.toString() +
                               DateTime.now().day.toString() +
@@ -563,7 +566,8 @@ class _GetRoomS2 extends State<GetRoomS2> {
                               DateTime.now().year.toString(),
                         );
 
-                        reservationProvider.addReservationsInFirebase(r);
+                        await reservationProvider.addReservationsInFirebase(r);
+                        await reservationProvider.actualizeInformation();
                       }
 
                       Navigator.push(

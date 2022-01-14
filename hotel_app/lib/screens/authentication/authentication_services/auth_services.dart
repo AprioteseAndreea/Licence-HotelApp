@@ -64,8 +64,8 @@ class AuthServices with ChangeNotifier {
 
   Future logout() async {
     await firebaseAuth.signOut();
+    // await actualizeInformation();
     notifyListeners();
-    await actualizeInformation();
   }
 
   Future<void> actualizeInformation() async {

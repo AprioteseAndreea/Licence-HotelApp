@@ -143,26 +143,34 @@ class _UserHomeScreen extends State<UserHomeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Welcome $name !',
-                  style: const TextStyle(
-                    fontSize: 20,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      'Welcome $name !',
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  width: 25,
-                  height: 25,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage("assets/images/hotel_front.jpg"),
-                        fit: BoxFit.fill),
-                  ),
-                ),
-                const SizedBox(width: 6),
-                IconButton(
-                  icon: const Icon(EvaIcons.power),
-                  onPressed: () async => await loginProvider.logout(),
+                Row(
+                  children: [
+                    Container(
+                      width: 25,
+                      height: 25,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image:
+                                NetworkImage("assets/images/hotel_front.jpg"),
+                            fit: BoxFit.fill),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(EvaIcons.power),
+                      onPressed: () async => await loginProvider.logout(),
+                    ),
+                  ],
                 ),
               ],
             ),

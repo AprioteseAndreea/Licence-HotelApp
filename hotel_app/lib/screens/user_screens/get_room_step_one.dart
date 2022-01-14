@@ -42,6 +42,7 @@ class _GetRoom extends State<GetRoom> {
   @override
   void initState() {
     facilitiesCollection = facilityService.getFacilities();
+    nameController.text = "";
     super.initState();
     initializeDateFormatting();
   }
@@ -503,53 +504,28 @@ class _GetRoom extends State<GetRoom> {
                             children: <Widget>[
                               Row(
                                 children: [
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.beach_access,
-                                      size: 18,
-                                      color: Color(0xFFF0972D),
-                                    ),
-                                    tooltip: 'Tap to open date picker',
-                                    onPressed: () {
-                                      _checkOutDate(context);
-                                    },
+                                  const SizedBox(
+                                    width: 10,
                                   ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.bedroom_baby,
-                                      size: 18,
-                                      color: Color(0xFFF0972D),
-                                    ),
-                                    tooltip: 'Tap to open date picker',
-                                    onPressed: () {
-                                      _checkOutDate(context);
-                                    },
+                                  const Icon(
+                                    Icons.beach_access,
+                                    size: 18,
+                                    color: Color(0xFFF0972D),
                                   ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.dry_cleaning,
-                                      size: 18,
-                                      color: Color(0xFFF0972D),
-                                    ),
-                                    tooltip: 'Tap to open date picker',
-                                    onPressed: () {
-                                      _checkOutDate(context);
-                                    },
+                                  const SizedBox(
+                                    width: 10,
                                   ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.fitness_center,
-                                      size: 18,
-                                      color: Color(0xFFF0972D),
-                                    ),
-                                    tooltip: 'Tap to open date picker',
-                                    onPressed: () {
-                                      _checkOutDate(context);
-                                    },
+                                  const Icon(
+                                    Icons.bedroom_baby,
+                                    size: 18,
+                                    color: Color(0xFFF0972D),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 20, right: 10, top: 5, bottom: 5),
+                                        left: 10, right: 10, top: 5, bottom: 5),
                                     child: SizedBox(
                                       width: 100,
                                       child: ElevatedButton(
@@ -564,6 +540,25 @@ class _GetRoom extends State<GetRoom> {
                                       ),
                                     ),
                                   ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  const Icon(
+                                    Icons.dry_cleaning,
+                                    size: 18,
+                                    color: Color(0xFFF0972D),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  const Icon(
+                                    Icons.fitness_center,
+                                    size: 18,
+                                    color: Color(0xFFF0972D),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                 ],
                               )
                             ],
@@ -571,6 +566,34 @@ class _GetRoom extends State<GetRoom> {
                         )),
                   ],
                 ),
+                // const Padding(
+                //   padding: EdgeInsets.only(left: 15, bottom: 8, top: 15),
+                //   child: Text(
+                //     'NAME',
+                //     style: TextStyle(
+                //         color: Color(0xFF124559),
+                //         fontSize: 12,
+                //         fontWeight: FontWeight.bold),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 30, right: 30),
+                //   child: TextFormField(
+                //     controller: nameController,
+                //     validator: (val) =>
+                //         val!.isNotEmpty ? null : "Please enter your full name",
+                //     decoration: InputDecoration(
+                //       hintText: "Full Name",
+                //       prefixIcon: const Icon(
+                //         Icons.person,
+                //         color: Color(0xFF124559),
+                //       ),
+                //       border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(10),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const <Widget>[
@@ -623,6 +646,7 @@ class _GetRoom extends State<GetRoom> {
                                     selectedSpecialFacilities:
                                         selectedSpecialFacilities,
                                     room: rooms[0],
+                                    name: nameController.text,
                                   ),
                                 ));
                           } else {

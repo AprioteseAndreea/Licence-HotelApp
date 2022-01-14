@@ -1,3 +1,5 @@
+import 'package:first_app_flutter/screens/admin_screens/users_screen.dart';
+import 'package:first_app_flutter/screens/homeScreens/user_home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -102,6 +104,36 @@ class _ConfirmReservation extends State<ConfirmReservation> {
                   )
                 ],
               ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserHomeScreen()));
+                    },
+                    height: 40,
+                    minWidth: 200,
+                    color: Theme.of(context).primaryColor,
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Text(
+                      "Go home",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
