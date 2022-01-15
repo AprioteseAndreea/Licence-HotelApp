@@ -1,4 +1,3 @@
-import 'package:first_app_flutter/screens/admin_screens/users_screen.dart';
 import 'package:first_app_flutter/screens/homeScreens/user_home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -112,10 +111,10 @@ class _ConfirmReservation extends State<ConfirmReservation> {
                 children: [
                   MaterialButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
+                      Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                              builder: (context) => const UserHomeScreen()));
+                              builder: (context) => const UserHomeScreen()),
+                          (Route<dynamic> route) => false);
                     },
                     height: 40,
                     minWidth: 200,

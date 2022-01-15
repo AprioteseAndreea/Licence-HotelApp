@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/monthly_reservation_model.dart';
 import 'package:first_app_flutter/models/reservation_model.dart';
+import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/models/rooms_statistics.dart';
 import 'package:first_app_flutter/models/staff_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,8 +24,9 @@ class StatisticsService with ChangeNotifier {
     getMonthlyReservationsCollectionFromFirebase();
     getMonthlyIncomeCollectionFromFirebase();
     getRoomStatisticsCollectionFromFirebase();
-    // calculateMonthlyReservations();
-    //calculateMonthlyIncome();
+
+    //calculateMonthlyReservations();
+    // calculateMonthlyIncome();
   }
 
   Future<void> getMonthlyReservationsCollectionFromFirebase() async {
@@ -56,6 +58,7 @@ class StatisticsService with ChangeNotifier {
         _roomStatistics.add(m);
       }
     }
+    calculateRoomsStatistics();
   }
 
   Future<void> getMonthlyIncomeCollectionFromFirebase() async {
@@ -73,11 +76,36 @@ class StatisticsService with ChangeNotifier {
     }
   }
 
+  bool verifyExistingReservation(int month) {
+    bool existing = false;
+    for (var r in _monthlyReservations) {
+      if (int.parse(r.month) == month) {
+        existing = true;
+      } else {
+        existing = false;
+      }
+    }
+    return existing;
+  }
+
+  bool verifyExistingIncome(int month) {
+    bool existing = false;
+    for (var r in _monthlyIncome) {
+      if (int.parse(r.month) == month) {
+        existing = true;
+      } else {
+        existing = false;
+      }
+    }
+    return existing;
+  }
+
   Future<void> calculateMonthlyReservations() async {
     DateTime dateToday = DateTime.now();
     int day = dateToday.day, month = dateToday.month;
     int countReservations = 0;
-    if ((day == 1 && month != 12) || (day == 31 && month == 12)) {
+    if ((day == 1 && month != 12) ||
+        (day == 31 && month == 12) && !verifyExistingReservation(month + 1)) {
       _instance = FirebaseFirestore.instance;
       CollectionReference categories = _instance!.collection('users');
 
@@ -96,6 +124,44 @@ class StatisticsService with ChangeNotifier {
     addMonthlyReservationInFirebase((month - 1).toString(), countReservations);
   }
 
+  Future<void> calculateRoomsStatistics() async {
+    _instance = FirebaseFirestore.instance;
+    CollectionReference categories = _instance!.collection('users');
+    int free = 0, occupied = 0;
+    DocumentSnapshot snapshot = await categories.doc('rooms').get();
+    if (snapshot.exists) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      var monthlyRData = data['rooms'] as List<dynamic>;
+      for (var catData in monthlyRData) {
+        RoomModel r = RoomModel.fromJson(catData);
+        r.free ? free++ : occupied++;
+      }
+    }
+
+    updateRoomsStatistics(free, occupied);
+  }
+
+  Future<void> updateRoomsStatistics(int free, int occupied) async {
+    _roomStatistics.clear();
+    await getRoomStatisticsCollectionFromFirebase();
+    for (int i = 0; i < _roomStatistics.length; i++) {
+      if (_roomStatistics[i].status == "free") {
+        _roomStatistics[i].value = free;
+      } else if (_roomStatistics[i].status == "occupied") {
+        _roomStatistics[i].value = occupied;
+      }
+    }
+    DocumentReference<Map<String, dynamic>> rooms =
+        FirebaseFirestore.instance.collection('users').doc('roomStatistics');
+    final roomsMap = <Map<String, dynamic>>[];
+    for (var room in _roomStatistics) {
+      roomsMap.add(room.toJson());
+    }
+    rooms.set({
+      'roomStatistics': roomsMap,
+    });
+  }
+
   Future<void> calculateMonthlyIncome() async {
     DateTime dateToday = DateTime.now();
     int day = dateToday.day, month = dateToday.month;
@@ -103,7 +169,8 @@ class StatisticsService with ChangeNotifier {
     int costs = 0;
     int income = 0;
 
-    if ((day == 1 && month != 12) || (day == 31 && month == 12)) {
+    if ((day == 1 && month != 12) ||
+        (day == 31 && month == 12) && !verifyExistingIncome(month + 1)) {
       _instance = FirebaseFirestore.instance;
       CollectionReference categories = _instance!.collection('users');
 

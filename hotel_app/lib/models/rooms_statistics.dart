@@ -1,7 +1,7 @@
 class RoomStatisticsModel {
-  final String status;
-  final int value;
-  final String color;
+  late String status;
+  late int value;
+  late String color;
 
   RoomStatisticsModel(
       {required this.status, required this.value, required this.color});

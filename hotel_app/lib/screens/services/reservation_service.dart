@@ -80,7 +80,7 @@ class ReservationService with ChangeNotifier {
       }
     }
     final reservationsMap = <Map<String, dynamic>>[];
-    for (int i = 0; i < _reservations.length / 2; i++) {
+    for (int i = 0; i < _reservations.length; i++) {
       reservationsMap.add(_reservations[i].toJson());
     }
     reservations.set({

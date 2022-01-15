@@ -1,4 +1,3 @@
-import 'package:first_app_flutter/screens/authentication/register.dart';
 import 'package:flutter/material.dart';
 
 import 'login.dart';
@@ -10,21 +9,24 @@ class Authentication extends StatefulWidget {
   _AuthenticationState createState() => _AuthenticationState();
 }
 
-class _AuthenticationState extends State<Authentication> with SingleTickerProviderStateMixin {
+class _AuthenticationState extends State<Authentication>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   bool isPressed = false;
   bool isToggle = false;
 
-  void forgotPressed(){
+  void forgotPressed() {
     setState(() {
       isPressed = !isPressed;
     });
   }
-  void toggleScreen(){
+
+  void toggleScreen() {
     setState(() {
       isToggle = !isToggle;
     });
   }
+
   @override
   void initState() {
     super.initState();
@@ -36,10 +38,9 @@ class _AuthenticationState extends State<Authentication> with SingleTickerProvid
     _controller.dispose();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-     return const Login();
-
+    return const Login();
   }
 }

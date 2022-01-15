@@ -45,7 +45,8 @@ class _GetRoomS2 extends State<GetRoomS2> {
     super.initState();
     for (var f in super.widget.selectedSpecialFacilities) {
       facilitiesEnumeration += (" • ") + f.facility;
-      extraFacilities += int.parse(f.cost);
+      extraFacilities +=
+          int.parse(f.cost) * (super.widget.adults + super.widget.children);
     }
     if (int.parse(super.widget.room.maxGuests) <
         (super.widget.adults + super.widget.children)) {
