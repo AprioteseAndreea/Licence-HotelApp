@@ -53,6 +53,7 @@ dependencies:
   charts_flutter: ^0.12.0
   timeline_node: ^0.1.0
   email_validator: ^1.0.0
+  convex_bottom_bar: ^3.0.0
 
 dev_dependencies:
   flutter_test:
