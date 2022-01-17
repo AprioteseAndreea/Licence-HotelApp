@@ -13,7 +13,7 @@ class Profile extends StatefulWidget {
 class _Profile extends State<Profile> {
   AuthServices authServices = AuthServices();
   String name = "";
-  String photoURL = "";
+  //String photoURL = "";
 
   @override
   void initState() {
@@ -21,7 +21,7 @@ class _Profile extends State<Profile> {
     authServices.getCurrentUser().then((value) {
       setState(() {
         name = value!.displayName!;
-        photoURL = value.photoURL!;
+        // photoURL = value.photoURL!;
       });
     });
   }

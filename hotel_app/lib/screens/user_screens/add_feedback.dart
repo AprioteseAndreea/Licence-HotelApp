@@ -45,7 +45,14 @@ class _AddFeedback extends State<AddFeedback> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('Feedback'),
+          title: const Text(
+            'Add new feedback',
+            style: TextStyle(color: Color(0xFF124559)),
+          ),
+          iconTheme: const IconThemeData(
+            color: Color(0xFF124559),
+          ),
+          backgroundColor: Colors.white,
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -144,13 +151,7 @@ class _AddFeedback extends State<AddFeedback> {
                             if (_feedbackController.text != "") {
                               feedbackService.addFeedbackInFirebase(feedback);
                             }
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const FeedbackScreen.Feedback(),
-                                ),
-                                ModalRoute.withName('/'));
+                            Navigator.pop(context);
                           },
                           height: 55,
                           color: Theme.of(context).primaryColor,

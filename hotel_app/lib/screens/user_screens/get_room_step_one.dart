@@ -27,6 +27,8 @@ class _GetRoom extends State<GetRoom> {
   late String _checkInYear = DateTime.now().year.toString();
   late DateTime checkIn = DateTime.now();
   late DateTime checkOut = DateTime.now();
+  late String checkInFormat = DateFormat('dd-MM-yyyy').format(DateTime.now());
+  late String checkOutFormat = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
   late String _checkOutDay = DateTime.now().day.toString();
   late String _checkOutMonth = DateFormat.MMMM().format(DateTime.now());
@@ -96,6 +98,8 @@ class _GetRoom extends State<GetRoom> {
     if (d != null) {
       setState(() {
         checkIn = d;
+        checkInFormat = DateFormat('dd-MM-yyyy').format(checkIn);
+
         _checkInDay = d.day.toString();
         _checkInMonth = DateFormat.MMMM().format(d);
         _checkInYear = d.year.toString();
@@ -145,6 +149,7 @@ class _GetRoom extends State<GetRoom> {
     if (d != null) {
       setState(() {
         checkOut = d;
+        checkOutFormat = DateFormat('dd-MM-yyyy').format(checkOut);
         _checkOutDay = d.day.toString();
         _checkOutMonth = DateFormat.MMMM().format(d);
         _checkOutYear = d.year.toString();
@@ -181,12 +186,22 @@ class _GetRoom extends State<GetRoom> {
                   unselectedColor: Color(0xFF72B0D4),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     Padding(
-                      padding: EdgeInsets.only(left: 15, bottom: 8, top: 15),
+                      padding: EdgeInsets.only(left: 20, bottom: 8, top: 15),
                       child: Text(
-                        'CHECK-IN DATE',
+                        'CHECK-IN',
+                        style: TextStyle(
+                            color: Color(0xFF124559),
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 20, bottom: 8, top: 15),
+                      child: Text(
+                        'CHECK-OUT',
                         style: TextStyle(
                             color: Color(0xFF124559),
                             fontSize: 12,
@@ -203,49 +218,9 @@ class _GetRoom extends State<GetRoom> {
                           children: <Widget>[
                             Row(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 30, bottom: 8, top: 10),
-                                  child: Text(_checkInDay,
-                                      style: const TextStyle(
-                                          fontSize: 35,
-                                          color: Color(0xFF49758B))),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                  child: Icon(
-                                    Icons.horizontal_rule_rounded,
-                                    color: Colors.grey,
-                                    size: 40.0,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        _checkInYear,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFFF0972D),
-                                        ),
-                                      ),
-                                      Text(
-                                        _checkInMonth,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF124559),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
                                 IconButton(
                                   icon: const Icon(
-                                    Icons.calendar_today,
+                                    CupertinoIcons.calendar_badge_plus,
                                     size: 18,
                                     color: Color(0xFFF0972D),
                                   ),
@@ -254,95 +229,52 @@ class _GetRoom extends State<GetRoom> {
                                     _checkInDate(context);
                                   },
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, bottom: 8, top: 10, right: 10),
+                                  child: Text(checkInFormat,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xFF49758B))),
+                                ),
                               ],
                             )
                           ],
                         ),
-                      )
+                      ),
+                      Card(
+                        child: Row(
+                          children: <Widget>[
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 10, bottom: 8, top: 10, left: 10),
+                                  child: Text(checkOutFormat,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xFF49758B))),
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    CupertinoIcons.calendar_badge_plus,
+                                    size: 18,
+                                    color: Color(0xFFF0972D),
+                                  ),
+                                  tooltip: 'Tap to open date picker',
+                                  onPressed: () {
+                                    _checkOutDate(context);
+                                  },
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
                     ]),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, bottom: 8, top: 15),
-                      child: Text(
-                        'CHECK-OUT DATE',
-                        style: TextStyle(
-                            color: Color(0xFF124559),
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Card(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 30, bottom: 8, top: 10),
-                                child: Text(_checkOutDay,
-                                    style: const TextStyle(
-                                        fontSize: 35,
-                                        color: Color(0xFF49758B))),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10, right: 10),
-                                child: Icon(
-                                  Icons.horizontal_rule_rounded,
-                                  color: Colors.grey,
-                                  size: 40.0,
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      _checkOutYear,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFFF0972D),
-                                      ),
-                                    ),
-                                    Text(
-                                      _checkOutMonth,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF124559),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.calendar_today,
-                                  size: 18,
-                                  color: Color(0xFFF0972D),
-                                ),
-                                tooltip: 'Tap to open date picker',
-                                onPressed: () {
-                                  _checkOutDate(context);
-                                },
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+
                 const Padding(
-                  padding: EdgeInsets.only(left: 15, bottom: 8, top: 15),
+                  padding: EdgeInsets.only(left: 20, bottom: 8, top: 15),
                   child: Text(
                     'GUESTS',
                     style: TextStyle(

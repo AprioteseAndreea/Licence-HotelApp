@@ -1,22 +1,11 @@
 import 'package:first_app_flutter/models/user_model.dart' as UserModel;
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
-import 'package:first_app_flutter/screens/homeScreens/side_bar/drawer_painter.dart';
-import 'package:first_app_flutter/screens/homeScreens/side_bar/side_bar_button.dart';
+import 'package:first_app_flutter/screens/homeScreens/side_bar/side_drawer.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
-import 'package:first_app_flutter/screens/user_screens/my_bookings.dart';
-import 'package:first_app_flutter/screens/user_screens/feedback.dart'
-    as FeedbackScreen;
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-
-import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
-import 'package:first_app_flutter/screens/user_screens/profile.dart';
-import 'package:first_app_flutter/screens/user_screens/user_chat.dart';
-import 'package:first_app_flutter/screens/user_screens/user_events.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({Key? key}) : super(key: key);
@@ -27,11 +16,12 @@ class UserHomeScreen extends StatefulWidget {
 class _UserHomeScreen extends State<UserHomeScreen> {
   UserService userService = UserService();
   late List<UserModel.User> users = [];
-  String? name, role;
+  String? name, role, gender;
   String profilePicture = "";
   AuthServices authServices = AuthServices();
   List<String> facilities = [];
   List<String> placeToVisitPath = [];
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<String> facilitiesLabel = [
     "Spa",
@@ -51,22 +41,14 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     "Brooklyn Bridge"
   ];
 
-  Offset _offset = const Offset(0, 0);
   GlobalKey globalKey = GlobalKey();
-  List<double> limits = [];
-
   bool isMenuOpen = false;
   @override
   void initState() {
-    limits = [0, 0, 0, 0, 0, 0];
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      getPosition;
-    });
     super.initState();
     authServices.getCurrentUser().then((value) {
       setState(() {
         name = value!.displayName!;
-        // profilePicture = value.photoURL!;
       });
     });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
@@ -89,35 +71,19 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     placeToVisitPath.add("assets/images/ptv7.jpg");
   }
 
-  getPosition(duration) {
-    RenderBox renderBox =
-        globalKey.currentContext!.findRenderObject() as RenderBox;
-    final position = renderBox.localToGlobal(Offset.zero);
-    double start = position.dy - 20;
-    double contLimit = position.dy + renderBox.size.height - 20;
-    double step = (contLimit - start) / 5;
-    limits = [];
-    for (double x = start; x <= contLimit; x = x + step) {
-      limits.add(x);
-    }
-    setState(() {
-      limits = limits;
-    });
-  }
-
-  double getSize(int x) {
-    double size =
-        (_offset.dy > limits[x] && _offset.dy < limits[x + 1]) ? 25 : 20;
-    return size;
-  }
-
   Future<void> _readEmail() async {
     final _prefs = await SharedPreferences.getInstance();
     final _value = _prefs.getString('role');
+    final _gender = _prefs.getString('gender');
 
     if (_value != null) {
       setState(() {
         role = _value;
+      });
+    }
+    if (_gender != null) {
+      setState(() {
+        gender = _gender;
       });
     }
   }
@@ -129,23 +95,24 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
 
-    Size mediaQuery = MediaQuery.of(context).size;
-    double sidebarSize = mediaQuery.width * 0.65;
-    double menuContainerHeight = mediaQuery.height / 1.5;
-
     users = userService.getUsers();
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: SideDrawer(
+        gender: gender,
+        name: name,
+      ),
       appBar: AppBar(
         iconTheme: const IconThemeData(
-          color: Colors.white,
+          color: Color(0xFF124559),
         ),
-        backgroundColor: const Color(0xFF124559),
+        backgroundColor: Colors.white,
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(
-              CupertinoIcons.power,
-              size: 30,
+              CupertinoIcons.square_arrow_right,
+              size: 25,
             ),
             onPressed: () async => {await loginProvider.logout()},
           ),
@@ -153,9 +120,12 @@ class _UserHomeScreen extends State<UserHomeScreen> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: const Icon(Icons.menu),
+              icon: const Icon(
+                CupertinoIcons.circle_grid_3x3_fill,
+                size: 25,
+              ),
               onPressed: () {
-                Scaffold.of(context).openDrawer();
+                _scaffoldKey.currentState!.openDrawer();
               },
               tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             );
@@ -167,90 +137,82 @@ class _UserHomeScreen extends State<UserHomeScreen> {
           children: [
             SingleChildScrollView(
               child: Column(children: [
-                Card(
-                  elevation: 15,
-                  shadowColor: const Color(0xFF124559),
-                  child: Container(
-                      height: 145,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/home_banner.png"),
-                          fit: BoxFit.fitWidth,
-                          alignment: Alignment.topCenter,
-                        ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, top: 10),
+                      child: Text(
+                        'Hi $name !',
+                        style: const TextStyle(
+                            fontSize: 23,
+                            color: Color(0xFF124559),
+                            fontWeight: FontWeight.bold),
                       ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 25, top: 20, right: 5),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Welcome $name !',
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white),
-                                        ),
-                                      ],
-                                    ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Column(
+                      children: [
+                        Image.asset(
+                          "assets/images/tourists.jpg",
+                          height: 130,
+                        )
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Do you want to visit us?',
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Color(0xFF124559),
+                          ),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                        MaterialButton(
+                          onPressed: () {},
+                          child: Ink(
+                            decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xff124559),
+                                    Color(0xff637e8d)
                                   ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
                                 ),
+                                borderRadius: BorderRadius.circular(50.0)),
+                            child: Container(
+                              constraints: const BoxConstraints(
+                                  maxWidth: 150.0, minHeight: 30.0),
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "BOOK NOW",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15),
                               ),
-                            ],
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 20, top: 20),
-                                  child: MaterialButton(
-                                    onPressed: () => {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const GetRoom(),
-                                        ),
-                                      )
-                                    },
-                                    height: 27,
-                                    minWidth: 75,
-                                    color: const Color(0xFFF0972D),
-                                    textColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: const Text(
-                                      "Book now",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )),
-                            ],
-                          ),
-                        ],
-                      )),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 Padding(
-                    padding: const EdgeInsets.only(left: 25, top: 20),
+                    padding: const EdgeInsets.only(left: 15, top: 20),
                     child: Row(
                       children: const [
                         Text(
                           'Facilities',
                           style: TextStyle(
                             fontSize: 18,
-                            color: Colors.grey,
+                            color: Color(0xFF124559),
                           ),
                         ),
                       ],
@@ -263,11 +225,10 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                     children: [
                       Container(
                         padding: const EdgeInsets.only(
-                          left: 10,
                           top: 10,
                           bottom: 20,
                         ),
-                        height: 150,
+                        height: 120,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: facilities.length,
@@ -281,6 +242,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                     borderRadius: BorderRadius.circular(25.0),
                                   ),
                                   color: const Color(0xFFFFFFFF),
+                                  elevation: 5,
                                   child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -305,16 +267,25 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                   ),
                 ),
                 Padding(
-                    padding: const EdgeInsets.only(left: 25, top: 5),
+                    padding: const EdgeInsets.only(left: 15, top: 5, right: 5),
                     child: Row(
-                      children: const [
-                        Text(
-                          'Places to visited',
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Places to visit',
                           style: TextStyle(
                             fontSize: 18,
-                            color: Colors.grey,
+                            color: Color(0xFF124559),
                           ),
                         ),
+                        Row(
+                          children: const [
+                            Icon(
+                              CupertinoIcons.arrow_right,
+                              size: 20,
+                            ),
+                          ],
+                        )
                       ],
                     )),
                 Padding(
@@ -324,15 +295,14 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                   child: Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.only(
-                            left: 10, top: 10, bottom: 20),
+                        padding: const EdgeInsets.only(top: 10, bottom: 20),
                         height: 170,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: placeToVisitPath.length,
                             itemBuilder: (context, index) {
                               return SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.5,
+                                width: 150,
                                 child: Card(
                                     semanticContainer: true,
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -340,6 +310,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                       borderRadius: BorderRadius.circular(25.0),
                                     ),
                                     color: const Color(0xFFFFFFFF),
+                                    elevation: 5,
                                     child: Stack(
                                       children: [
                                         ShaderMask(
@@ -395,512 +366,6 @@ class _UserHomeScreen extends State<UserHomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: ConvexAppBar(
-        items: const [
-          TabItem(
-              icon: Icon(
-                CupertinoIcons.person_alt,
-                size: 22,
-                color: Colors.white,
-              ),
-              title: 'Profile'),
-          TabItem(
-              icon: Icon(
-                CupertinoIcons.book_fill,
-                size: 22,
-                color: Colors.white,
-              ),
-              title: 'Booking'),
-          TabItem(
-              icon: Icon(
-                CupertinoIcons.home,
-                size: 22,
-                color: Colors.white,
-              ),
-              title: 'Home'),
-          TabItem(
-              icon: Icon(
-                CupertinoIcons.bubble_left_fill,
-                size: 22,
-                color: Colors.white,
-              ),
-              title: 'Chat'),
-          TabItem(
-              icon: Icon(
-                CupertinoIcons.star_fill,
-                size: 22,
-                color: Colors.white,
-              ),
-              title: 'Feedbacks'),
-        ],
-        top: -20,
-        initialActiveIndex: 2, //optional, default as 0
-        onTap: (int i) => print('click index=$i'),
-        color: Colors.white,
-        activeColor: const Color(0xFFF0972D),
-        backgroundColor: const Color(0xFF124559),
-        height: 50,
-      ),
     );
-    // return SafeArea(
-    //     child: Scaffold(
-    //         body: SizedBox(
-    //   width: mediaQuery.width,
-    //   child: Stack(
-    //     children: <Widget>[
-    //       Padding(
-    //         padding: const EdgeInsets.only(
-    //           left: 30,
-    //           top: 20,
-    //         ),
-    //         child: Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             // const Padding(
-    //             //   padding: EdgeInsets.only(top: 35),
-    //             //   child: Text(
-    //             //     'Do you want to visit us?',
-    //             //     style: TextStyle(
-    //             //       fontSize: 18,
-    //             //       color: Colors.grey,
-    //             //     ),
-    //             //   ),
-    //             // ),
-    //             Padding(
-    //                 padding: const EdgeInsets.only(top: 40),
-    //                 child: MaterialButton(
-    //                   onPressed: () => {
-    //                     Navigator.push(
-    //                       context,
-    //                       MaterialPageRoute(
-    //                         builder: (context) => const GetRoom(),
-    //                       ),
-    //                     )
-    //                   },
-    //                   height: 27,
-    //                   minWidth: 75,
-    //                   color: Theme.of(context).primaryColor,
-    //                   textColor: Colors.white,
-    //                   shape: RoundedRectangleBorder(
-    //                     borderRadius: BorderRadius.circular(10),
-    //                   ),
-    //                   child: const Text(
-    //                     "Book now",
-    //                     style: TextStyle(
-    //                       fontSize: 17,
-    //                       fontWeight: FontWeight.bold,
-    //                     ),
-    //                   ),
-    //                 )),
-    //           ],
-    //         ),
-    //       ),
-    //       Column(
-    //         children: [
-    //           Card(
-    //               elevation: 6,
-    //               shadowColor: const Color(0xFF124559),
-    //               child: Container(
-    //                 height: 145,
-    //                 decoration: const BoxDecoration(
-    //                   image: DecorationImage(
-    //                     image: AssetImage("assets/images/home_banner.png"),
-    //                     fit: BoxFit.fitWidth,
-    //                     alignment: Alignment.topCenter,
-    //                   ),
-    //                 ),
-    //                 child: Row(
-    //                   mainAxisAlignment: MainAxisAlignment.end,
-    //                   crossAxisAlignment: CrossAxisAlignment.start,
-    //                   children: [
-    //                     Padding(
-    //                       padding: const EdgeInsets.only(left: 25, top: 10),
-    //                       child: Row(
-    //                         mainAxisAlignment: MainAxisAlignment.end,
-    //                         children: [
-    //                           Row(
-    //                             children: [
-    //                               Text(
-    //                                 'Welcome $name !',
-    //                                 style: const TextStyle(
-    //                                     fontSize: 18, color: Colors.white),
-    //                               ),
-    //                               IconButton(
-    //                                 icon: const Icon(EvaIcons.power),
-    //                                 color: const Color(0xFFE16A10),
-    //                                 onPressed: () async =>
-    //                                     await loginProvider.logout(),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               )),
-    //           // Padding(
-    //           //   padding: const EdgeInsets.only(left: 0, top: 105, right: 5),
-    //           //   child: Column(
-    //           //     children: [
-    //           //       Card(
-    //           //         semanticContainer: true,
-    //           //         clipBehavior: Clip.antiAliasWithSaveLayer,
-    //           //         shape: RoundedRectangleBorder(
-    //           //           borderRadius: BorderRadius.circular(20.0),
-    //           //         ),
-    //           //         elevation: 25,
-    //           //         child: Column(
-    //           //           mainAxisSize: MainAxisSize.min,
-    //           //           children: <Widget>[
-    //           //             SizedBox(
-    //           //               height: 170.0,
-    //           //               child: Image.asset(
-    //           //                 "assets/images/home_banner.png",
-    //           //                 fit: BoxFit.cover,
-    //           //               ),
-    //           //             ),
-    //           //           ],
-    //           //         ),
-    //           //       ),
-    //           //     ],
-    //           //   ),
-    //           // ),
-    //           Padding(
-    //               padding: const EdgeInsets.only(left: 25, top: 20),
-    //               child: Row(
-    //                 children: const [
-    //                   Text(
-    //                     'Facilities',
-    //                     style: TextStyle(
-    //                       fontSize: 18,
-    //                       color: Colors.grey,
-    //                     ),
-    //                   ),
-    //                 ],
-    //               )),
-    //           Padding(
-    //             padding: const EdgeInsets.only(
-    //               left: 10,
-    //             ),
-    //             child: Column(
-    //               children: [
-    //                 Container(
-    //                   padding: const EdgeInsets.only(
-    //                     left: 10,
-    //                     top: 10,
-    //                     bottom: 20,
-    //                   ),
-    //                   height: MediaQuery.of(context).size.height * 0.18,
-    //                   child: ListView.builder(
-    //                       scrollDirection: Axis.horizontal,
-    //                       itemCount: facilities.length,
-    //                       itemBuilder: (context, index) {
-    //                         return SizedBox(
-    //                           width: MediaQuery.of(context).size.width * 0.22,
-    //                           child: Card(
-    //                             semanticContainer: true,
-    //                             clipBehavior: Clip.antiAliasWithSaveLayer,
-    //                             shape: RoundedRectangleBorder(
-    //                               borderRadius: BorderRadius.circular(25.0),
-    //                             ),
-    //                             color: const Color(0xFFFFFFFF),
-    //                             child: Column(
-    //                                 mainAxisAlignment:
-    //                                     MainAxisAlignment.spaceEvenly,
-    //                                 children: [
-    //                                   Image.asset(
-    //                                     facilities[index].toString(),
-    //                                     fit: BoxFit.cover,
-    //                                     width: 35,
-    //                                   ),
-    //                                   Text(
-    //                                     facilitiesLabel[index].toString(),
-    //                                     style: const TextStyle(
-    //                                         fontWeight: FontWeight.bold,
-    //                                         fontSize: 13),
-    //                                   ),
-    //                                 ]),
-    //                           ),
-    //                         );
-    //                       }),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //           Padding(
-    //               padding: const EdgeInsets.only(left: 25, top: 5),
-    //               child: Row(
-    //                 children: const [
-    //                   Text(
-    //                     'Places to visited',
-    //                     style: TextStyle(
-    //                       fontSize: 18,
-    //                       color: Colors.grey,
-    //                     ),
-    //                   ),
-    //                 ],
-    //               )),
-    //           Padding(
-    //             padding: const EdgeInsets.only(
-    //               left: 10,
-    //             ),
-    //             child: Column(
-    //               children: [
-    //                 Container(
-    //                   padding:
-    //                       const EdgeInsets.only(left: 10, top: 10, bottom: 20),
-    //                   height: MediaQuery.of(context).size.height * 0.20,
-    //                   child: ListView.builder(
-    //                       scrollDirection: Axis.horizontal,
-    //                       itemCount: placeToVisitPath.length,
-    //                       itemBuilder: (context, index) {
-    //                         return SizedBox(
-    //                           width: MediaQuery.of(context).size.width * 0.5,
-    //                           child: Card(
-    //                               semanticContainer: true,
-    //                               clipBehavior: Clip.antiAliasWithSaveLayer,
-    //                               shape: RoundedRectangleBorder(
-    //                                 borderRadius: BorderRadius.circular(25.0),
-    //                               ),
-    //                               color: const Color(0xFFFFFFFF),
-    //                               child: Stack(
-    //                                 children: [
-    //                                   ShaderMask(
-    //                                     shaderCallback: (rect) {
-    //                                       return LinearGradient(
-    //                                         begin: Alignment.center,
-    //                                         end: Alignment.bottomCenter,
-    //                                         colors: [
-    //                                           gradientStart,
-    //                                           gradientEnd
-    //                                         ],
-    //                                       ).createShader(Rect.fromLTRB(
-    //                                           0, -50, rect.width, rect.height));
-    //                                     },
-    //                                     blendMode: BlendMode.darken,
-    //                                     child: Container(
-    //                                       decoration: BoxDecoration(
-    //                                         image: DecorationImage(
-    //                                           image: ExactAssetImage(
-    //                                               placeToVisitPath[index]
-    //                                                   .toString()),
-    //                                           fit: BoxFit.cover,
-    //                                         ),
-    //                                       ),
-    //                                     ),
-    //                                   ),
-    //                                   Column(
-    //                                     mainAxisAlignment:
-    //                                         MainAxisAlignment.end,
-    //                                     children: [
-    //                                       Padding(
-    //                                         padding: const EdgeInsets.only(
-    //                                             left: 10, bottom: 5),
-    //                                         child: Text(
-    //                                           placesToVisit[index].toString(),
-    //                                           style: const TextStyle(
-    //                                               fontSize: 15,
-    //                                               color: Colors.white),
-    //                                         ),
-    //                                       )
-    //                                     ],
-    //                                   )
-    //                                 ],
-    //                               )),
-    //                         );
-    //                       }),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //       AnimatedPositioned(
-    //         duration: const Duration(milliseconds: 1500),
-    //         left: isMenuOpen ? 0 : -sidebarSize + 20,
-    //         top: 0,
-    //         curve: Curves.elasticOut,
-    //         child: SizedBox(
-    //           width: sidebarSize,
-    //           child: GestureDetector(
-    //             onPanUpdate: (details) {
-    //               if (details.localPosition.dx <= sidebarSize) {
-    //                 setState(() {
-    //                   _offset = details.localPosition;
-    //                 });
-    //               }
-    //
-    //               if (details.localPosition.dx > sidebarSize - 20 &&
-    //                   details.delta.distanceSquared > 2) {
-    //                 setState(() {
-    //                   isMenuOpen = true;
-    //                 });
-    //               }
-    //             },
-    //             onPanEnd: (details) {
-    //               setState(() {
-    //                 _offset = const Offset(0, 0);
-    //               });
-    //             },
-    //             child: Stack(
-    //               children: <Widget>[
-    //                 CustomPaint(
-    //                   size: Size(sidebarSize, mediaQuery.height),
-    //                   painter: DrawerPainter(offset: _offset),
-    //                 ),
-    //                 SizedBox(
-    //                   height: mediaQuery.height,
-    //                   width: sidebarSize,
-    //                   child: Column(
-    //                     mainAxisAlignment: MainAxisAlignment.center,
-    //                     mainAxisSize: MainAxisSize.max,
-    //                     children: <Widget>[
-    //                       SizedBox(
-    //                         height: mediaQuery.height * 0.20,
-    //                         child: Center(
-    //                           child: Column(
-    //                             children: <Widget>[
-    //                               Image.asset(
-    //                                 "assets/images/grand_hotel_logo-removebg-2.png",
-    //                                 width: sidebarSize / 1.2,
-    //                               ),
-    //                               Text(
-    //                                 "$name",
-    //                                 style: const TextStyle(
-    //                                     color: Colors.white, fontSize: 18),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                         ),
-    //                       ),
-    //                       const Divider(
-    //                         thickness: 1,
-    //                       ),
-    //                       SizedBox(
-    //                         key: globalKey,
-    //                         width: double.infinity,
-    //                         height: menuContainerHeight,
-    //                         child: Column(
-    //                           children: <Widget>[
-    //                             MyButton(
-    //                               text: "My profile",
-    //                               iconData: Icons.person,
-    //                               textSize: getSize(0),
-    //                               height: (mediaQuery.height / 2) / 7,
-    //                               onPressed: () => {
-    //                                 Navigator.push(
-    //                                   context,
-    //                                   MaterialPageRoute(
-    //                                     builder: (context) => const Profile(),
-    //                                   ),
-    //                                 )
-    //                               },
-    //                             ),
-    //                             MyButton(
-    //                               text: "Get a room",
-    //                               iconData: Icons.checkroom,
-    //                               textSize: getSize(1),
-    //                               height: (mediaQuery.height / 2) / 7,
-    //                               onPressed: () => {
-    //                                 Navigator.push(
-    //                                   context,
-    //                                   MaterialPageRoute(
-    //                                     builder: (context) => const GetRoom(),
-    //                                   ),
-    //                                 )
-    //                               },
-    //                             ),
-    //                             MyButton(
-    //                               text: "My bookings",
-    //                               iconData: Icons.bed,
-    //                               textSize: getSize(2),
-    //                               height: (mediaQuery.height / 2) / 7,
-    //                               onPressed: () => {
-    //                                 Navigator.push(
-    //                                   context,
-    //                                   MaterialPageRoute(
-    //                                     builder: (context) =>
-    //                                         const MyBookings(),
-    //                                   ),
-    //                                 )
-    //                               },
-    //                             ),
-    //                             MyButton(
-    //                               text: "Chat",
-    //                               iconData: Icons.chat_bubble,
-    //                               textSize: getSize(1),
-    //                               height: (mediaQuery.height / 2) / 7,
-    //                               onPressed: () => {
-    //                                 Navigator.push(
-    //                                   context,
-    //                                   MaterialPageRoute(
-    //                                     builder: (context) => const UserChat(),
-    //                                   ),
-    //                                 )
-    //                               },
-    //                             ),
-    //                             MyButton(
-    //                               text: "Events",
-    //                               iconData: Icons.event,
-    //                               textSize: getSize(4),
-    //                               height: (mediaQuery.height / 2) / 7,
-    //                               onPressed: () => {
-    //                                 Navigator.push(
-    //                                   context,
-    //                                   MaterialPageRoute(
-    //                                     builder: (context) =>
-    //                                         const UserEvents(),
-    //                                   ),
-    //                                 )
-    //                               },
-    //                             ),
-    //                             MyButton(
-    //                               text: "Feedback",
-    //                               iconData: Icons.feedback,
-    //                               textSize: getSize(4),
-    //                               height: (mediaQuery.height / 2) / 7,
-    //                               onPressed: () => {
-    //                                 Navigator.push(
-    //                                   context,
-    //                                   MaterialPageRoute(
-    //                                     builder: (context) =>
-    //                                         const FeedbackScreen.Feedback(),
-    //                                   ),
-    //                                 )
-    //                               },
-    //                             ),
-    //                           ],
-    //                         ),
-    //                       )
-    //                     ],
-    //                   ),
-    //                 ),
-    //                 AnimatedPositioned(
-    //                   duration: const Duration(milliseconds: 400),
-    //                   right: (isMenuOpen) ? 10 : sidebarSize,
-    //                   bottom: mediaQuery.height * 0.07,
-    //                   child: IconButton(
-    //                     enableFeedback: true,
-    //                     icon: const Icon(
-    //                       Icons.keyboard_backspace,
-    //                       color: Colors.white,
-    //                       size: 30,
-    //                     ),
-    //                     onPressed: () {
-    //                       setState(() {
-    //                         isMenuOpen = false;
-    //                       });
-    //                     },
-    //                   ),
-    //                 )
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //       )
-    //     ],
-    //   ),
-    // )));
   }
 }

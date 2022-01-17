@@ -3,6 +3,7 @@ import 'package:first_app_flutter/screens/authentication/authentication.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/homeScreens/staff_home_screen.dart';
 import 'package:first_app_flutter/screens/homeScreens/user_home_screen.dart';
+import 'package:first_app_flutter/screens/homeScreens/user_screen_state.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,7 +44,7 @@ class _HomeState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     switch (role) {
       case 'user':
-        return const UserHomeScreen();
+        return const UserHomeState();
       case 'admin':
         return const AdminHomeScreen();
       case 'staff':

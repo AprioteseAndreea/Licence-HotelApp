@@ -29,12 +29,33 @@ class _Feedback extends State<Feedback> {
     feedbacks = feedbackService.getFeedbacks();
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Color(0xFF124559),
+        ),
+        backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text('Feedback'),
+        title: const Text(
+          'Feedbacks',
+          style: TextStyle(color: Color(0xFF124559)),
+        ),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(
+                CupertinoIcons.info_circle_fill,
+                size: 30,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(
-              CupertinoIcons.add_circled,
+              CupertinoIcons.plus_circle_fill,
               size: 30,
             ),
             onPressed: () => {
@@ -57,6 +78,8 @@ class _Feedback extends State<Feedback> {
                 if (snapshot.hasData) {
                   return ListView(
                       shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: const ClampingScrollPhysics(),
                       children: snapshot.data!.docs
                           .firstWhere((element) => element.id == 'feedbacks')[
                               'feedbacks']
@@ -65,7 +88,13 @@ class _Feedback extends State<Feedback> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     ListTile(
-                                      title: Text(doc['user']),
+                                      title: Text(
+                                        doc['user'],
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                            color: Color(0xFF124559)),
+                                      ),
                                       subtitle: Text('Posted ${doc['date']}'),
                                       trailing: SmoothStarRating(
                                         allowHalfRating: true,
@@ -84,7 +113,8 @@ class _Feedback extends State<Feedback> {
                                       child: Text(
                                         doc['feedback'],
                                         style: const TextStyle(
-                                            fontStyle: FontStyle.italic),
+                                            fontStyle: FontStyle.italic,
+                                            fontSize: 16),
                                         maxLines: 5,
                                         overflow: TextOverflow.fade,
                                         textAlign: TextAlign.left,
@@ -97,7 +127,7 @@ class _Feedback extends State<Feedback> {
                 } else if (snapshot.hasError) {
                   return const Text('No feedbacks');
                 }
-                throw ('Some error occurred...');
+                return const CircularProgressIndicator();
               }),
         ),
       ),

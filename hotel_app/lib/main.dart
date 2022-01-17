@@ -88,7 +88,9 @@ class MyApp extends StatelessWidget {
                 )
               ],
               child: MaterialApp(
-                theme: ThemeData(primarySwatch: colorCustom),
+                theme: ThemeData(
+                  primarySwatch: colorCustom,
+                ),
                 debugShowCheckedModeBanner: false,
                 home: const Wrapper(),
               ));
