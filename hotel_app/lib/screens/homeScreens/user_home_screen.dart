@@ -16,7 +16,7 @@ class UserHomeScreen extends StatefulWidget {
 class _UserHomeScreen extends State<UserHomeScreen> {
   UserService userService = UserService();
   late List<UserModel.User> users = [];
-  String? name, role, gender;
+  String? name, role, gender, email;
   String profilePicture = "";
   AuthServices authServices = AuthServices();
   List<String> facilities = [];
@@ -49,6 +49,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     authServices.getCurrentUser().then((value) {
       setState(() {
         name = value!.displayName!;
+        email = value.email;
       });
     });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
@@ -101,6 +102,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
       drawer: SideDrawer(
         gender: gender,
         name: name,
+        email: email,
       ),
       appBar: AppBar(
         iconTheme: const IconThemeData(

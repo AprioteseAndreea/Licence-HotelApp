@@ -38,20 +38,6 @@ class _Feedback extends State<Feedback> {
           'Feedbacks',
           style: TextStyle(color: Color(0xFF124559)),
         ),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(
-                CupertinoIcons.info_circle_fill,
-                size: 30,
-              ),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
-          },
-        ),
         actions: [
           IconButton(
             icon: const Icon(

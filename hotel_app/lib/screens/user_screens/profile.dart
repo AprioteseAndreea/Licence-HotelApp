@@ -49,7 +49,7 @@ class _Profile extends State<Profile> {
               children: [
                 Stack(alignment: AlignmentDirectional.bottomCenter, children: [
                   Image.asset(
-                    'assets/images/hotel_front.jpg',
+                    'assets/images/reception.jpg',
                     width: mediaQuery.width,
                   ),
                   const ProfilePicture(),
