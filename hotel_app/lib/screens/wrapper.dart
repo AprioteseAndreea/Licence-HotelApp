@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/screens/authentication/authentication.dart';
+import 'package:first_app_flutter/screens/authentication/login.dart';
 import 'package:first_app_flutter/screens/homeScreens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class _Wrapper extends State<Wrapper> {
     if (user != null) {
       return const HomeScreen();
     } else {
-      return const Authentication();
+      return const Login();
     }
   }
 }

@@ -53,18 +53,20 @@ class UserService with ChangeNotifier {
   Future<void> getNameFromSharedPrefs() async {
     final _prefs = await SharedPreferences.getInstance();
     String? email = _prefs.getString('email');
-    String name = "", phoneNumber = "", role = "", gender = "";
+    String name = "", phoneNumber = "", role = "", gender = "", old = "";
     for (int i = 0; i < _users.length; i++) {
       if (_users[i].email == email) {
         name = _users[i].name;
         phoneNumber = _users[i].phoneNumber;
         role = _users[i].role;
         gender = _users[i].gender;
+        old = _users[i].old;
       }
     }
     await _prefs.setString('name', name);
     await _prefs.setString('phoneNumber', phoneNumber);
     await _prefs.setString('role', role);
     await _prefs.setString('gender', gender);
+    await _prefs.setString('old', old);
   }
 }

@@ -9,9 +9,14 @@ import 'package:flutter/material.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer(
-      {Key? key, required this.gender, required this.name, this.email})
+      {Key? key,
+      required this.gender,
+      required this.name,
+      required this.email,
+      required this.old,
+      required this.phoneNumber})
       : super(key: key);
-  final String? gender, name, email;
+  final String gender, name, email, old, phoneNumber;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -40,7 +45,7 @@ class SideDrawer extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  name!,
+                  name,
                   style: const TextStyle(
                       fontSize: 18,
                       color: Color(0xFF124559),
@@ -60,8 +65,16 @@ class SideDrawer extends StatelessWidget {
             title: TextWidget('Profile'),
             onTap: () => {
               Navigator.of(context).pop(),
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Profile()))
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Profile(
+                            gender: gender,
+                            name: name,
+                            email: email,
+                            old: old,
+                            phoneNumber: phoneNumber,
+                          )))
             },
           ),
           ListTile(

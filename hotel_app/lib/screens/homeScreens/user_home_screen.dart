@@ -16,7 +16,7 @@ class UserHomeScreen extends StatefulWidget {
 class _UserHomeScreen extends State<UserHomeScreen> {
   UserService userService = UserService();
   late List<UserModel.User> users = [];
-  String? name, role, gender, email;
+  String? name, role, gender, email, old, phoneNumber;
   String profilePicture = "";
   AuthServices authServices = AuthServices();
   List<String> facilities = [];
@@ -76,7 +76,8 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     final _prefs = await SharedPreferences.getInstance();
     final _value = _prefs.getString('role');
     final _gender = _prefs.getString('gender');
-
+    final _old = _prefs.getString('old');
+    final _phoneNumber = _prefs.getString('phoneNumber');
     if (_value != null) {
       setState(() {
         role = _value;
@@ -85,6 +86,16 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     if (_gender != null) {
       setState(() {
         gender = _gender;
+      });
+    }
+    if (_old != null) {
+      setState(() {
+        old = _old;
+      });
+    }
+    if (_phoneNumber != null) {
+      setState(() {
+        phoneNumber = _phoneNumber;
       });
     }
   }
@@ -100,9 +111,11 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: SideDrawer(
-        gender: gender,
-        name: name,
-        email: email,
+        gender: gender ?? "",
+        name: name ?? "",
+        email: email ?? "",
+        old: old ?? "",
+        phoneNumber: phoneNumber ?? "",
       ),
       appBar: AppBar(
         iconTheme: const IconThemeData(
