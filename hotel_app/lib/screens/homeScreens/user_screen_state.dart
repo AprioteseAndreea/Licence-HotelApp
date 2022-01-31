@@ -103,7 +103,9 @@ class _UserHomeState extends State<UserHomeState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _children[_currentIndex],
+      body: _children.isNotEmpty
+          ? _children[_currentIndex]
+          : const CircularProgressIndicator(),
       bottomNavigationBar: ConvexAppBar(
         items: const [
           TabItem(
