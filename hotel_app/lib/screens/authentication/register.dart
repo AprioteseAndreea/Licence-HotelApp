@@ -227,7 +227,7 @@ class _RegisterState extends State<Register> {
                                 role: 'user',
                                 gender: gender,
                                 old: date);
-                            userService.addUserInFirebase(user);
+                            await userService.addUserInFirebase(user);
 
                             Navigator.pushAndRemoveUntil(
                                 context,

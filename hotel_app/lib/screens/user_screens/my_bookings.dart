@@ -218,7 +218,8 @@ class _MyBookings extends State<MyBookings> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => AboutReservation(
-                                            reservationModel: resCurrent),
+                                            reservationModel: resCurrent,
+                                            isUser: true),
                                       ),
                                     );
                                   },

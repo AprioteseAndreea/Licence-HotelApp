@@ -33,6 +33,7 @@ class _UserHomeState extends State<UserHomeState> {
       setState(() {
         name = value!.displayName!;
         email = value.email;
+        phoneNumber = value.photoURL;
       });
     });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
@@ -45,7 +46,6 @@ class _UserHomeState extends State<UserHomeState> {
     final _value = _prefs.getString('role');
     final _gender = _prefs.getString('gender');
     final _old = _prefs.getString('old');
-    final _phoneNumber = _prefs.getString('phoneNumber');
 
     if (_value != null) {
       setState(() {
@@ -60,11 +60,6 @@ class _UserHomeState extends State<UserHomeState> {
     if (_old != null) {
       setState(() {
         old = _old;
-      });
-    }
-    if (_phoneNumber != null) {
-      setState(() {
-        phoneNumber = _phoneNumber;
       });
     }
   }
@@ -92,6 +87,7 @@ class _UserHomeState extends State<UserHomeState> {
       setState(() {
         name = value!.displayName!;
         email = value.email;
+        phoneNumber = value.photoURL;
       });
     });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {

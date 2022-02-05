@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
+import 'package:first_app_flutter/screens/homeScreens/user_screen_state.dart';
+import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   const Profile(
@@ -25,11 +29,17 @@ class Profile extends StatefulWidget {
 
 class _Profile extends State<Profile> {
   AuthServices authServices = AuthServices();
-  // String name = "";
-  //String photoURL = "";
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  late TextEditingController _fullNameController = TextEditingController();
+  late TextEditingController _phoneController = TextEditingController();
+  late bool _fullNameIsEnable = false;
+  late bool _phoneIsEnable = false;
 
   @override
   void initState() {
+    _fullNameController = TextEditingController(text: super.widget.name);
+    _phoneController = TextEditingController(text: super.widget.phoneNumber);
     super.initState();
     authServices.getCurrentUser().then((value) {
       setState(() {
@@ -40,8 +50,17 @@ class _Profile extends State<Profile> {
   }
 
   @override
+  void dispose() {
+    _fullNameController.dispose();
+    _phoneController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final userService = Provider.of<UserService>(context);
+    int reserv = ReservationService.numberOfReservations;
     Size mediaQuery = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -123,25 +142,7 @@ class _Profile extends State<Profile> {
                     children: [
                       Row(
                         children: [
-                          Image.asset(
-                            "assets/images/goldmedal.png",
-                            height: 44,
-                          ),
-                          const Text(
-                            "GOLD",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Color(0xFF124559),
-                            ),
-                          ),
-                          const Text(
-                            " - 12 Bookings",
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Color(0xFF124559),
-                            ),
-                          ),
+                          ranking((reserv / 2).round()),
                         ],
                       ),
                     ],
@@ -195,15 +196,17 @@ class _Profile extends State<Profile> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      super.widget.name ?? "",
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Color(0xFF124559),
+                                    Expanded(
+                                      child: TextFormField(
+                                        controller: _fullNameController,
+                                        enabled: _fullNameIsEnable,
+                                        decoration: const InputDecoration(
+                                          hintStyle: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF124559),
+                                          ),
+                                        ),
                                       ),
-                                      textAlign: TextAlign.justify,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
                                     ),
                                     Card(
                                       semanticContainer: true,
@@ -214,13 +217,20 @@ class _Profile extends State<Profile> {
                                       ),
                                       color: const Color(0xFFFFFFFF),
                                       elevation: 5,
-                                      child: const SizedBox(
-                                        width: 30,
-                                        height: 30,
-                                        child: Icon(
-                                          CupertinoIcons.pencil,
-                                          color: Color(0xFFF0972D),
-                                          size: 25,
+                                      child: SizedBox(
+                                        width: 35,
+                                        height: 35,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _fullNameIsEnable = true;
+                                            });
+                                          },
+                                          icon: const Icon(
+                                            CupertinoIcons.pencil,
+                                            color: Color(0xFFF0972D),
+                                            size: 25,
+                                          ),
                                         ),
                                       ),
                                     )
@@ -302,11 +312,16 @@ class _Profile extends State<Profile> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      super.widget.phoneNumber ?? "",
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Color(0xFF124559),
+                                    Expanded(
+                                      child: TextFormField(
+                                        controller: _phoneController,
+                                        enabled: _phoneIsEnable,
+                                        decoration: const InputDecoration(
+                                          hintStyle: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF124559),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     Card(
@@ -318,13 +333,20 @@ class _Profile extends State<Profile> {
                                       ),
                                       color: const Color(0xFFFFFFFF),
                                       elevation: 5,
-                                      child: const SizedBox(
-                                        width: 30,
-                                        height: 30,
-                                        child: Icon(
-                                          CupertinoIcons.pencil,
-                                          color: Color(0xFFF0972D),
-                                          size: 25,
+                                      child: SizedBox(
+                                        width: 35,
+                                        height: 35,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _phoneIsEnable = true;
+                                            });
+                                          },
+                                          icon: const Icon(
+                                            CupertinoIcons.pencil,
+                                            color: Color(0xFFF0972D),
+                                            size: 25,
+                                          ),
                                         ),
                                       ),
                                     )
@@ -382,7 +404,26 @@ class _Profile extends State<Profile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MaterialButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          var user = firebaseAuth.currentUser;
+                          await user!
+                              .updateDisplayName(_fullNameController.text);
+                          await user.updatePhotoURL(_phoneController.text);
+
+                          await userService.updateUserInFirebase(
+                              super.widget.email!,
+                              _fullNameController.text,
+                              _phoneController.text);
+
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Successfully saved"),
+                          ));
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => const UserHomeState()),
+                              (Route<dynamic> route) => false);
+                        },
                         child: Ink(
                           decoration: BoxDecoration(
                               gradient: const LinearGradient(
@@ -411,6 +452,85 @@ class _Profile extends State<Profile> {
             ),
           ),
         ));
+  }
+
+  Widget ranking(int noOfReservations) {
+    if (noOfReservations < 3) {
+      return Row(
+        children: [
+          Image.asset(
+            "assets/images/bronzemedal.png",
+            height: 44,
+          ),
+          const Text(
+            "BRONZE - ",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              color: Color(0xFF124559),
+            ),
+          ),
+          Text(
+            '${noOfReservations.toString()} BOOKINGS',
+            style: const TextStyle(
+              fontSize: 15,
+              color: Color(0xFF124559),
+            ),
+          ),
+        ],
+      );
+    } else if (noOfReservations >= 3 && noOfReservations <= 9) {
+      return Row(
+        children: [
+          Image.asset(
+            "assets/images/silvermedal.png",
+            height: 44,
+          ),
+          const Text(
+            "SILVER - ",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              color: Color(0xFF124559),
+            ),
+          ),
+          Text(
+            '${noOfReservations.toString()} BOOKINGS',
+            style: const TextStyle(
+              fontSize: 15,
+              color: Color(0xFF124559),
+            ),
+          ),
+        ],
+      );
+    } else if (noOfReservations >= 10) {
+      return Row(
+        children: [
+          Image.asset(
+            "assets/images/goldmedal.png",
+            height: 44,
+          ),
+          const Text(
+            "GOLD - ",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              color: Color(0xFF124559),
+            ),
+          ),
+          Text(
+            '${noOfReservations.toString()} BOOKINGS',
+            style: const TextStyle(
+              fontSize: 15,
+              color: Color(0xFF124559),
+            ),
+          ),
+        ],
+      );
+    }
+    return const SizedBox(
+      height: 0,
+    );
   }
 }
 

@@ -50,6 +50,27 @@ class UserService with ChangeNotifier {
     });
   }
 
+  Future<void> updateUserInFirebase(
+      String email, String name, String phoneNumber) async {
+    DocumentReference<Map<String, dynamic>> users =
+        FirebaseFirestore.instance.collection('users').doc('myUsers');
+
+    for (int i = 0; i < _users.length; i++) {
+      if (_users[i].email == email) {
+        _users[i].email = email;
+        _users[i].name = name;
+        _users[i].phoneNumber = phoneNumber;
+      }
+    }
+    final usersMap = <Map<String, dynamic>>[];
+    for (var f in _users) {
+      usersMap.add(f.toJson());
+    }
+    users.set({
+      'users': usersMap,
+    });
+  }
+
   Future<void> getNameFromSharedPrefs() async {
     final _prefs = await SharedPreferences.getInstance();
     String? email = _prefs.getString('email');

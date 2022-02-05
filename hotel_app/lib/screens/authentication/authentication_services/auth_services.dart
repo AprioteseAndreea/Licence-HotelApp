@@ -23,6 +23,7 @@ class AuthServices with ChangeNotifier {
           .createUserWithEmailAndPassword(email: email, password: password);
       User? user = authResult.user;
       user!.updateDisplayName(name);
+      user.updatePhotoURL(phoneNumber);
 
       setLoading(false);
       return user;
@@ -43,9 +44,9 @@ class AuthServices with ChangeNotifier {
       RoomsService roomsService = RoomsService();
       FeedbackService feedbackService = FeedbackService();
       StatisticsService statisticsService = StatisticsService();
-      //ReservationService reservationService = ReservationService();
+      ReservationService reservationService = ReservationService();
       // await reservationService.actualizeInformation();
-
+      await reservationService.countNumberOfReservations(email);
       UserCredential authResult = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = authResult.user;

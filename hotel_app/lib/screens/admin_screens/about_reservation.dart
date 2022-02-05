@@ -1,6 +1,7 @@
 import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
+import 'package:first_app_flutter/utils/buttons/reservation_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,8 +10,9 @@ import 'package:intl/intl.dart';
 
 class AboutReservation extends StatefulWidget {
   final ReservationModel reservationModel;
-
-  const AboutReservation({Key? key, required this.reservationModel})
+  final bool isUser;
+  const AboutReservation(
+      {Key? key, required this.reservationModel, required this.isUser})
       : super(key: key);
   @override
   _AboutReservation createState() => _AboutReservation();
@@ -308,24 +310,20 @@ class _AboutReservation extends State<AboutReservation> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (super.widget.reservationModel.approved)
-                      const Padding(
-                          padding: EdgeInsets.all(2),
-                          child: Card(
-                            color: Colors.green,
-                            child: Padding(
-                              padding: EdgeInsets.all(8),
-                              child: Text(
-                                'APPROVED',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          )),
-                    if (!super.widget.reservationModel.approved)
+                    if (super.widget.isUser == true &&
+                        !super.widget.reservationModel.approved)
+                      const ReservationButton(
+                          textButton: "PENDING", color: 0xFFF0972D),
+                    if (super.widget.isUser == true &&
+                        super.widget.reservationModel.approved)
+                      const ReservationButton(
+                          textButton: "APPROVED", color: 0xFF2dba49),
+                    if (super.widget.reservationModel.approved &&
+                        super.widget.isUser == false)
+                      const ReservationButton(
+                          textButton: "APPROVED", color: 0xFF2dba49),
+                    if (!super.widget.reservationModel.approved &&
+                        super.widget.isUser == false)
                       Padding(
                         padding: const EdgeInsets.all(2),
                         child: GestureDetector(

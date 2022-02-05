@@ -79,7 +79,7 @@ class _GetRoom extends State<GetRoom> {
           actions: [
             // ignore: deprecated_member_use
             FlatButton(
-              child: const Text('Yes'),
+              child: const Text('OK'),
               onPressed: () {
                 selectedSpecialFacilities = _multipleNotifier.selectedItems;
                 Navigator.of(context).pop();
@@ -272,7 +272,20 @@ class _GetRoom extends State<GetRoom> {
                         ),
                       ),
                     ]),
-
+                if (foundRoomProvider.errorMessage != "")
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    color: Colors.amberAccent,
+                    child: ListTile(
+                      title: Text(foundRoomProvider.errorMessage),
+                      leading: const Icon(Icons.error),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () => foundRoomProvider.setMessage(""),
+                      ),
+                    ),
+                  ),
                 const Padding(
                   padding: EdgeInsets.only(left: 20, bottom: 8, top: 15),
                   child: Text(
@@ -612,20 +625,6 @@ class _GetRoom extends State<GetRoom> {
                 const SizedBox(
                   height: 10,
                 ),
-                if (foundRoomProvider.errorMessage != "")
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    color: Colors.amberAccent,
-                    child: ListTile(
-                      title: Text(foundRoomProvider.errorMessage),
-                      leading: const Icon(Icons.error),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () => foundRoomProvider.setMessage(""),
-                      ),
-                    ),
-                  )
               ],
             ),
           ),

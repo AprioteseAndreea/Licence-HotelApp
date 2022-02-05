@@ -83,7 +83,9 @@ class _Bookings extends State<Bookings> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => AboutReservation(
-                                            reservationModel: resCurrent),
+                                          reservationModel: resCurrent,
+                                          isUser: false,
+                                        ),
                                       ),
                                     );
                                   },
@@ -235,6 +237,10 @@ class _Bookings extends State<Bookings> {
                                                               .updateReservationInFirebase(
                                                                   reservation[
                                                                       'id']),
+                                                          reservationProvider
+                                                              .countNumberOfReservations(
+                                                                  reservation[
+                                                                      'user']),
                                                         },
                                                     child: const Card(
                                                       color: Colors.orange,

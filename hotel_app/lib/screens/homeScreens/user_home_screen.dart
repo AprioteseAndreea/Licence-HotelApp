@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/models/user_model.dart' as UserModel;
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/homeScreens/side_bar/side_drawer.dart';
@@ -19,6 +20,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
   String? name, role, gender, email, old, phoneNumber;
   String profilePicture = "";
   AuthServices authServices = AuthServices();
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   List<String> facilities = [];
   List<String> placeToVisitPath = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -50,6 +52,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
       setState(() {
         name = value!.displayName!;
         email = value.email;
+        phoneNumber = value.photoURL;
       });
     });
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
@@ -77,7 +80,6 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     final _value = _prefs.getString('role');
     final _gender = _prefs.getString('gender');
     final _old = _prefs.getString('old');
-    final _phoneNumber = _prefs.getString('phoneNumber');
     if (_value != null) {
       setState(() {
         role = _value;
@@ -91,11 +93,6 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     if (_old != null) {
       setState(() {
         old = _old;
-      });
-    }
-    if (_phoneNumber != null) {
-      setState(() {
-        phoneNumber = _phoneNumber;
       });
     }
   }
@@ -129,7 +126,8 @@ class _UserHomeScreen extends State<UserHomeScreen> {
               CupertinoIcons.square_arrow_right,
               size: 25,
             ),
-            onPressed: () async => {await loginProvider.logout()},
+            onPressed: () async =>
+                {firebaseAuth.signOut(), await loginProvider.logout()},
           ),
         ],
         leading: Builder(

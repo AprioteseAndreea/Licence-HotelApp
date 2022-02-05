@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 class ReservationService with ChangeNotifier {
   FirebaseFirestore? _instance;
   final List<ReservationModel> _reservations = [];
-
+  static int numberOfReservations = 0;
   List<ReservationModel> getReservations() {
     return _reservations;
   }
@@ -14,6 +14,10 @@ class ReservationService with ChangeNotifier {
   ReservationService() {
     getReservationsCollectionFromFirebase();
   }
+  static int getNumberOfReservation() {
+    return numberOfReservations;
+  }
+
   Future<void> getReservationsCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');
@@ -28,6 +32,14 @@ class ReservationService with ChangeNotifier {
       }
     }
     // sortReservationByDate();
+  }
+
+  Future<void> countNumberOfReservations(String email) async {
+    await getReservationsCollectionFromFirebase();
+    numberOfReservations = 0;
+    for (var r in _reservations) {
+      if (r.user == email && r.approved) numberOfReservations++;
+    }
   }
 
   Future<void> actualizeInformation() async {

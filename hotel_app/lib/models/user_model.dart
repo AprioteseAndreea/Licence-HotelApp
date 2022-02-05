@@ -1,10 +1,10 @@
 class User {
-  final String email;
-  final String name;
-  final String phoneNumber;
-  final String role;
-  final String gender;
-  final String old;
+  late String email;
+  late String name;
+  late String phoneNumber;
+  late String role;
+  late String gender;
+  late String old;
   String? referenceId;
   User(
       {required this.email,
