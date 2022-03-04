@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/extra_facility_model.dart';
-import 'package:first_app_flutter/models/feedback_model.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class FacilityService with ChangeNotifier {
   FirebaseFirestore? _instance;

@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_app_flutter/models/user_model.dart' as UserModel;
+import 'package:first_app_flutter/models/user_model.dart' as user_model;
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/homeScreens/side_bar/side_drawer.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ class UserHomeScreen extends StatefulWidget {
 
 class _UserHomeScreen extends State<UserHomeScreen> {
   UserService userService = UserService();
-  late List<UserModel.User> users = [];
+  late List<user_model.User> users = [];
   String? name, role, gender, email, old, phoneNumber;
   String profilePicture = "";
   AuthServices authServices = AuthServices();
@@ -188,7 +189,12 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                           maxLines: 2,
                         ),
                         MaterialButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const GetRoom()));
+                          },
                           child: Ink(
                             decoration: BoxDecoration(
                                 gradient: const LinearGradient(

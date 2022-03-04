@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import 'add_feedback.dart';
-import 'notifiers.dart';
 
 class Feedback extends StatefulWidget {
   const Feedback({Key? key}) : super(key: key);

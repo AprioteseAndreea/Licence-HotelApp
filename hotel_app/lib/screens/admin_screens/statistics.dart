@@ -1,9 +1,7 @@
 import 'package:first_app_flutter/screens/admin_screens/second_screen_statistics.dart';
 import 'package:first_app_flutter/screens/admin_screens/third_screen_statistics.dart';
-import 'package:first_app_flutter/screens/services/statistics_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'first_screen_statistics.dart';
 
 class Statistics extends StatefulWidget {

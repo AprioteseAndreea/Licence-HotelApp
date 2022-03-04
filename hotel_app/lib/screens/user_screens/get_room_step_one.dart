@@ -21,29 +21,28 @@ class GetRoom extends StatefulWidget {
 
 class _GetRoom extends State<GetRoom> {
   TextEditingController nameController = TextEditingController();
+  late TextEditingController _otherDetailsController = TextEditingController();
 
-  late String _checkInDay = DateTime.now().day.toString();
-  late String _checkInMonth = DateFormat.MMMM().format(DateTime.now());
-  late String _checkInYear = DateTime.now().year.toString();
   late DateTime checkIn = DateTime.now();
   late DateTime checkOut = DateTime.now();
+
+  late String day = '';
   late String checkInFormat = DateFormat('dd-MM-yyyy').format(DateTime.now());
   late String checkOutFormat = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
-  late String _checkOutDay = DateTime.now().day.toString();
-  late String _checkOutMonth = DateFormat.MMMM().format(DateTime.now());
-  late String _checkOutYear = DateTime.now().year.toString();
   int adults = 1;
   int children = 0;
 
-  late String day = '';
-
   List<FacilityModel> facilitiesCollection = [];
   List<FacilityModel> selectedSpecialFacilities = [];
+
   late FacilityService facilityService = FacilityService();
+
   @override
   void initState() {
     facilitiesCollection = facilityService.getFacilities();
+    _otherDetailsController = TextEditingController();
+
     nameController.text = "";
     super.initState();
     initializeDateFormatting();
@@ -99,10 +98,6 @@ class _GetRoom extends State<GetRoom> {
       setState(() {
         checkIn = d;
         checkInFormat = DateFormat('dd-MM-yyyy').format(checkIn);
-
-        _checkInDay = d.day.toString();
-        _checkInMonth = DateFormat.MMMM().format(d);
-        _checkInYear = d.year.toString();
       });
     }
   }
@@ -150,9 +145,6 @@ class _GetRoom extends State<GetRoom> {
       setState(() {
         checkOut = d;
         checkOutFormat = DateFormat('dd-MM-yyyy').format(checkOut);
-        _checkOutDay = d.day.toString();
-        _checkOutMonth = DateFormat.MMMM().format(d);
-        _checkOutYear = d.year.toString();
       });
     }
   }
@@ -194,7 +186,7 @@ class _GetRoom extends State<GetRoom> {
                         'CHECK-IN',
                         style: TextStyle(
                             color: Color(0xFF124559),
-                            fontSize: 12,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -204,7 +196,7 @@ class _GetRoom extends State<GetRoom> {
                         'CHECK-OUT',
                         style: TextStyle(
                             color: Color(0xFF124559),
-                            fontSize: 12,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold),
                       ),
                     )
@@ -221,7 +213,7 @@ class _GetRoom extends State<GetRoom> {
                                 IconButton(
                                   icon: const Icon(
                                     CupertinoIcons.calendar_badge_plus,
-                                    size: 18,
+                                    size: 20,
                                     color: Color(0xFFF0972D),
                                   ),
                                   tooltip: 'Tap to open date picker',
@@ -258,7 +250,7 @@ class _GetRoom extends State<GetRoom> {
                                 IconButton(
                                   icon: const Icon(
                                     CupertinoIcons.calendar_badge_plus,
-                                    size: 18,
+                                    size: 20,
                                     color: Color(0xFFF0972D),
                                   ),
                                   tooltip: 'Tap to open date picker',
@@ -292,7 +284,7 @@ class _GetRoom extends State<GetRoom> {
                     'GUESTS',
                     style: TextStyle(
                         color: Color(0xFF124559),
-                        fontSize: 12,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -316,7 +308,7 @@ class _GetRoom extends State<GetRoom> {
                                               left: 10, bottom: 8, top: 10),
                                           child: Text('ADULTS',
                                               style: TextStyle(
-                                                  fontSize: 10,
+                                                  fontSize: 13,
                                                   color: Color(0xFF333333))),
                                         ),
                                         const SizedBox(
@@ -375,7 +367,7 @@ class _GetRoom extends State<GetRoom> {
                                               left: 10, bottom: 8, top: 10),
                                           child: Text('CHILDREN',
                                               style: TextStyle(
-                                                  fontSize: 10,
+                                                  fontSize: 13,
                                                   color: Color(0xFF333333))),
                                         ),
                                         const SizedBox(
@@ -435,7 +427,7 @@ class _GetRoom extends State<GetRoom> {
                     'SPECIAL FACILITIES',
                     style: TextStyle(
                         color: Color(0xFF124559),
-                        fontSize: 12,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -511,53 +503,25 @@ class _GetRoom extends State<GetRoom> {
                         )),
                   ],
                 ),
-                // const Padding(
-                //   padding: EdgeInsets.only(left: 15, bottom: 8, top: 15),
-                //   child: Text(
-                //     'NAME',
-                //     style: TextStyle(
-                //         color: Color(0xFF124559),
-                //         fontSize: 12,
-                //         fontWeight: FontWeight.bold),
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 30, right: 30),
-                //   child: TextFormField(
-                //     controller: nameController,
-                //     validator: (val) =>
-                //         val!.isNotEmpty ? null : "Please enter your full name",
-                //     decoration: InputDecoration(
-                //       hintText: "Full Name",
-                //       prefixIcon: const Icon(
-                //         Icons.person,
-                //         color: Color(0xFF124559),
-                //       ),
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
-                    Padding(
+                  children: <Widget>[
+                    const Padding(
                       padding: EdgeInsets.only(left: 15, bottom: 5, top: 10),
                       child: Text(
                         "OTHER DETAILS",
                         style: TextStyle(
                             color: Color(0xFF124559),
-                            fontSize: 12,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           left: 20, bottom: 5, top: 10, right: 20),
                       child: TextField(
-                        // controller: nameController,
-                        decoration: InputDecoration(
+                        controller: _otherDetailsController,
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                         ),
                         keyboardType: TextInputType.multiline,
@@ -592,6 +556,7 @@ class _GetRoom extends State<GetRoom> {
                                         selectedSpecialFacilities,
                                     room: rooms[0],
                                     name: nameController.text,
+                                    otherDetails: _otherDetailsController.text,
                                   ),
                                 ));
                           } else {

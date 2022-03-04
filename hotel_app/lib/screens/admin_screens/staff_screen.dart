@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app_flutter/screens/admin_screens/add_staff.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -31,6 +32,22 @@ class _StaffScreen extends State<StaffScreen> {
           'Staff',
           style: TextStyle(color: Color(0xFF124559)),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              CupertinoIcons.plus_circle_fill,
+              size: 30,
+            ),
+            onPressed: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddStaff(),
+                ),
+              )
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

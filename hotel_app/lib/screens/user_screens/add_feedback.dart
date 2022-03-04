@@ -1,8 +1,6 @@
 import 'package:first_app_flutter/models/feedback_model.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/feedback_service.dart';
-import 'package:first_app_flutter/screens/user_screens/feedback.dart'
-    as FeedbackScreen;
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

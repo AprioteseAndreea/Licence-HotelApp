@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/screens/admin_screens/about_reservation.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
-import 'package:first_app_flutter/screens/services/statistics_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -31,8 +30,6 @@ class _Bookings extends State<Bookings> {
   @override
   Widget build(BuildContext context) {
     final reservationProvider = Provider.of<ReservationService>(context);
-    final statisticsProvider = Provider.of<StatisticsService>(context);
-
     return Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(
@@ -78,7 +75,9 @@ class _Bookings extends State<Bookings> {
                                                     .cast<String>(),
                                             guests: reservation['guests'],
                                             name: reservation['name'],
-                                            id: reservation['id']);
+                                            id: reservation['id'],
+                                            otherDetails:
+                                                reservation['otherDetails']);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

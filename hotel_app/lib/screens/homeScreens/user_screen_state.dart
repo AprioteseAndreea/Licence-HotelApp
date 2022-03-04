@@ -5,7 +5,7 @@ import 'package:first_app_flutter/screens/homeScreens/user_home_screen.dart';
 import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
 import 'package:first_app_flutter/screens/user_screens/profile.dart';
 import 'package:first_app_flutter/screens/user_screens/feedback.dart'
-    as FeedbackScreen;
+    as feedback_screen;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -77,7 +77,7 @@ class _UserHomeState extends State<UserHomeState> {
     _children.add(const GetRoom());
     _children.add(const UserHomeScreen());
     _children.add(const ChatScreen());
-    _children.add(const FeedbackScreen.Feedback());
+    _children.add(const feedback_screen.Feedback());
   }
 
   @override

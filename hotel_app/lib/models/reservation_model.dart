@@ -2,14 +2,17 @@ class ReservationModel {
   late String checkIn;
   late String checkOut;
   late String date;
-  late int price;
   late String room;
   late String user;
-  late bool approved;
-  late List<String> facilities = [];
-  late int guests;
   late String? name;
   late String id;
+  late String otherDetails;
+  late int price;
+  late int guests;
+
+  late bool approved;
+
+  late List<String> facilities = [];
 
   ReservationModel(
       {required this.checkIn,
@@ -22,7 +25,8 @@ class ReservationModel {
       required this.facilities,
       required this.guests,
       required this.name,
-      required this.id});
+      required this.id,
+      required this.otherDetails});
 
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
     return ReservationModel(
@@ -36,7 +40,8 @@ class ReservationModel {
         facilities: json['facilities'].cast<String>(),
         guests: json['guests'],
         name: json['name'],
-        id: json['id']);
+        id: json['id'],
+        otherDetails: json['otherDetails']);
   }
   Map<String, dynamic> toJson() => roomsToJson(this);
   Map<String, dynamic> roomsToJson(ReservationModel r) => <String, dynamic>{
@@ -50,6 +55,7 @@ class ReservationModel {
         "facilities": r.facilities,
         "guests": r.guests,
         "name": r.name,
-        "id": r.id
+        "id": r.id,
+        "otherDetails": r.otherDetails
       };
 }

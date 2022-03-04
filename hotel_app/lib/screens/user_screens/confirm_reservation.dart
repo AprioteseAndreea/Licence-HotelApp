@@ -1,4 +1,3 @@
-import 'package:first_app_flutter/screens/homeScreens/user_home_screen.dart';
 import 'package:first_app_flutter/screens/homeScreens/user_screen_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

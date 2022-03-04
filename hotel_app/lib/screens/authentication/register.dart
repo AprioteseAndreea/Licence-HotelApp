@@ -1,7 +1,6 @@
 import 'package:first_app_flutter/models/gender.dart';
 import 'package:first_app_flutter/models/user_model.dart';
 import 'package:first_app_flutter/screens/authentication/login.dart';
-import 'package:first_app_flutter/screens/homeScreens/home_screen.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';

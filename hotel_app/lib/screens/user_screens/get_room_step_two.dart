@@ -2,7 +2,6 @@ import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
-import 'package:first_app_flutter/screens/services/rooms_service.dart';
 import 'package:first_app_flutter/screens/user_screens/confirm_reservation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,7 @@ class GetRoomS2 extends StatefulWidget {
   final List<FacilityModel> selectedSpecialFacilities;
   final RoomModel room;
   final String name;
+  final String otherDetails;
   const GetRoomS2(
       {Key? key,
       required this.checkInDate,
@@ -27,7 +27,8 @@ class GetRoomS2 extends StatefulWidget {
       required this.children,
       required this.selectedSpecialFacilities,
       required this.room,
-      required this.name})
+      required this.name,
+      required this.otherDetails})
       : super(key: key);
   @override
   _GetRoomS2 createState() => _GetRoomS2();
@@ -65,7 +66,6 @@ class _GetRoomS2 extends State<GetRoomS2> {
   @override
   Widget build(BuildContext context) {
     final reservationProvider = Provider.of<ReservationService>(context);
-    final roomsProvider = Provider.of<RoomsService>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -548,24 +548,24 @@ class _GetRoomS2 extends State<GetRoomS2> {
 
                       if (_value != null) {
                         ReservationModel r = ReservationModel(
-                          checkIn: super.widget.checkInDate.toString(),
-                          checkOut: super.widget.checkOutDate.toString(),
-                          date: DateTime.now().toString(),
-                          price: total,
-                          room: super.widget.room.number,
-                          user: _value,
-                          approved: false,
-                          facilities: facilities,
-                          guests: super.widget.adults + super.widget.children,
-                          name: super.widget.name != ""
-                              ? super.widget.name
-                              : _name,
-                          id: DateTime.now().hour.toString() +
-                              DateTime.now().minute.toString() +
-                              DateTime.now().day.toString() +
-                              DateTime.now().month.toString() +
-                              DateTime.now().year.toString(),
-                        );
+                            checkIn: super.widget.checkInDate.toString(),
+                            checkOut: super.widget.checkOutDate.toString(),
+                            date: DateTime.now().toString(),
+                            price: total,
+                            room: super.widget.room.number,
+                            user: _value,
+                            approved: false,
+                            facilities: facilities,
+                            guests: super.widget.adults + super.widget.children,
+                            name: super.widget.name != ""
+                                ? super.widget.name
+                                : _name,
+                            id: DateTime.now().hour.toString() +
+                                DateTime.now().minute.toString() +
+                                DateTime.now().day.toString() +
+                                DateTime.now().month.toString() +
+                                DateTime.now().year.toString(),
+                            otherDetails: super.widget.otherDetails);
 
                         await reservationProvider.addReservationsInFirebase(r);
                         await reservationProvider.actualizeInformation();
