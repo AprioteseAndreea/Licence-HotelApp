@@ -151,7 +151,7 @@ class _AddRoom extends State<AddRoom> {
                   ),
                 ),
                 MaterialButton(
-                  onPressed: () {
+                  onPressed: () async {
                     RoomModel room = RoomModel(
                         number: _numberController.text,
                         cost: _priceController.text,
@@ -161,7 +161,7 @@ class _AddRoom extends State<AddRoom> {
                         interval: "none",
                         facilities: facilities);
 
-                    roomsService.addRoomInFirebase(room);
+                    await roomsService.addRoomInFirebase(room);
                     if (roomsService.errorMessage == "") {
                       Navigator.pushAndRemoveUntil(
                           context,

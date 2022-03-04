@@ -1,6 +1,5 @@
 import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
-import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
 import 'package:first_app_flutter/utils/buttons/reservation_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,16 +67,16 @@ class _AboutReservation extends State<AboutReservation> {
                 Image.asset(
                   'assets/images/booking.jpg',
                   width: mediaQuery.width,
-                  height: mediaQuery.height * 0.2,
+                  height: mediaQuery.height * 0.18,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 10),
+                  padding: const EdgeInsets.only(left: 18, right: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Image.asset(
                         'assets/images/tourist_avatar.png',
-                        width: 30,
+                        width: 25,
                       ),
                       const SizedBox(
                         width: 10,
@@ -120,14 +119,14 @@ class _AboutReservation extends State<AboutReservation> {
                             const Text(
                               'Check-in: ',
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 17,
                                   color: Color(0xFFE16A10),
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
                               formatDate(timeLineList[0]),
                               style: const TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 18,
                                   color: Color(0xFF124559),
                                   fontStyle: FontStyle.italic),
                             )
@@ -162,7 +161,7 @@ class _AboutReservation extends State<AboutReservation> {
                             const Text(
                               'Check-out: ',
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 17,
                                   color: Color(0xFFE16A10),
                                   fontWeight: FontWeight.bold),
                             ),
@@ -182,123 +181,173 @@ class _AboutReservation extends State<AboutReservation> {
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
                       children: [
                         Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/calendar.png',
-                              height: 30,
-                            ),
-                            const Text(
-                              'Reservation date: ',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xFFE16A10),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              formatDate(super.widget.reservationModel.date),
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xFF124559),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/room_tag.png',
-                              height: 30,
-                            ),
-                            Text(
-                              'ROOM ${super.widget.reservationModel.room}',
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xFFE16A10),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/dollar.png',
-                              height: 25,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              super.widget.reservationModel.price.toString(),
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xFFE16A10),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/people.png',
-                              height: 30,
-                            ),
-                            const Text(
-                              'Guests: ',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xFF124559),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              super.widget.reservationModel.guests.toString(),
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xFFE16A10),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              child: Text(
-                                'Show facilities (${super.widget.reservationModel.facilities.length.toString()})',
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                ),
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: const [
+                                  Icon(
+                                    CupertinoIcons.calendar,
+                                    size: 25,
+                                    color: Color(0xFFF0972D),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Reservation date: ',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color(0xFF124559),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
-                              onPressed: () =>
-                                  _showMultipleChoiceDialog(context),
+                              Row(
+                                children: [
+                                  Text(
+                                    formatDate(
+                                        super.widget.reservationModel.date),
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xFF124559),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ]),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  CupertinoIcons.tag_fill,
+                                  size: 25,
+                                  color: Color(0xFFF0972D),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'ROOM ${super.widget.reservationModel.room}',
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xFFE16A10),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Image.asset(
+                                  'assets/images/dollar.png',
+                                  height: 20,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  super
+                                      .widget
+                                      .reservationModel
+                                      .price
+                                      .toString(),
+                                  style: const TextStyle(
+                                      fontSize: 17,
+                                      color: Color(0xFFE16A10),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
                           ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  CupertinoIcons.person_2_fill,
+                                  size: 25,
+                                  color: Color(0xFFF0972D),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const Text(
+                                  'Guests: ',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xFF124559),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  super
+                                      .widget
+                                      .reservationModel
+                                      .guests
+                                      .toString(),
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xFFE16A10),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                ElevatedButton(
+                                  child: Text(
+                                    'Show facilities (${super.widget.reservationModel.facilities.length.toString()})',
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  onPressed: () =>
+                                      _showMultipleChoiceDialog(context),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: const [
+                            Icon(
+                              CupertinoIcons.pin_fill,
+                              size: 25,
+                              color: Color(0xFFF0972D),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Other details: ',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: Color(0xFF124559),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          super.widget.reservationModel.otherDetails,
+                          textAlign: TextAlign.justify,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 15, color: Color(0xFF124559)),
+                          maxLines: 2,
                         ),
                       ],
                     ),
@@ -312,16 +361,27 @@ class _AboutReservation extends State<AboutReservation> {
                   children: [
                     if (super.widget.isUser == true &&
                         !super.widget.reservationModel.approved)
-                      const ReservationButton(
-                          textButton: "PENDING", color: 0xFFF0972D),
+                      ReservationButton(
+                        textButton: "Cancel reservation",
+                        color: 0xFFF0972D,
+                        onTap: () async {
+                          _showCancelReservationDialog(context);
+                        },
+                      ),
                     if (super.widget.isUser == true &&
                         super.widget.reservationModel.approved)
-                      const ReservationButton(
-                          textButton: "APPROVED", color: 0xFF2dba49),
+                      ReservationButton(
+                        textButton: "APPROVED",
+                        color: 0xFF2dba49,
+                        onTap: () {},
+                      ),
                     if (super.widget.reservationModel.approved &&
                         super.widget.isUser == false)
-                      const ReservationButton(
-                          textButton: "APPROVED", color: 0xFF2dba49),
+                      ReservationButton(
+                        textButton: "APPROVED",
+                        color: 0xFF2dba49,
+                        onTap: () {},
+                      ),
                     if (!super.widget.reservationModel.approved &&
                         super.widget.isUser == false)
                       Padding(
@@ -362,7 +422,6 @@ class _AboutReservation extends State<AboutReservation> {
   _showMultipleChoiceDialog(BuildContext context) => showDialog(
       context: context,
       builder: (context) {
-        final _multipleNotifier = Provider.of<MultipleNotifier>(context);
         return AlertDialog(
           title: const Text('Selected facilities'),
           content: SingleChildScrollView(
@@ -383,6 +442,33 @@ class _AboutReservation extends State<AboutReservation> {
           actions: [
             // ignore: deprecated_member_use
             FlatButton(
+              child: const Text('CLOSE'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      });
+  _showCancelReservationDialog(BuildContext context) => showDialog(
+      context: context,
+      builder: (context) {
+        final reservationProvider = Provider.of<ReservationService>(context);
+
+        return AlertDialog(
+          title: const Text('Do you want to delete this reservation?'),
+          actions: [
+            TextButton(
+              child: const Text('YES'),
+              onPressed: () async {
+                await reservationProvider
+                    .deleteReservation(super.widget.reservationModel);
+                Navigator.pop(context);
+
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
               child: const Text('CLOSE'),
               onPressed: () {
                 Navigator.of(context).pop();

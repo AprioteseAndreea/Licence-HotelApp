@@ -1,6 +1,6 @@
 import 'package:first_app_flutter/screens/user_screens/contact_screen.dart';
 import 'package:first_app_flutter/screens/user_screens/feedback.dart'
-    as FeedbackScreen;
+    as feedback_screen;
 import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
 import 'package:first_app_flutter/screens/user_screens/my_bookings.dart';
 import 'package:first_app_flutter/screens/user_screens/profile.dart';
@@ -62,7 +62,7 @@ class SideDrawer extends StatelessWidget {
               CupertinoIcons.person_fill,
               color: Color(0xFF124559),
             ),
-            title: TextWidget('Profile'),
+            title: textWidget('Profile'),
             onTap: () => {
               Navigator.of(context).pop(),
               Navigator.push(
@@ -82,7 +82,7 @@ class SideDrawer extends StatelessWidget {
               Icons.border_color,
               color: Color(0xFFF0972D),
             ),
-            title: TextWidget('Book now'),
+            title: textWidget('Book now'),
             onTap: () => {
               Navigator.of(context).pop(),
               Navigator.push(context,
@@ -94,7 +94,7 @@ class SideDrawer extends StatelessWidget {
               CupertinoIcons.book_fill,
               color: Color(0xFF124559),
             ),
-            title: TextWidget('My bookings'),
+            title: textWidget('My bookings'),
             onTap: () => {
               Navigator.of(context).pop(),
               Navigator.push(
@@ -110,7 +110,7 @@ class SideDrawer extends StatelessWidget {
               CupertinoIcons.bubble_left_fill,
               color: Color(0xFFF0972D),
             ),
-            title: TextWidget('Chat'),
+            title: textWidget('Chat'),
             onTap: () => {Navigator.of(context).pop()},
           ),
           ListTile(
@@ -118,13 +118,13 @@ class SideDrawer extends StatelessWidget {
               CupertinoIcons.star_fill,
               color: Color(0xFF124559),
             ),
-            title: TextWidget('Feedbacks'),
+            title: textWidget('Feedbacks'),
             onTap: () => {
               Navigator.of(context).pop(),
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const FeedbackScreen.Feedback()))
+                      builder: (context) => const feedback_screen.Feedback()))
             },
           ),
           ListTile(
@@ -132,7 +132,7 @@ class SideDrawer extends StatelessWidget {
               CupertinoIcons.envelope_fill,
               color: Color(0xFFF0972D),
             ),
-            title: TextWidget('Contact'),
+            title: textWidget('Contact'),
             onTap: () => {
               Navigator.of(context).pop(),
               Navigator.push(context,
@@ -144,7 +144,7 @@ class SideDrawer extends StatelessWidget {
               CupertinoIcons.square_arrow_right,
               color: Color(0xFF124559),
             ),
-            title: TextWidget('Logout'),
+            title: textWidget('Logout'),
             onTap: () => {Navigator.of(context).pop()},
           ),
         ],
@@ -152,7 +152,7 @@ class SideDrawer extends StatelessWidget {
     );
   }
 
-  Widget TextWidget(String text) {
+  Widget textWidget(String text) {
     return Text(text,
         style: const TextStyle(
             fontSize: 16,

@@ -4,17 +4,19 @@ import 'package:flutter/material.dart';
 import 'data.dart';
 
 class SingleNotifier extends ChangeNotifier {
-  String _currentCountry = countries[0];
+  String _currentOccupation = countries[0];
   SingleNotifier();
 
-  String get currentCountry => _currentCountry;
+  String get currentCountry => _currentOccupation;
 
-  updateCountry(String value) {
-    if (value != _currentCountry) {
-      _currentCountry = value;
+  updateOccupation(String value) {
+    if (value != _currentOccupation) {
+      _currentOccupation = value;
       notifyListeners();
     }
   }
+
+  bool isHaveItem(String value) => currentCountry == value;
 }
 
 class MultipleNotifier extends ChangeNotifier {

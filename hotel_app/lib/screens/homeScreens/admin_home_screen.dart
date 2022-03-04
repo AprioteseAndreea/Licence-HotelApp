@@ -1,4 +1,4 @@
-import 'package:first_app_flutter/models/user_model.dart' as UserModel;
+import 'package:first_app_flutter/models/user_model.dart' as user_model;
 import 'package:first_app_flutter/screens/admin_screens/bookings.dart';
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/admin_screens/staff_screen.dart';
@@ -17,7 +17,7 @@ class AdminHomeScreen extends StatefulWidget {
 
 class _AdminHomeScreen extends State<AdminHomeScreen> {
   UserService userService = UserService();
-  late List<UserModel.User> users = [];
+  late List<user_model.User> users = [];
   AuthServices authServices = AuthServices();
   GlobalKey globalKey = GlobalKey();
   List<double> limits = [];
@@ -30,11 +30,11 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userService = Provider.of<UserService>(context);
+    // final userService = Provider.of<UserService>(context);
     Size mediaQuery = MediaQuery.of(context).size;
     final loginProvider = Provider.of<AuthServices>(context);
 
-    users = userService.getUsers();
+    //users = userService.getUsers();
     return SafeArea(
         child: Scaffold(
             body: SizedBox(

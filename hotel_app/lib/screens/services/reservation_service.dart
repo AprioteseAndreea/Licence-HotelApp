@@ -18,6 +18,10 @@ class ReservationService with ChangeNotifier {
     return numberOfReservations;
   }
 
+  List<ReservationModel> getListOfReservations() {
+    return _reservations;
+  }
+
   Future<void> getReservationsCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');
@@ -31,6 +35,23 @@ class ReservationService with ChangeNotifier {
         _reservations.add(f);
       }
     }
+    // sortReservationByDate();
+  }
+
+  Future<List<ReservationModel>> getReservationsFromFirebase() async {
+    _instance = FirebaseFirestore.instance;
+    CollectionReference categories = _instance!.collection('users');
+    _reservations.clear();
+    DocumentSnapshot snapshot = await categories.doc('reservations').get();
+    if (snapshot.exists) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      var reservationsData = data['reservations'] as List<dynamic>;
+      for (var r in reservationsData) {
+        ReservationModel f = ReservationModel.fromJson(r);
+        _reservations.add(f);
+      }
+    }
+    return _reservations;
     // sortReservationByDate();
   }
 
@@ -76,6 +97,24 @@ class ReservationService with ChangeNotifier {
     final reservationsMap = <Map<String, dynamic>>[];
     for (var f in _reservations) {
       reservationsMap.add(f.toJson());
+    }
+    reservations.set({
+      'reservations': reservationsMap,
+    });
+  }
+
+  Future<void> deleteReservation(ReservationModel r) async {
+    for (var reserv in _reservations) {
+      if (reserv.id == r.id) {
+        _reservations.remove(reserv);
+      }
+    }
+    DocumentReference<Map<String, dynamic>> reservations =
+        FirebaseFirestore.instance.collection('users').doc('reservations');
+
+    final reservationsMap = <Map<String, dynamic>>[];
+    for (int i = 0; i < _reservations.length; i++) {
+      reservationsMap.add(_reservations[i].toJson());
     }
     reservations.set({
       'reservations': reservationsMap,

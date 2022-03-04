@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app_flutter/screens/admin_screens/custom_user_info_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -47,52 +48,66 @@ class _UsersScreen extends State<UsersScreen> {
                       children: asyncSnapshot.data!.docs
                           .firstWhere(
                               (element) => element.id == 'myUsers')['users']
-                          .map<Widget>((user) => Card(
-                                margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
-                                elevation: 6,
-                                shadowColor: const Color(0xFF124559),
-                                child: ListTile(
-                                  title: Text(
-                                    user['name'],
-                                    style: const TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
+                          .map<Widget>((user) => GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return CustomDialogBox(
+                                            userName: user['name'],
+                                            userPhone: user['phoneNumber'],
+                                            userEmail: user['email'],
+                                            userOld: user['old'],
+                                            userGender: user['gender']);
+                                      });
+                                },
+                                child: Card(
+                                  margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                                  elevation: 6,
+                                  shadowColor: const Color(0xFF124559),
+                                  child: ListTile(
+                                    title: Text(
+                                      user['name'],
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  subtitle:
-                                      Text('Since: ${user['old'].toString()}'),
-                                  leading: user['gender'] == 'Male'
-                                      ? const Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 7, bottom: 4),
-                                          child: CircleAvatar(
-                                              radius: 25,
-                                              backgroundColor:
-                                                  Color(0xFFF0972D),
-                                              child: CircleAvatar(
-                                                  radius: 20,
-                                                  backgroundImage: AssetImage(
-                                                      'assets/images/male2.png'))),
-                                        )
-                                      : const Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 7, bottom: 4),
-                                          child: CircleAvatar(
-                                              radius: 25,
-                                              backgroundColor:
-                                                  Color(0xFFF0972D),
-                                              child: CircleAvatar(
-                                                  radius: 20,
-                                                  backgroundImage: AssetImage(
-                                                      'assets/images/female.png'))),
-                                        ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.phone),
-                                    color: const Color(0xFFF0972D),
-                                    onPressed: () {
-                                      launch('tel: +${user['phoneNumber']}');
-                                    },
+                                    subtitle: Text(
+                                        'Since: ${user['old'].toString()}'),
+                                    leading: user['gender'] == 'Male'
+                                        ? const Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 7, bottom: 4),
+                                            child: CircleAvatar(
+                                                radius: 25,
+                                                backgroundColor:
+                                                    Color(0xFFF0972D),
+                                                child: CircleAvatar(
+                                                    radius: 20,
+                                                    backgroundImage: AssetImage(
+                                                        'assets/images/male2.png'))),
+                                          )
+                                        : const Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 7, bottom: 4),
+                                            child: CircleAvatar(
+                                                radius: 25,
+                                                backgroundColor:
+                                                    Color(0xFFF0972D),
+                                                child: CircleAvatar(
+                                                    radius: 20,
+                                                    backgroundImage: AssetImage(
+                                                        'assets/images/female.png'))),
+                                          ),
+                                    trailing: IconButton(
+                                      icon: const Icon(Icons.phone),
+                                      color: const Color(0xFFF0972D),
+                                      onPressed: () {
+                                        launch('tel: +${user['phoneNumber']}');
+                                      },
+                                    ),
                                   ),
                                 ),
                               ))

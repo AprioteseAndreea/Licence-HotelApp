@@ -1,8 +1,7 @@
-import 'package:first_app_flutter/models/user_model.dart' as UserModel;
+import 'package:first_app_flutter/models/user_model.dart' as user_model;
 import 'package:first_app_flutter/screens/authentication/authentication.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/homeScreens/staff_home_screen.dart';
-import 'package:first_app_flutter/screens/homeScreens/user_home_screen.dart';
 import 'package:first_app_flutter/screens/homeScreens/user_screen_state.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeState extends State<HomeScreen> {
   UserService userService = UserService();
-  late List<UserModel.User> users = [];
+  late List<user_model.User> users = [];
   String? role;
   AuthServices authServices = AuthServices();
 

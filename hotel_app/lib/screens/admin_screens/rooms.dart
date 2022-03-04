@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/room_model.dart';
-import 'package:first_app_flutter/screens/services/reservation_service.dart';
-import 'package:first_app_flutter/screens/services/rooms_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:provider/provider.dart';
 import 'about_room.dart';
 import 'add_room.dart';
 
@@ -23,9 +20,6 @@ class _Rooms extends State<Rooms> {
 
   @override
   Widget build(BuildContext context) {
-    final roomsProvider = Provider.of<RoomsService>(context);
-    final reservationProvider = Provider.of<ReservationService>(context);
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(

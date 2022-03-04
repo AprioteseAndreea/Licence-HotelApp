@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_app_flutter/screens/authentication/authentication.dart';
 import 'package:first_app_flutter/screens/authentication/login.dart';
 import 'package:first_app_flutter/screens/homeScreens/home_screen.dart';
 import 'package:flutter/material.dart';

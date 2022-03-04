@@ -2,7 +2,7 @@ class Staff {
   final String email;
   final String gender;
   final String name;
-  final DateTime old;
+  final String old;
   final String phone;
   final String position;
   final int salary;
