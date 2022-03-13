@@ -84,6 +84,30 @@ class UserService with ChangeNotifier {
     });
   }
 
+  Future<void> updateStaffInFirebase(Staff staff) async {
+    DocumentReference<Map<String, dynamic>> users =
+        FirebaseFirestore.instance.collection('users').doc('staff');
+
+    for (int i = 0; i < _users.length; i++) {
+      if (_staff[i].email == staff.email) {
+        _staff[i].email = staff.email;
+        _staff[i].gender = staff.gender;
+        _staff[i].name = staff.name;
+        _staff[i].old = staff.old;
+        _staff[i].phone = staff.phone;
+        _staff[i].position = staff.position;
+        _staff[i].salary = staff.salary;
+      }
+    }
+    final staffMap = <Map<String, dynamic>>[];
+    for (var f in _staff) {
+      staffMap.add(f.toJson());
+    }
+    users.set({
+      'staff': staffMap,
+    });
+  }
+
   Future<void> updateUserInFirebase(
       String email, String name, String phoneNumber) async {
     DocumentReference<Map<String, dynamic>> users =

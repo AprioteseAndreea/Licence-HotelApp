@@ -1,6 +1,7 @@
 import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/utils/buttons/reservation_button.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -423,7 +424,7 @@ class _AboutReservation extends State<AboutReservation> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Selected facilities'),
+          title: Text(Strings.selectedFacilities),
           content: SingleChildScrollView(
             child: SizedBox(
                 width: double.infinity,
@@ -442,7 +443,7 @@ class _AboutReservation extends State<AboutReservation> {
           actions: [
             // ignore: deprecated_member_use
             FlatButton(
-              child: const Text('CLOSE'),
+              child: Text(Strings.close),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -456,10 +457,10 @@ class _AboutReservation extends State<AboutReservation> {
         final reservationProvider = Provider.of<ReservationService>(context);
 
         return AlertDialog(
-          title: const Text('Do you want to delete this reservation?'),
+          title: Text(Strings.deleteReservationQuestion),
           actions: [
             TextButton(
-              child: const Text('YES'),
+              child: Text(Strings.yes),
               onPressed: () async {
                 await reservationProvider
                     .deleteReservation(super.widget.reservationModel);
@@ -469,7 +470,7 @@ class _AboutReservation extends State<AboutReservation> {
               },
             ),
             TextButton(
-              child: const Text('CLOSE'),
+              child: Text(Strings.close),
               onPressed: () {
                 Navigator.of(context).pop();
               },

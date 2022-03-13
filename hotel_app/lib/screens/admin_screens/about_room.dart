@@ -1,6 +1,7 @@
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/services/rooms_service.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,13 +36,13 @@ class _AboutRoom extends State<AboutRoom> {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: const Text("Cancel"),
+      child: Text(Strings.cancel),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget okButton = TextButton(
-      child: const Text("Ok"),
+      child: Text(Strings.ok),
       onPressed: () {
         roomsService.deleteRoomInFirebase(super.widget.roomModel);
         Navigator.pushAndRemoveUntil(
@@ -54,7 +55,7 @@ class _AboutRoom extends State<AboutRoom> {
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: const Text("Delete room"),
+      title: Text(Strings.deleteRoom),
       content:
           Text("Do you want to delete room ${super.widget.roomModel.number}?"),
       actions: [
@@ -82,8 +83,8 @@ class _AboutRoom extends State<AboutRoom> {
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: const Text('Room details',
-              style: TextStyle(color: Color(0xFF124559))),
+          title: Text(Strings.roomDetails,
+              style: const TextStyle(color: Color(0xFF124559))),
           actions: [
             IconButton(
               icon: const Icon(
@@ -101,7 +102,7 @@ class _AboutRoom extends State<AboutRoom> {
                 Card(
                     margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
                     elevation: 6,
-                    shadowColor: const Color(0xFF124559),
+                    shadowColor: Color(Strings.darkTurquoise),
                     child: Container(
                       height: 145,
                       decoration: const BoxDecoration(
@@ -117,15 +118,15 @@ class _AboutRoom extends State<AboutRoom> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           if (super.widget.roomModel.free.toString() == 'true')
-                            const Padding(
-                                padding: EdgeInsets.all(2),
+                            Padding(
+                                padding: const EdgeInsets.all(2),
                                 child: Card(
                                   color: Colors.green,
                                   child: Padding(
-                                    padding: EdgeInsets.all(5),
+                                    padding: const EdgeInsets.all(5),
                                     child: Text(
-                                      'FREE',
-                                      style: TextStyle(
+                                      Strings.free,
+                                      style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
@@ -134,15 +135,15 @@ class _AboutRoom extends State<AboutRoom> {
                                   ),
                                 )),
                           if (super.widget.roomModel.free.toString() == 'false')
-                            const Padding(
-                                padding: EdgeInsets.all(2),
+                            Padding(
+                                padding: const EdgeInsets.all(2),
                                 child: Card(
                                   color: Colors.red,
                                   child: Padding(
-                                    padding: EdgeInsets.all(5),
+                                    padding: const EdgeInsets.all(5),
                                     child: Text(
-                                      'OCCUPIED',
-                                      style: TextStyle(
+                                      Strings.occupied,
+                                      style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
@@ -159,10 +160,10 @@ class _AboutRoom extends State<AboutRoom> {
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Text(
-                    'Below you can see information about the room ${super.widget.roomModel.number}',
-                    style: const TextStyle(
+                    Strings.roomsInformation + super.widget.roomModel.number,
+                    style: TextStyle(
                       fontSize: 17,
-                      color: Color(0xFF124559),
+                      color: Color(Strings.darkTurquoise),
                     ),
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
@@ -179,17 +180,17 @@ class _AboutRoom extends State<AboutRoom> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          children: const [
+                          children: [
                             Icon(Icons.confirmation_number,
-                                color: Color(0xFF124559)),
-                            SizedBox(
+                                color: Color(Strings.darkTurquoise)),
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
-                              'ROOM',
+                              Strings.room,
                               style: TextStyle(
                                   fontSize: 20,
-                                  color: Color(0xFFE16A10),
+                                  color: Color(Strings.orange),
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -198,9 +199,9 @@ class _AboutRoom extends State<AboutRoom> {
                           children: [
                             Text(
                               super.widget.roomModel.number,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 18,
-                                  color: Color(0xFF124559),
+                                  color: Color(Strings.darkTurquoise),
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -216,16 +217,17 @@ class _AboutRoom extends State<AboutRoom> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          children: const [
-                            Icon(Icons.people, color: Color(0xFF124559)),
-                            SizedBox(
+                          children: [
+                            Icon(Icons.people,
+                                color: Color(Strings.darkTurquoise)),
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
-                              'MAX GUESTS',
+                              Strings.maxGuests,
                               style: TextStyle(
                                   fontSize: 20,
-                                  color: Color(0xFFE16A10),
+                                  color: Color(Strings.orange),
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -234,9 +236,9 @@ class _AboutRoom extends State<AboutRoom> {
                           children: [
                             Text(
                               super.widget.roomModel.maxGuests,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 18,
-                                  color: Color(0xFF124559),
+                                  color: Color(Strings.darkTurquoise),
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -252,16 +254,17 @@ class _AboutRoom extends State<AboutRoom> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          children: const [
-                            Icon(Icons.euro, color: Color(0xFF124559)),
-                            SizedBox(
+                          children: [
+                            Icon(Icons.euro,
+                                color: Color(Strings.darkTurquoise)),
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
-                              'PRICE',
+                              Strings.price,
                               style: TextStyle(
                                   fontSize: 20,
-                                  color: Color(0xFFE16A10),
+                                  color: Color(Strings.orange),
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -270,9 +273,9 @@ class _AboutRoom extends State<AboutRoom> {
                           children: [
                             Text(
                               super.widget.roomModel.cost,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 18,
-                                  color: Color(0xFF124559),
+                                  color: Color(Strings.darkTurquoise),
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -283,14 +286,15 @@ class _AboutRoom extends State<AboutRoom> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 13, top: 10, bottom: 10),
+                      padding:
+                          const EdgeInsets.only(left: 13, top: 10, bottom: 10),
                       child: Text(
-                        'FACILITIES',
+                        Strings.facilities,
                         style: TextStyle(
                             fontSize: 16,
-                            color: Color(0xFF124559),
+                            color: Color(Strings.darkTurquoise),
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -303,8 +307,8 @@ class _AboutRoom extends State<AboutRoom> {
                       for (var f in super.widget.roomModel.facilities)
                         TextSpan(
                             text: ' • $f',
-                            style: const TextStyle(
-                                color: Color(0xFF124559),
+                            style: TextStyle(
+                                color: Color(Strings.darkTurquoise),
                                 fontSize: 14,
                                 fontStyle: FontStyle.italic)),
                     ]),
@@ -319,17 +323,17 @@ class _AboutRoom extends State<AboutRoom> {
                           color: Colors.white,
                         ),
                         tagDecoration: BoxDecoration(
-                          color: const Color(0xFF124559),
+                          color: Color(Strings.darkTurquoise),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        tagCancelIcon: const Icon(Icons.cancel,
-                            size: 18.0, color: Color(0xFFF0972D)),
+                        tagCancelIcon: Icon(Icons.cancel,
+                            size: 18.0, color: Color(Strings.orange)),
                         tagPadding: const EdgeInsets.all(6.0)),
                     onTag: (tag) {
                       super.widget.roomModel.facilities.add(tag);
                     },
                     textFieldStyler: TextFieldStyler(
-                      cursorColor: const Color(0xFF124559),
+                      cursorColor: Color(Strings.darkTurquoise),
                     ),
                     onDelete: (String tag) {
                       super.widget.roomModel.facilities.remove(tag);
@@ -351,14 +355,14 @@ class _AboutRoom extends State<AboutRoom> {
                         ModalRoute.withName('/'));
                   },
                   height: 40,
-                  color: const Color(0xFFF0972D),
-                  textColor: const Color(0xFFFFFFFF),
+                  color: Color(Strings.orange),
+                  textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Text(
-                    "Update room",
-                    style: TextStyle(
+                  child: Text(
+                    Strings.updateRoom,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),

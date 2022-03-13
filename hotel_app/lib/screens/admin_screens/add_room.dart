@@ -1,6 +1,7 @@
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/services/rooms_service.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,13 +35,13 @@ class _AddRoom extends State<AddRoom> {
     rooms = roomsService.getRooms();
     return Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Color(0xFF124559), //change your color here
+          iconTheme: IconThemeData(
+            color: Color(Strings.darkTurquoise), //change your color here
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: const Text('Add new room',
-              style: TextStyle(color: Color(0xFF124559))),
+          title: Text(Strings.addRoom,
+              style: TextStyle(color: Color(Strings.darkTurquoise))),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -49,7 +50,7 @@ class _AddRoom extends State<AddRoom> {
                 Card(
                     margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
                     elevation: 6,
-                    shadowColor: const Color(0xFF124559),
+                    shadowColor: Color(Strings.darkTurquoise),
                     child: Container(
                       height: 125,
                       decoration: const BoxDecoration(
@@ -61,14 +62,14 @@ class _AddRoom extends State<AddRoom> {
                         ),
                       ),
                     )),
-                const Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    'Add a new room for your guests',
+                    Strings.addRoomPageTitle,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFF124559),
+                      color: Color(Strings.darkTurquoise),
                     ),
                   ),
                 ),
@@ -77,11 +78,11 @@ class _AddRoom extends State<AddRoom> {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                   child: TextField(
                     controller: _numberController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       prefixIcon: Icon(Icons.confirmation_number,
-                          color: Color(0xFF124559)),
-                      border: OutlineInputBorder(),
-                      hintText: 'Rooms\' number',
+                          color: Color(Strings.darkTurquoise)),
+                      border: const OutlineInputBorder(),
+                      hintText: Strings.roomsNumber,
                     ),
                   ),
                 ),
@@ -90,10 +91,11 @@ class _AddRoom extends State<AddRoom> {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                   child: TextField(
                     controller: _maxGuestsController,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.people, color: Color(0xFF124559)),
-                      border: OutlineInputBorder(),
-                      hintText: 'Max guests',
+                    decoration: InputDecoration(
+                      prefixIcon:
+                          const Icon(Icons.people, color: Color(0xFF124559)),
+                      border: const OutlineInputBorder(),
+                      hintText: Strings.maxGuestsSmall,
                     ),
                   ),
                 ),
@@ -102,21 +104,23 @@ class _AddRoom extends State<AddRoom> {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                   child: TextField(
                     controller: _priceController,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.euro, color: Color(0xFF124559)),
-                      border: OutlineInputBorder(),
-                      hintText: 'Price',
+                    decoration: InputDecoration(
+                      prefixIcon:
+                          const Icon(Icons.euro, color: Color(0xFF124559)),
+                      border: const OutlineInputBorder(),
+                      hintText: Strings.priceSmall,
                     ),
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 13, top: 10, bottom: 10),
+                      padding:
+                          const EdgeInsets.only(left: 13, top: 10, bottom: 10),
                       child: Text(
-                        'FACILITIES',
-                        style: TextStyle(
+                        Strings.facilities,
+                        style: const TextStyle(
                             fontSize: 16,
                             color: Color(0xFF124559),
                             fontWeight: FontWeight.bold),
@@ -157,8 +161,8 @@ class _AddRoom extends State<AddRoom> {
                         cost: _priceController.text,
                         maxGuests: _maxGuestsController.text,
                         free: true,
-                        idUser: "none",
-                        interval: "none",
+                        idUser: Strings.none,
+                        interval: Strings.none,
                         facilities: facilities);
 
                     await roomsService.addRoomInFirebase(room);
@@ -172,14 +176,14 @@ class _AddRoom extends State<AddRoom> {
                     }
                   },
                   height: 40,
-                  color: const Color(0xFFF0972D),
-                  textColor: const Color(0xFF124559),
+                  color: Color(Strings.orange),
+                  textColor: Color(Strings.darkTurquoise),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Text(
-                    "Add room",
-                    style: TextStyle(
+                  child: Text(
+                    Strings.addRoom,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
