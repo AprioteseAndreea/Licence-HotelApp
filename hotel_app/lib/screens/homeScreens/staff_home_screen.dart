@@ -3,6 +3,8 @@ import 'package:first_app_flutter/screens/admin_screens/bookings.dart';
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:first_app_flutter/screens/staff_screens/posts.dart';
+import 'package:first_app_flutter/screens/staff_screens/staff_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,7 +84,7 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
-                          //     builder: (context) => const Rooms(),
+                          //     builder: (context) => const StaffProfile(),
                           //   ),
                           // )
                         },
@@ -218,12 +220,12 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                       ),
                       GestureDetector(
                         onTap: () => {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const Rooms(),
-                          //   ),
-                          // )
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Posts(),
+                            ),
+                          )
                         },
                         child: Card(
                           semanticContainer: true,
@@ -248,7 +250,7 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                         width: 45,
                                       ),
                                       const Text(
-                                        'CHAT',
+                                        'POSTS',
                                         style: TextStyle(
                                             color: Color(0xFFF0972D),
                                             fontWeight: FontWeight.bold,

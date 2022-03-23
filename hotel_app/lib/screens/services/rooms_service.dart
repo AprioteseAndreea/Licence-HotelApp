@@ -73,6 +73,9 @@ class RoomsService with ChangeNotifier {
         _rooms[i].maxGuests = r.maxGuests;
         _rooms[i].cost = r.cost;
         _rooms[i].facilities = r.facilities;
+        _rooms[i].free = r.free;
+        _rooms[i].idUser = r.idUser;
+        _rooms[i].interval = r.interval;
       }
     }
     final roomsMap = <Map<String, dynamic>>[];

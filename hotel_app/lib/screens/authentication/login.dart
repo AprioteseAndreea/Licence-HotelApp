@@ -2,6 +2,7 @@ import 'package:first_app_flutter/screens/authentication/authentication_services
 import 'package:first_app_flutter/screens/authentication/register.dart';
 import 'package:first_app_flutter/models/user_model.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -65,8 +66,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
-    // final roomsService = Provider.of<RoomsService>(context);
-    // roomsService.getRoomsCollectionFromFirebase();
+
+    Size mediaQuery = MediaQuery.of(context).size;
+
     users = userService.getUsers();
     return Scaffold(
       body: SafeArea(
@@ -77,36 +79,41 @@ class _LoginState extends State<Login> {
                 height: 10,
               ),
               Image.asset(
-                  'assets/images/grand_hotel_logo4.jpg'), //   <--- image
+                'assets/images/grand_hotel_logo4.jpg',
+              ), //   <--- image
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Form(
                   key: _formkey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 20),
-                      const Text(
-                        "Welcome Back ",
+                      SizedBox(height: mediaQuery.height * 0.015),
+                      Text(
+                        Strings.welcomeBack,
                         style: TextStyle(
-                          color: Color(0xFF124559),
-                          fontSize: 25,
+                          color: const Color(0xFF124559),
+                          fontSize: mediaQuery.width * 0.05,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        "sign in to continue",
-                        style: TextStyle(fontSize: 15, color: Colors.grey),
+                      SizedBox(height: mediaQuery.height * 0.015),
+                      Text(
+                        Strings.signInToContinue,
+                        style: TextStyle(
+                            fontSize: mediaQuery.width * 0.045,
+                            color: Colors.grey),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: mediaQuery.height * 0.03),
                       TextFormField(
+                        style: TextStyle(
+                          fontSize: mediaQuery.width * 0.04,
+                        ),
                         controller: _emailController,
-                        validator: (val) => val!.isNotEmpty
-                            ? null
-                            : "Please enter a email address",
+                        validator: (val) =>
+                            val!.isNotEmpty ? null : Strings.errorEnterEmail,
                         decoration: InputDecoration(
-                          hintText: "Email",
+                          hintText: Strings.email,
                           prefixIcon: const Icon(
                             Icons.mail,
                             color: Color(0xFF124559),
@@ -116,8 +123,11 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: mediaQuery.height * 0.03),
                       TextFormField(
+                        style: TextStyle(
+                          fontSize: mediaQuery.width * 0.04,
+                        ),
                         controller: _passwordController,
                         obscureText: _obscuredText,
                         decoration: InputDecoration(
@@ -127,7 +137,7 @@ class _LoginState extends State<Login> {
                                     color: _obscuredText
                                         ? Colors.black12
                                         : const Color(0xFFF0972D))),
-                            hintText: "Password",
+                            hintText: Strings.password,
                             prefixIcon: const Icon(
                               Icons.vpn_key,
                               color: Color(0xFF124559),
@@ -137,10 +147,11 @@ class _LoginState extends State<Login> {
                             )),
                       ),
                       CheckboxListTile(
-                        title: const Text(
-                          "Remember me",
+                        title: Text(
+                          Strings.rememberMe,
                           style: TextStyle(
-                              color: Color(0xFF124559),
+                              fontSize: mediaQuery.width * 0.04,
+                              color: const Color(0xFF124559),
                               fontWeight: FontWeight.bold),
                         ),
                         controlAffinity: ListTileControlAffinity.leading,
@@ -167,17 +178,17 @@ class _LoginState extends State<Login> {
                                 ),
                               )
                             },
-                            child: const Text(
-                              'Forgot Password ?',
+                            child: Text(
+                              Strings.forgotPassword,
                               style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Color(0xFFF0972D),
+                                  fontSize: mediaQuery.width * 0.035,
+                                  color: const Color(0xFFF0972D),
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 30),
+                      SizedBox(height: mediaQuery.height * 0.05),
                       MaterialButton(
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
@@ -205,25 +216,26 @@ class _LoginState extends State<Login> {
                         ),
                         child: loginProvider.isLoading
                             ? const CircularProgressIndicator()
-                            : const Text(
-                                "Login",
+                            : Text(
+                                Strings.login,
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: mediaQuery.width * 0.04,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: mediaQuery.height * 0.02),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // ignore: prefer_const_constructors
                           Text(
-                            "Don't have an account?",
-                            style: const TextStyle(fontSize: 14),
+                            Strings.doYouHaveAnAccount,
+                            style:
+                                TextStyle(fontSize: mediaQuery.width * 0.035),
                           ),
                           // ignore: prefer_const_constructors
-                          SizedBox(width: 5),
+                          SizedBox(width: mediaQuery.height * 0.01),
                           TextButton(
                             // onPressed: () => widget.toggleScreen(),
                             onPressed: () => {
@@ -234,24 +246,26 @@ class _LoginState extends State<Login> {
                                 ),
                               )
                             },
-                            child: const Text(
-                              "Register",
+                            child: Text(
+                              Strings.register,
                               style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFFF0972D),
+                                  fontSize: mediaQuery.width * 0.035,
+                                  color: const Color(0xFFF0972D),
                                   fontWeight: FontWeight.bold),
                             ),
                           )
                         ],
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(height: mediaQuery.height * 0.02),
                       if (loginProvider.errorMessage != "")
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
+                              horizontal: 5, vertical: 5),
                           color: Colors.amberAccent,
                           child: ListTile(
-                            title: Text(loginProvider.errorMessage),
+                            title: Text(loginProvider.errorMessage,
+                                style: TextStyle(
+                                    fontSize: mediaQuery.width * 0.035)),
                             leading: const Icon(Icons.error),
                             trailing: IconButton(
                               icon: const Icon(Icons.close),

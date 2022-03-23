@@ -183,9 +183,9 @@ class _AddStaff extends State<AddStaff> {
                                   ),
                                 ),
                                 Row(
-                                  children: const [
+                                  children: [
                                     Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                         left: 10,
                                         top: 5,
                                         right: 10,
@@ -194,7 +194,7 @@ class _AddStaff extends State<AddStaff> {
                                         "E-mail",
                                         style: TextStyle(
                                           fontSize: 15.0,
-                                          color: Color(0xFF124559),
+                                          color: Color(Strings.darkTurquoise),
                                         ),
                                       ),
                                     ),
@@ -346,7 +346,7 @@ class _AddStaff extends State<AddStaff> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          selectedOccupation,
+                                          occupation,
                                           style: const TextStyle(
                                             fontSize: 15.0,
                                             color: Color(0xFF6d6d6d),

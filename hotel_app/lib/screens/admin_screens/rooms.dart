@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'about_room.dart';
 import 'add_room.dart';
+import 'package:sizer/sizer.dart';
 
 class Rooms extends StatefulWidget {
   const Rooms({Key? key}) : super(key: key);
@@ -20,6 +21,8 @@ class _Rooms extends State<Rooms> {
 
   @override
   Widget build(BuildContext context) {
+    Size mediaQuery = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
@@ -236,12 +239,13 @@ class _Rooms extends State<Rooms> {
                                                                 bottom: 4),
                                                         child: Text(
                                                           '${room['id_user']}',
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 16,
+                                                          style: TextStyle(
+                                                            fontSize: mediaQuery
+                                                                    .width *
+                                                                0.04,
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xFF124559),
                                                           ),
                                                         ),
@@ -268,10 +272,11 @@ class _Rooms extends State<Rooms> {
                                                                 bottom: 4),
                                                         child: Text(
                                                           '${room['interval']}',
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 16,
-                                                            color: Color(
+                                                          style: TextStyle(
+                                                            fontSize: mediaQuery
+                                                                    .width *
+                                                                0.04,
+                                                            color: const Color(
                                                                 0xFF124559),
                                                           ),
                                                         ),
@@ -287,7 +292,14 @@ class _Rooms extends State<Rooms> {
                 } else if (asyncSnapshot.hasError) {
                   return const Text('No feedbacks');
                 }
-                return const CircularProgressIndicator();
+                return Center(
+                  child: Column(
+                    children: const [
+                      Text("Loading..."),
+                      CircularProgressIndicator(),
+                    ],
+                  ),
+                );
               }),
         ),
       ),

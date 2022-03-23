@@ -88,7 +88,7 @@ class UserService with ChangeNotifier {
     DocumentReference<Map<String, dynamic>> users =
         FirebaseFirestore.instance.collection('users').doc('staff');
 
-    for (int i = 0; i < _users.length; i++) {
+    for (int i = 0; i < _staff.length; i++) {
       if (_staff[i].email == staff.email) {
         _staff[i].email = staff.email;
         _staff[i].gender = staff.gender;

@@ -9,11 +9,13 @@ class CustomRadio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size mediaQuery = MediaQuery.of(context).size;
+
     return Card(
         color: _gender.isSelected ? const Color(0xFF124559) : Colors.white,
         child: Container(
-          height: 50,
-          width: 50,
+          height: mediaQuery.height * 0.07,
+          width: mediaQuery.height * 0.07,
           alignment: Alignment.center,
           margin: const EdgeInsets.all(5.0),
           child: Column(
@@ -23,13 +25,14 @@ class CustomRadio extends StatelessWidget {
               Icon(
                 _gender.icon,
                 color: _gender.isSelected ? Colors.white : Colors.grey,
-                size: 20,
+                size: mediaQuery.width * 0.05,
               ),
               const SizedBox(height: 10),
               Text(
                 _gender.name,
                 style: TextStyle(
-                    color: _gender.isSelected ? Colors.white : Colors.grey),
+                    color: _gender.isSelected ? Colors.white : Colors.grey,
+                    fontSize: mediaQuery.width * 0.035),
               )
             ],
           ),

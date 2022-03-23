@@ -115,7 +115,14 @@ class _UsersScreen extends State<UsersScreen> {
                 } else if (asyncSnapshot.hasError) {
                   return const Text('No feedbacks');
                 }
-                return const CircularProgressIndicator();
+                return Center(
+                  child: Column(
+                    children: const [
+                      Text("Loading..."),
+                      CircularProgressIndicator(),
+                    ],
+                  ),
+                );
               }),
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/services/rooms_service.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:textfield_tags/textfield_tags.dart';
+import 'package:wheel_chooser/wheel_chooser.dart';
 
 class AboutRoom extends StatefulWidget {
   final RoomModel roomModel;
@@ -17,6 +19,10 @@ class AboutRoom extends StatefulWidget {
 class _AboutRoom extends State<AboutRoom> {
   late List<String> facilities = [];
   late List<RoomModel> rooms = [];
+  final _formkey = GlobalKey<FormState>();
+  late String _selectedStatus;
+  late String priceController;
+  late String maxGuestsController;
 
   late TextEditingController _numberController;
   late TextEditingController _maxGuestsController;
@@ -24,13 +30,18 @@ class _AboutRoom extends State<AboutRoom> {
   late RoomsService roomsService;
   @override
   void initState() {
-    super.initState();
     _numberController = TextEditingController();
     _maxGuestsController = TextEditingController();
     _priceController = TextEditingController();
     _numberController.text = super.widget.roomModel.number;
     _maxGuestsController.text = super.widget.roomModel.maxGuests;
     _priceController.text = super.widget.roomModel.cost;
+    _selectedStatus =
+        (super.widget.roomModel.free == true ? Strings.free : Strings.occupied);
+    priceController = super.widget.roomModel.cost;
+    maxGuestsController = super.widget.roomModel.maxGuests;
+
+    super.initState();
   }
 
   showAlertDialog(BuildContext context) {
@@ -75,6 +86,8 @@ class _AboutRoom extends State<AboutRoom> {
   @override
   Widget build(BuildContext context) {
     roomsService = Provider.of<RoomsService>(context);
+    Size mediaQuery = MediaQuery.of(context).size;
+
     rooms = roomsService.getRooms();
     return Scaffold(
         appBar: AppBar(
@@ -99,272 +112,264 @@ class _AboutRoom extends State<AboutRoom> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Card(
-                    margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
-                    elevation: 6,
-                    shadowColor: Color(Strings.darkTurquoise),
-                    child: Container(
-                      height: 145,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                              "assets/images/hotel_details_rooms.jpg"),
-                          fit: BoxFit.fitWidth,
-                          alignment: Alignment.center,
-                        ),
+                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+                  child: Form(
+                    key: _formkey,
+                    child: Card(
+                      semanticContainer: true,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          if (super.widget.roomModel.free.toString() == 'true')
+                      color: const Color(0xFFFFFFFF),
+                      elevation: 10,
+                      child: SizedBox(
+                        width: mediaQuery.width + 0.9,
+                        child: Column(
+                          children: [
                             Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: Card(
-                                  color: Colors.green,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Text(
-                                      Strings.free,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                padding: const EdgeInsets.only(
+                                    left: 10, top: 10, right: 10, bottom: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Card(
+                                      color: Color(Strings.darkTurquoise),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.bed,
+                                              color: Color(Strings.orange),
+                                            ),
+                                            Text(
+                                              " " +
+                                                  Strings.room +
+                                                  " " +
+                                                  super.widget.roomModel.number,
+                                              style: const TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
+                                    )
+                                  ],
+                                )),
+                            Row(
+                              children: [
+                                sectionTitle(Strings.status),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    top: 15,
+                                    right: 10,
+                                  ),
+                                  child: CupertinoRadioChoice(
+                                    choices: Strings.statusMap,
+                                    onChange: onStatusSelected,
+                                    initialKeyValue: _selectedStatus,
+                                    selectedColor: Color(Strings.darkTurquoise),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                sectionTitle(Strings.price),
+                              ],
+                            ),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 10,
+                                      top: 10,
+                                      right: 10,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.euro,
+                                            color: Color(Strings.orange)),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          priceController,
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color:
+                                                  Color(Strings.darkTurquoise),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                )),
-                          if (super.widget.roomModel.free.toString() == 'false')
-                            Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: Card(
-                                  color: Colors.red,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Text(
-                                      Strings.occupied,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 10,
+                                      top: 10,
+                                      right: 10,
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      color: Color(Strings.orange),
+                                      onPressed: () {
+                                        _showMyDialog(context,
+                                            Strings.modifyPriceForRoom);
+                                      },
                                     ),
                                   ),
-                                )),
-                        ],
-                      ),
-                    )),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    Strings.roomsInformation + super.widget.roomModel.number,
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: Color(Strings.darkTurquoise),
-                    ),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.confirmation_number,
-                                color: Color(Strings.darkTurquoise)),
-                            const SizedBox(
-                              width: 5,
+                                ]),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                sectionTitle(Strings.maxGuests),
+                              ],
                             ),
-                            Text(
-                              Strings.room,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Color(Strings.orange),
-                                  fontWeight: FontWeight.bold),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    top: 10,
+                                    right: 10,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.people,
+                                          color: Color(Strings.orange)),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        maxGuestsController,
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color(Strings.darkTurquoise),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    top: 10,
+                                    right: 10,
+                                  ),
+                                  child: IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    color: Color(Strings.orange),
+                                    onPressed: () {
+                                      _showMyDialog(context,
+                                          Strings.modifyMaxGuestsForRoom);
+                                    },
+                                  ),
+                                )
+                              ],
                             ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              super.widget.roomModel.number,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(Strings.darkTurquoise),
-                                  fontWeight: FontWeight.bold),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                sectionTitle(Strings.facilities),
+                              ],
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.people,
-                                color: Color(Strings.darkTurquoise)),
-                            const SizedBox(
-                              width: 5,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 13, top: 5, bottom: 10),
+                              child: RichText(
+                                text: TextSpan(children: <InlineSpan>[
+                                  for (var f
+                                      in super.widget.roomModel.facilities)
+                                    TextSpan(
+                                        text: ' • $f',
+                                        style: TextStyle(
+                                            color: Color(Strings.darkTurquoise),
+                                            fontSize: 16,
+                                            fontStyle: FontStyle.italic)),
+                                ]),
+                              ),
                             ),
-                            Text(
-                              Strings.maxGuests,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Color(Strings.orange),
-                                  fontWeight: FontWeight.bold),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: TextFieldTags(
+                                tagsStyler: TagsStyler(
+                                    tagTextStyle: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                    tagDecoration: BoxDecoration(
+                                      color: Color(Strings.darkTurquoise),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    tagCancelIcon: Icon(Icons.cancel,
+                                        size: 18.0,
+                                        color: Color(Strings.orange)),
+                                    tagPadding: const EdgeInsets.all(6.0)),
+                                onTag: (tag) {
+                                  if (!super
+                                      .widget
+                                      .roomModel
+                                      .facilities
+                                      .contains(tag)) {
+                                    super.widget.roomModel.facilities.add(tag);
+                                  }
+                                },
+                                textFieldStyler: TextFieldStyler(
+                                  cursorColor: Color(Strings.darkTurquoise),
+                                ),
+                                onDelete: (String tag) {
+                                  super.widget.roomModel.facilities.remove(tag);
+                                },
+                              ),
                             ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              super.widget.roomModel.maxGuests,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(Strings.darkTurquoise),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.euro,
-                                color: Color(Strings.darkTurquoise)),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              Strings.price,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Color(Strings.orange),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              super.widget.roomModel.cost,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(Strings.darkTurquoise),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 13, top: 10, bottom: 10),
-                      child: Text(
-                        Strings.facilities,
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Color(Strings.darkTurquoise),
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 13, top: 5, bottom: 10),
-                  child: RichText(
-                    text: TextSpan(children: <InlineSpan>[
-                      for (var f in super.widget.roomModel.facilities)
-                        TextSpan(
-                            text: ' • $f',
-                            style: TextStyle(
-                                color: Color(Strings.darkTurquoise),
-                                fontSize: 14,
-                                fontStyle: FontStyle.italic)),
-                    ]),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: TextFieldTags(
-                    tagsStyler: TagsStyler(
-                        tagTextStyle: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                        tagDecoration: BoxDecoration(
-                          color: Color(Strings.darkTurquoise),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        tagCancelIcon: Icon(Icons.cancel,
-                            size: 18.0, color: Color(Strings.orange)),
-                        tagPadding: const EdgeInsets.all(6.0)),
-                    onTag: (tag) {
-                      super.widget.roomModel.facilities.add(tag);
-                    },
-                    textFieldStyler: TextFieldStyler(
-                      cursorColor: Color(Strings.darkTurquoise),
-                    ),
-                    onDelete: (String tag) {
-                      super.widget.roomModel.facilities.remove(tag);
-                    },
-                  ),
-                ),
-                MaterialButton(
-                  onPressed: () {
-                    super.widget.roomModel.maxGuests =
-                        _maxGuestsController.text;
-                    super.widget.roomModel.cost = _priceController.text;
+                            MaterialButton(
+                              onPressed: () {
+                                super.widget.roomModel.maxGuests =
+                                    maxGuestsController;
+                                super.widget.roomModel.cost = priceController;
 
-                    roomsService.updateRoomInFirebase(super.widget.roomModel);
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Rooms(),
+                                roomsService.updateRoomInFirebase(
+                                    super.widget.roomModel);
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Rooms(),
+                                    ),
+                                    ModalRoute.withName('/'));
+                              },
+                              height: 40,
+                              color: Color(Strings.orange),
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                Strings.updateRoom,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        ModalRoute.withName('/'));
-                  },
-                  height: 40,
-                  color: Color(Strings.orange),
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    Strings.updateRoom,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -372,6 +377,102 @@ class _AboutRoom extends State<AboutRoom> {
             ),
           ),
         ));
+  }
+
+  Future<void> _showMyDialog(BuildContext context, String title) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title + super.widget.roomModel.number),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                title == Strings.modifyPriceForRoom
+                    ? const Text("New price:")
+                    : const Text("New max guests:"),
+                title == Strings.modifyPriceForRoom
+                    ? WheelChooser.integer(
+                        listWidth: 60,
+                        onValueChanged: (i) => {
+                          setState(() {
+                            priceController = i.toString();
+                          })
+                        },
+                        maxValue: 300,
+                        minValue: 80,
+                        step: 5,
+                        initValue: int.parse(priceController),
+                        unSelectTextStyle: const TextStyle(color: Colors.grey),
+                        selectTextStyle:
+                            TextStyle(color: Color(Strings.darkTurquoise)),
+                        horizontal: true,
+                      )
+                    : WheelChooser.integer(
+                        listWidth: 60,
+                        onValueChanged: (i) => {
+                          setState(() {
+                            maxGuestsController = i.toString();
+                          })
+                        },
+                        maxValue: 6,
+                        minValue: 1,
+                        step: 1,
+                        initValue: int.parse(maxGuestsController),
+                        unSelectTextStyle: const TextStyle(color: Colors.grey),
+                        selectTextStyle:
+                            TextStyle(color: Color(Strings.darkTurquoise)),
+                        horizontal: true,
+                      )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void onStatusSelected(String statusKey) {
+    setState(() {
+      _selectedStatus = statusKey;
+      if (_selectedStatus == Strings.free) {
+        super.widget.roomModel.idUser = Strings.none;
+        super.widget.roomModel.interval = Strings.none;
+        super.widget.roomModel.free = true;
+      }
+    });
+  }
+
+  Widget sectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 10,
+        top: 10,
+        right: 10,
+      ),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 20,
+          color: Color(Strings.darkTurquoise),
+        ),
+      ),
+    );
   }
 }
 

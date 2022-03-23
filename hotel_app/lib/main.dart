@@ -12,6 +12,7 @@ import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,37 +64,37 @@ class MyApp extends StatelessWidget {
           return const ErrorWidget();
         } else if (snapshot.hasData) {
           return MultiProvider(
-              providers: [
-                ChangeNotifierProvider<AuthServices>.value(
-                    value: AuthServices()),
-                ChangeNotifierProvider<FoundRoomServices>.value(
-                    value: FoundRoomServices()),
-                StreamProvider<User?>.value(
-                  value: AuthServices().user,
-                  initialData: null,
-                ),
-                // ChangeNotifierProvider<UserService>.value(value: UserService())
-                ChangeNotifierProvider(create: (_) => UserService()),
-                ChangeNotifierProvider(create: (_) => FeedbackService()),
-                ChangeNotifierProvider(create: (_) => RoomsService()),
-                ChangeNotifierProvider(create: (_) => FacilityService()),
-                ChangeNotifierProvider(create: (_) => ReservationService()),
-                ChangeNotifierProvider(create: (_) => StatisticsService()),
+            providers: [
+              ChangeNotifierProvider<AuthServices>.value(value: AuthServices()),
+              ChangeNotifierProvider<FoundRoomServices>.value(
+                  value: FoundRoomServices()),
+              StreamProvider<User?>.value(
+                value: AuthServices().user,
+                initialData: null,
+              ),
+              // ChangeNotifierProvider<UserService>.value(value: UserService())
+              ChangeNotifierProvider(create: (_) => UserService()),
+              ChangeNotifierProvider(create: (_) => FeedbackService()),
+              ChangeNotifierProvider(create: (_) => RoomsService()),
+              ChangeNotifierProvider(create: (_) => FacilityService()),
+              ChangeNotifierProvider(create: (_) => ReservationService()),
+              ChangeNotifierProvider(create: (_) => StatisticsService()),
 
-                ChangeNotifierProvider<SingleNotifier>(
-                  create: (_) => SingleNotifier(),
-                ),
-                ChangeNotifierProvider<MultipleNotifier>(
-                  create: (_) => MultipleNotifier([]),
-                )
-              ],
-              child: MaterialApp(
-                theme: ThemeData(
-                  primarySwatch: colorCustom,
-                ),
-                debugShowCheckedModeBanner: false,
-                home: const Wrapper(),
-              ));
+              ChangeNotifierProvider<SingleNotifier>(
+                create: (_) => SingleNotifier(),
+              ),
+              ChangeNotifierProvider<MultipleNotifier>(
+                create: (_) => MultipleNotifier([]),
+              )
+            ],
+            child: MaterialApp(
+              theme: ThemeData(
+                primarySwatch: colorCustom,
+              ),
+              debugShowCheckedModeBanner: false,
+              home: const Wrapper(),
+            ),
+          );
         } else {
           return const Loading();
         }

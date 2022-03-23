@@ -6,6 +6,7 @@ import 'package:first_app_flutter/screens/admin_screens/statistics.dart';
 import 'package:first_app_flutter/screens/admin_screens/users_screen.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +45,32 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
           const SizedBox(
             height: 20,
           ),
-          Image.asset('assets/images/grand_hotel_logo4.jpg'),
+          CircleAvatar(
+              radius: 53,
+              backgroundColor: Color(0xFFF0972D),
+              child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage('assets/images/adminphoto.jpg'))),
+          const SizedBox(
+            height: 20,
+          ),
+          Text(
+            Strings.adminMode,
+            style: TextStyle(
+                color: Color(Strings.darkTurquoise),
+                fontWeight: FontWeight.bold,
+                fontSize: 20),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Text(
+            'Manage your business with a simple click away.',
+            textAlign: TextAlign.justify,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 17, color: Colors.grey),
+            maxLines: 2,
+          ),
           const SizedBox(
             height: 30,
           ),

@@ -146,7 +146,14 @@ class _StaffScreen extends State<StaffScreen> {
                 } else if (asyncSnapshot.hasError) {
                   return Text(Strings.noFeedbacks);
                 }
-                return const CircularProgressIndicator();
+                return Center(
+                  child: Column(
+                    children: const [
+                      Text("Loading..."),
+                      CircularProgressIndicator(),
+                    ],
+                  ),
+                );
               }),
         ),
       ),
