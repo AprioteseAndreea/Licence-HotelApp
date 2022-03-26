@@ -5,8 +5,16 @@ class Strings {
   static String applicationTitle = "Grand Hotel";
   static String selectedFacilities = "Selected facilities";
   static String close = "CLOSE";
+  static String approve = "APPROVE";
+  static String bookingDetails = "Booking details";
+  static String checkIn = "Check-in: ";
+  static String checkOut = "Check-out: ";
+  static String reservationDate = "Reservation date: ";
+  static String guests = "Guests: ";
+  static String otherDetails = "Other details: ";
   static String deleteReservationQuestion =
       "Do you want to delete this reservation?";
+  static String cancelReservation = "Cancel reservation";
   static String yes = "YES";
   static String cancel = "Cancel";
   static String ok = "Ok";

@@ -19,7 +19,7 @@ class Post {
         post: json['post'],
         gender: json['gender'],
         date: json['date'],
-        comments: json['comments'].cast<String>());
+        comments: json['comments'].cast<Comment>());
   }
   Map<String, dynamic> toJson() => postToJson(this);
   Map<String, dynamic> postToJson(Post post) => <String, dynamic>{

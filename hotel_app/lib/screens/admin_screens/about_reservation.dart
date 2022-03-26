@@ -20,7 +20,7 @@ class AboutReservation extends StatefulWidget {
 
 class _AboutReservation extends State<AboutReservation> {
   late String name;
-  String buttonText = "APPROVE";
+  String buttonText = Strings.approve;
   final List<String> timeLineList = [];
   Color cardBackgroundColor = Colors.orange;
 
@@ -53,13 +53,13 @@ class _AboutReservation extends State<AboutReservation> {
 
     return Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Color(0xFF124559), //change your color here
+          iconTheme: IconThemeData(
+            color: Color(Strings.darkTurquoise), //change your color here
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: const Text('Booking details',
-              style: TextStyle(color: Color(0xFF124559))),
+          title: Text(Strings.bookingDetails,
+              style: TextStyle(color: Color(Strings.darkTurquoise))),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -84,8 +84,8 @@ class _AboutReservation extends State<AboutReservation> {
                       ),
                       Text(
                         super.widget.reservationModel.name!,
-                        style: const TextStyle(
-                            color: Color(0xFF124559),
+                        style: TextStyle(
+                            color: Color(Strings.darkTurquoise),
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                       )
@@ -98,7 +98,7 @@ class _AboutReservation extends State<AboutReservation> {
                 TimelineNode(
                   style: TimelineNodeStyle(
                     lineType: TimelineNodeLineType.BottomHalf,
-                    lineColor: const Color(0xFF124559),
+                    lineColor: Color(Strings.darkTurquoise),
                   ),
                   indicator: SizedBox(
                     width: 10,
@@ -106,7 +106,7 @@ class _AboutReservation extends State<AboutReservation> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
                       child: Container(
-                        color: const Color(0xFFE16A10),
+                        color: Color(Strings.orange),
                       ),
                     ),
                   ),
@@ -117,18 +117,18 @@ class _AboutReservation extends State<AboutReservation> {
                         padding: const EdgeInsets.all(12),
                         child: Row(
                           children: [
-                            const Text(
-                              'Check-in: ',
+                            Text(
+                              Strings.checkIn,
                               style: TextStyle(
                                   fontSize: 17,
-                                  color: Color(0xFFE16A10),
+                                  color: Color(Strings.orange),
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
                               formatDate(timeLineList[0]),
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 18,
-                                  color: Color(0xFF124559),
+                                  color: Color(Strings.darkTurquoise),
                                   fontStyle: FontStyle.italic),
                             )
                           ],
@@ -140,7 +140,7 @@ class _AboutReservation extends State<AboutReservation> {
                 TimelineNode(
                   style: TimelineNodeStyle(
                     lineType: TimelineNodeLineType.TopHalf,
-                    lineColor: const Color(0xFF124559),
+                    lineColor: Color(Strings.darkTurquoise),
                   ),
                   indicator: SizedBox(
                     width: 10,
@@ -148,7 +148,7 @@ class _AboutReservation extends State<AboutReservation> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
                       child: Container(
-                        color: const Color(0xFFE16A10),
+                        color: Color(Strings.orange),
                       ),
                     ),
                   ),
@@ -159,18 +159,18 @@ class _AboutReservation extends State<AboutReservation> {
                         padding: const EdgeInsets.all(12),
                         child: Row(
                           children: [
-                            const Text(
-                              'Check-out: ',
+                            Text(
+                              Strings.checkOut,
                               style: TextStyle(
                                   fontSize: 17,
-                                  color: Color(0xFFE16A10),
+                                  color: Color(Strings.orange),
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
                               formatDate(timeLineList[1]),
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 15,
-                                  color: Color(0xFF124559),
+                                  color: Color(Strings.darkTurquoise),
                                   fontStyle: FontStyle.italic),
                             )
                           ],
@@ -188,20 +188,20 @@ class _AboutReservation extends State<AboutReservation> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
-                                children: const [
+                                children: [
                                   Icon(
                                     CupertinoIcons.calendar,
                                     size: 25,
-                                    color: Color(0xFFF0972D),
+                                    color: Color(Strings.orange),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Text(
-                                    'Reservation date: ',
+                                    Strings.reservationDate,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        color: Color(0xFF124559),
+                                        color: Color(Strings.darkTurquoise),
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ],
@@ -211,9 +211,9 @@ class _AboutReservation extends State<AboutReservation> {
                                   Text(
                                     formatDate(
                                         super.widget.reservationModel.date),
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         fontSize: 16,
-                                        color: Color(0xFF124559),
+                                        color: Color(Strings.darkTurquoise),
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ],
@@ -227,19 +227,20 @@ class _AboutReservation extends State<AboutReservation> {
                           children: [
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   CupertinoIcons.tag_fill,
                                   size: 25,
-                                  color: Color(0xFFF0972D),
+                                  color: Color(Strings.orange),
                                 ),
                                 const SizedBox(
                                   width: 10,
                                 ),
                                 Text(
-                                  'ROOM ${super.widget.reservationModel.room}',
-                                  style: const TextStyle(
+                                  Strings.room +
+                                      super.widget.reservationModel.room,
+                                  style: TextStyle(
                                       fontSize: 18,
-                                      color: Color(0xFFE16A10),
+                                      color: Color(Strings.orange),
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -259,9 +260,9 @@ class _AboutReservation extends State<AboutReservation> {
                                       .reservationModel
                                       .price
                                       .toString(),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontSize: 17,
-                                      color: Color(0xFFE16A10),
+                                      color: Color(Strings.orange),
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -276,19 +277,19 @@ class _AboutReservation extends State<AboutReservation> {
                           children: [
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   CupertinoIcons.person_2_fill,
                                   size: 25,
-                                  color: Color(0xFFF0972D),
+                                  color: Color(Strings.orange),
                                 ),
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                const Text(
-                                  'Guests: ',
+                                Text(
+                                  Strings.guests,
                                   style: TextStyle(
                                       fontSize: 18,
-                                      color: Color(0xFF124559),
+                                      color: Color(Strings.darkTurquoise),
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
@@ -297,9 +298,9 @@ class _AboutReservation extends State<AboutReservation> {
                                       .reservationModel
                                       .guests
                                       .toString(),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontSize: 18,
-                                      color: Color(0xFFE16A10),
+                                      color: Color(Strings.orange),
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -324,20 +325,20 @@ class _AboutReservation extends State<AboutReservation> {
                           height: 20,
                         ),
                         Row(
-                          children: const [
+                          children: [
                             Icon(
                               CupertinoIcons.pin_fill,
                               size: 25,
-                              color: Color(0xFFF0972D),
+                              color: Color(Strings.orange),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Text(
-                              'Other details: ',
+                              Strings.otherDetails,
                               style: TextStyle(
                                   fontSize: 17,
-                                  color: Color(0xFF124559),
+                                  color: Color(Strings.darkTurquoise),
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -346,8 +347,9 @@ class _AboutReservation extends State<AboutReservation> {
                           super.widget.reservationModel.otherDetails,
                           textAlign: TextAlign.justify,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 15, color: Color(0xFF124559)),
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Color(Strings.darkTurquoise)),
                           maxLines: 2,
                         ),
                       ],
@@ -363,7 +365,7 @@ class _AboutReservation extends State<AboutReservation> {
                     if (super.widget.isUser == true &&
                         !super.widget.reservationModel.approved)
                       ReservationButton(
-                        textButton: "Cancel reservation",
+                        textButton: Strings.cancelReservation,
                         color: 0xFFF0972D,
                         onTap: () async {
                           _showCancelReservationDialog(context);
@@ -372,14 +374,14 @@ class _AboutReservation extends State<AboutReservation> {
                     if (super.widget.isUser == true &&
                         super.widget.reservationModel.approved)
                       ReservationButton(
-                        textButton: "APPROVED",
+                        textButton: Strings.approve,
                         color: 0xFF2dba49,
                         onTap: () {},
                       ),
                     if (super.widget.reservationModel.approved &&
                         super.widget.isUser == false)
                       ReservationButton(
-                        textButton: "APPROVED",
+                        textButton: Strings.approve,
                         color: 0xFF2dba49,
                         onTap: () {},
                       ),
@@ -394,7 +396,7 @@ class _AboutReservation extends State<AboutReservation> {
                                           super.widget.reservationModel.id),
                                   changeColor(Colors.green),
                                   setState(() {
-                                    buttonText = "APPROVED";
+                                    buttonText = Strings.approve;
                                   }),
                                 },
                             child: Card(

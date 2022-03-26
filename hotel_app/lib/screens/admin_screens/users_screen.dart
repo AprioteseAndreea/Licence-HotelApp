@@ -47,7 +47,8 @@ class _UsersScreen extends State<UsersScreen> {
                       controller: _controller,
                       children: asyncSnapshot.data!.docs
                           .firstWhere(
-                              (element) => element.id == 'myUsers')['users']
+                            (element) => element.id == 'myUsers',
+                          )['users']
                           .map<Widget>((user) => GestureDetector(
                                 onTap: () {
                                   showDialog(
