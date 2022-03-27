@@ -132,8 +132,8 @@ class _Comments extends State<Comments> {
                                   .comments[index]
                                   .comment
                                   .toString(),
-                              style:
-                                  TextStyle(fontSize: 14, color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 14, color: Colors.black),
                             ),
                           );
                         })
@@ -141,7 +141,7 @@ class _Comments extends State<Comments> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 3, right: 3),
+                padding: const EdgeInsets.only(left: 3, right: 3),
                 child: TextField(
                   controller: _commentController,
                   decoration: const InputDecoration(
@@ -172,6 +172,7 @@ class _Comments extends State<Comments> {
                           super.widget.currentPost.comments.add(newComment);
                         });
                         _commentController = TextEditingController();
+                        super.widget.currentPost.comments;
                         await postsService
                             .updatePostInFirebase(super.widget.currentPost);
                       }

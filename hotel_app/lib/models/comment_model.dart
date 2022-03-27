@@ -9,6 +9,7 @@ class Comment {
     return Comment(
         user: json['user'], comment: json['comment'], hour: json['hour']);
   }
+
   Map<String, dynamic> toJson() => commentToJson(this);
   Map<String, dynamic> commentToJson(Comment comment) => <String, dynamic>{
         "user": comment.user,

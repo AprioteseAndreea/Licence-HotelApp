@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:first_app_flutter/models/comment_model.dart';
 
 class Post {
@@ -14,12 +16,15 @@ class Post {
       required this.comments});
 
   factory Post.fromJson(Map<String, dynamic> json) {
+    var commentsDecode = json['comments'] as List;
+    List<Comment> decodedComments =
+        commentsDecode.map((e) => Comment.fromJson(e)).toList();
     return Post(
         userName: json['userName'],
         post: json['post'],
         gender: json['gender'],
         date: json['date'],
-        comments: json['comments'].cast<Comment>());
+        comments: decodedComments);
   }
   Map<String, dynamic> toJson() => postToJson(this);
   Map<String, dynamic> postToJson(Post post) => <String, dynamic>{
@@ -29,4 +34,15 @@ class Post {
         "date": post.date,
         "comments": post.comments
       };
+  Map<String, dynamic> toJSON() {
+    List<Map<String, dynamic>> commentsMap =
+        comments.map((i) => i.toJson()).toList();
+    return {
+      "userName": userName,
+      "post": post,
+      "gender": gender,
+      "date": date,
+      "comments": commentsMap
+    };
+  }
 }

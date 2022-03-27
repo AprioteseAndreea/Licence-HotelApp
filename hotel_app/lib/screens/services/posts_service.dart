@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app_flutter/models/comment_model.dart';
 import 'package:first_app_flutter/models/post_model.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -30,12 +31,12 @@ class PostsService with ChangeNotifier {
     DocumentReference<Map<String, dynamic>> feedbacks =
         FirebaseFirestore.instance.collection('users').doc('posts');
     _posts.add(p);
-    final feedbackMap = <Map<String, dynamic>>[];
+    final postsMap = <Map<String, dynamic>>[];
     for (var f in _posts) {
-      feedbackMap.add(f.toJson());
+      postsMap.add(f.toJSON());
     }
     feedbacks.set({
-      'posts': feedbackMap,
+      'posts': postsMap,
     });
   }
 
@@ -54,7 +55,7 @@ class PostsService with ChangeNotifier {
     }
     final staffMap = <Map<String, dynamic>>[];
     for (var f in _posts) {
-      staffMap.add(f.toJson());
+      staffMap.add(f.toJSON());
     }
     users.set({
       'posts': staffMap,

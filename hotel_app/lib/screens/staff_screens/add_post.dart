@@ -1,6 +1,7 @@
 import 'package:first_app_flutter/models/comment_model.dart';
 import 'package:first_app_flutter/models/post_model.dart';
 import 'package:first_app_flutter/screens/services/posts_service.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ class _AddPost extends State<AddPost> {
   @override
   Widget build(BuildContext context) {
     final postsService = Provider.of<PostsService>(context);
+    Size mediaQuery = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
@@ -41,6 +43,20 @@ class _AddPost extends State<AddPost> {
           child: SingleChildScrollView(
               child: Column(
         children: [
+          Image.asset(
+            'assets/images/addpost.jpg',
+            height: mediaQuery.height * 0.35,
+          ),
+          Text(
+            "Add a new post for your collegues",
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(Strings.darkTurquoise)),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 3, right: 3, top: 5),
             child: TextField(
@@ -60,7 +76,7 @@ class _AddPost extends State<AddPost> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MaterialButton(
-                onPressed: () async {
+                onPressed: () {
                   DateTime now = DateTime.now();
                   String hour =
                       now.hour.toString() + ":" + now.minute.toString();
@@ -78,9 +94,9 @@ class _AddPost extends State<AddPost> {
                         post: _postController.text,
                         gender: super.widget.gender,
                         date: date,
-                        comments: comments);
+                        comments: comments.cast<Comment>());
 
-                    await postsService.addPostInFirebase(newPost);
+                    postsService.addPostInFirebase(newPost);
                     Navigator.pop(context);
                   }
                 },
