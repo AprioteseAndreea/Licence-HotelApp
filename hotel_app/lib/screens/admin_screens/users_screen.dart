@@ -77,7 +77,7 @@ class _UsersScreen extends State<UsersScreen> {
                                     ),
                                     subtitle: Text(
                                         'Since: ${user['old'].toString()}'),
-                                    leading: user['gender'] == 'Male'
+                                    leading: user['gender'] == 'male'
                                         ? const Padding(
                                             padding: EdgeInsets.only(
                                                 top: 7, bottom: 4),

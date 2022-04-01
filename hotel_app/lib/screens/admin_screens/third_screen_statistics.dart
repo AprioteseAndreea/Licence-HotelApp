@@ -98,53 +98,80 @@ class _ThirdScreenState extends State<ThirdScreen> {
               ),
             ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Icon(
-                    CupertinoIcons.app_fill,
-                    color: Color(Strings.orange),
-                    size: 30,
+                SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Card(
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    color: const Color(0xFFFFFFFF),
+                    elevation: 5,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const Icon(
+                            CupertinoIcons.bed_double_fill,
+                            color: Color(0xFFF0972D),
+                            size: 30,
+                          ),
+                          Text(
+                            Strings.capsFREE,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Color(Strings.orange)),
+                          ),
+                          Text(
+                            _roomsStatistics[1].value.toString(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Color(Strings.orange)),
+                          ),
+                        ]),
                   ),
                 ),
-                Text(
-                  Strings.free + " - ",
-                  style: TextStyle(
-                      color: Color(Strings.darkTurquoise), fontSize: 18),
-                ),
-                Text(
-                  _roomsStatistics[1].value.toString(),
-                  style: TextStyle(
-                      color: Color(Strings.darkTurquoise),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Icon(
-                    CupertinoIcons.app_fill,
-                    color: Color(Strings.darkTurquoise),
-                    size: 30,
+                SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Card(
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    color: const Color(0xFFFFFFFF),
+                    elevation: 5,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(
+                            CupertinoIcons.bed_double_fill,
+                            color: Color(Strings.darkTurquoise),
+                            size: 30,
+                          ),
+                          Text(
+                            Strings.capsOCCUPIED,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Color(Strings.darkTurquoise)),
+                          ),
+                          Text(
+                            _roomsStatistics[0].value.toString(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Color(Strings.darkTurquoise)),
+                          ),
+                        ]),
                   ),
                 ),
-                Text(
-                  Strings.occupied + " - ",
-                  style: TextStyle(
-                      color: Color(Strings.darkTurquoise), fontSize: 18),
-                ),
-                Text(
-                  _roomsStatistics[0].value.toString(),
-                  style: TextStyle(
-                      color: Color(Strings.darkTurquoise),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                )
               ],
             ),
           ],

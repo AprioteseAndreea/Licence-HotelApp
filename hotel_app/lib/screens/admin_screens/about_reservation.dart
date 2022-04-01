@@ -71,7 +71,7 @@ class _AboutReservation extends State<AboutReservation> {
                   height: mediaQuery.height * 0.18,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 18, right: 10),
+                  padding: const EdgeInsets.only(left: 20, right: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -237,10 +237,11 @@ class _AboutReservation extends State<AboutReservation> {
                                 ),
                                 Text(
                                   Strings.room +
+                                      " " +
                                       super.widget.reservationModel.room,
                                   style: TextStyle(
                                       fontSize: 18,
-                                      color: Color(Strings.orange),
+                                      color: Color(Strings.darkTurquoise),
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],

@@ -128,7 +128,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             radius: 45,
             child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(45)),
-                child: widget.userGender == 'Male'
+                child: widget.userGender == 'male'
                     ? const CircleAvatar(
                         radius: 45,
                         backgroundColor: Color(0xFFF0972D),

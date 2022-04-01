@@ -367,6 +367,9 @@ class _AboutRoom extends State<AboutRoom> {
                                 ),
                               ),
                             ),
+                            const SizedBox(
+                              height: 20,
+                            ),
                           ],
                         ),
                       ),

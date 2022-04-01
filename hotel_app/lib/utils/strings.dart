@@ -39,6 +39,8 @@ class Strings {
   static String gender = "Gender";
   static String status = "Status";
   static String login = "Login";
+  static String capsFREE = "FREE";
+  static String capsOCCUPIED = "OCCUPIED";
   static String createAccountToContinue = "Create account to continue";
   static String alreadyHaveAnAccount = "Already have an account?";
   static String doYouHaveAnAccount = "Don't have an account?";
@@ -52,7 +54,7 @@ class Strings {
   static String enterStaffsOccupation = "Enter staff's occupation";
   static String enterStaffsPhoneNumber = "Enter staff's phone number";
   static String occupation = "Occupation";
-  static String enterPhoneNumber = "Phone number must be 10 characters";
+  static String enterPhoneNumber = "Phone number must have 10 characters";
   static String enterOccupation = "Please enter occupation";
   static String enterSalary = "Please enter salary";
   static String adminMode = "ADMINISTRATOR PANNEL";

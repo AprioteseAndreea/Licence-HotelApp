@@ -225,11 +225,9 @@ class _RegisterState extends State<Register> {
                                 _phoneNumberController.text.trim());
                             String gender = '';
                             if (genders[0].isSelected) {
-                              gender = 'Male';
+                              gender = 'male';
                             } else if (genders[1].isSelected) {
-                              gender = 'Female';
-                            } else {
-                              gender = 'Other';
+                              gender = 'female';
                             }
                             User user = User(
                                 email: email,
