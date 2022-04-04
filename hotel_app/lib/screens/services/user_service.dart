@@ -15,6 +15,10 @@ class UserService with ChangeNotifier {
     return _users;
   }
 
+  List<Staff> getStaff() {
+    return _staff;
+  }
+
   String getName() {
     return name;
   }
@@ -161,11 +165,7 @@ class UserService with ChangeNotifier {
     // }
     await _prefs.setString('name', name);
     await _prefs.setString('phoneNumber', phoneNumber);
-    if (role == "") {
-      await _prefs.setString('role', "staff");
-    } else {
-      await _prefs.setString('role', role);
-    }
+    await _prefs.setString('role', role);
     await _prefs.setString('gender', gender);
     await _prefs.setString('old', old);
     await _prefs.setString('position', position);

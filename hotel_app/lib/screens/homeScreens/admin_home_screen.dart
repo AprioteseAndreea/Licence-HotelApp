@@ -1,5 +1,6 @@
 import 'package:first_app_flutter/models/user_model.dart' as user_model;
 import 'package:first_app_flutter/screens/admin_screens/bookings.dart';
+import 'package:first_app_flutter/screens/admin_screens/home_card.dart';
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/admin_screens/staff_screen.dart';
 import 'package:first_app_flutter/screens/admin_screens/statistics.dart';
@@ -42,37 +43,39 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
       width: mediaQuery.width,
       child: Column(
         children: <Widget>[
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: mediaQuery.height * 0.040,
           ),
           CircleAvatar(
-              radius: 53,
-              backgroundColor: Color(0xFFF0972D),
+              radius: mediaQuery.height * 0.055,
+              backgroundColor: Color(Strings.orange),
               child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('assets/images/adminphoto.jpg'))),
-          const SizedBox(
-            height: 20,
+                  radius: mediaQuery.height * 0.050,
+                  backgroundImage:
+                      const AssetImage('assets/images/adminphoto.jpg'))),
+          SizedBox(
+            height: mediaQuery.height * 0.040,
           ),
           Text(
             Strings.adminMode,
             style: TextStyle(
                 color: Color(Strings.darkTurquoise),
                 fontWeight: FontWeight.bold,
-                fontSize: 20),
+                fontSize: mediaQuery.width * 0.050),
           ),
           const SizedBox(
             height: 10,
           ),
-          const Text(
+          Text(
             'Manage your business with a simple click away.',
-            textAlign: TextAlign.justify,
+            textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 17, color: Colors.grey),
+            style: TextStyle(
+                fontSize: mediaQuery.width * 0.048, color: Colors.grey),
             maxLines: 2,
           ),
-          const SizedBox(
-            height: 30,
+          SizedBox(
+            height: mediaQuery.height * 0.045,
           ),
           Padding(
             padding: const EdgeInsets.all(10),
@@ -81,8 +84,10 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
-                        onTap: () => {
+                      HomeCard(
+                        title: "ROOMS",
+                        imageUrl: "assets/images/rooms.png",
+                        onPressed: () => {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -90,43 +95,11 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                             ),
                           )
                         },
-                        child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          color: const Color(0xFF124559),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              SizedBox(
-                                height: mediaQuery.height * 0.15,
-                                width: mediaQuery.width * 0.35,
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/rooms.png",
-                                        fit: BoxFit.cover,
-                                        width: 40,
-                                      ),
-                                      const Text(
-                                        'ROOMS',
-                                        style: TextStyle(
-                                            color: Color(0xFFF0972D),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
-                      GestureDetector(
-                        onTap: () => {
+                      HomeCard(
+                        title: "BOOKINGS",
+                        imageUrl: "assets/images/bookings.png",
+                        onPressed: () => {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -134,40 +107,6 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                             ),
                           )
                         },
-                        child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          color: const Color(0xFF124559),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              SizedBox(
-                                height: mediaQuery.height * 0.15,
-                                width: mediaQuery.width * 0.35,
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/bookings.png",
-                                        fit: BoxFit.cover,
-                                        width: 45,
-                                      ),
-                                      const Text(
-                                        'BOOKINGS',
-                                        style: TextStyle(
-                                            color: Color(0xFFF0972D),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
                     ]),
                 const SizedBox(
@@ -176,8 +115,10 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
-                        onTap: () => {
+                      HomeCard(
+                        title: "USERS",
+                        imageUrl: "assets/images/users.png",
+                        onPressed: () => {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -185,43 +126,11 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                             ),
                           )
                         },
-                        child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          color: const Color(0xFF124559),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              SizedBox(
-                                height: mediaQuery.height * 0.15,
-                                width: mediaQuery.width * 0.35,
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/users.png",
-                                        fit: BoxFit.cover,
-                                        width: 40,
-                                      ),
-                                      const Text(
-                                        'USERS',
-                                        style: TextStyle(
-                                            color: Color(0xFFF0972D),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
-                      GestureDetector(
-                        onTap: () => {
+                      HomeCard(
+                        title: "STAFF",
+                        imageUrl: "assets/images/staff.png",
+                        onPressed: () => {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -229,40 +138,6 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                             ),
                           )
                         },
-                        child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          color: const Color(0xFF124559),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              SizedBox(
-                                height: mediaQuery.height * 0.15,
-                                width: mediaQuery.width * 0.35,
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/staff.png",
-                                        fit: BoxFit.cover,
-                                        width: 45,
-                                      ),
-                                      const Text(
-                                        'STAFF',
-                                        style: TextStyle(
-                                            color: Color(0xFFF0972D),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
                     ]),
                 const SizedBox(
@@ -271,8 +146,10 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
-                        onTap: () => {
+                      HomeCard(
+                        title: "STATISTICS",
+                        imageUrl: "assets/images/statistics.png",
+                        onPressed: () => {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -280,77 +157,11 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                             ),
                           )
                         },
-                        child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          color: const Color(0xFF124559),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              SizedBox(
-                                height: mediaQuery.height * 0.15,
-                                width: mediaQuery.width * 0.35,
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/statistics.png",
-                                        fit: BoxFit.cover,
-                                        width: 40,
-                                      ),
-                                      const Text(
-                                        'STATISTICS',
-                                        style: TextStyle(
-                                            color: Color(0xFFF0972D),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
-                      GestureDetector(
-                        onTap: () async => await loginProvider.logout(),
-                        child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          color: const Color(0xFF124559),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              SizedBox(
-                                height: mediaQuery.height * 0.15,
-                                width: mediaQuery.width * 0.35,
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/logout.png",
-                                        fit: BoxFit.cover,
-                                        width: 40,
-                                      ),
-                                      const Text(
-                                        'LOGOUT',
-                                        style: TextStyle(
-                                            color: Color(0xFFF0972D),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                        ),
+                      HomeCard(
+                        title: "LOGOUT",
+                        imageUrl: "assets/images/logout.png",
+                        onPressed: () async => await loginProvider.logout(),
                       ),
                     ]),
               ],

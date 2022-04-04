@@ -15,7 +15,9 @@ class Feedback extends StatefulWidget {
 }
 
 class _Feedback extends State<Feedback> {
-  late List<FeedbackModel> feedbacks = [];
+  final ScrollController _controller = ScrollController();
+  FeedbackService feedbackService = FeedbackService();
+  List<FeedbackModel> feedbacks = [];
 
   @override
   void initState() {
@@ -24,7 +26,7 @@ class _Feedback extends State<Feedback> {
 
   @override
   Widget build(BuildContext context) {
-    final feedbackService = Provider.of<FeedbackService>(context);
+    feedbackService = Provider.of<FeedbackService>(context);
     feedbacks = feedbackService.getFeedbacks();
     return Scaffold(
       appBar: AppBar(
@@ -56,64 +58,54 @@ class _Feedback extends State<Feedback> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection('users').snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: const ClampingScrollPhysics(),
-                      children: snapshot.data!.docs
-                          .firstWhere((element) => element.id == 'feedbacks')[
-                              'feedbacks']
-                          .map<Widget>((doc) => Card(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    ListTile(
-                                      title: Text(
-                                        doc['user'],
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                            color: Color(0xFF124559)),
-                                      ),
-                                      subtitle: Text('Posted ${doc['date']}'),
-                                      trailing: SmoothStarRating(
-                                        allowHalfRating: true,
-                                        rating: double.parse(doc['stars']),
-                                        starCount: 5,
-                                        size: 20.0,
-                                        isReadOnly: false,
-                                        color: const Color(0xFFF0972D),
-                                        borderColor: const Color(0xFFCD7700),
-                                        spacing: 0.0,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, right: 20, bottom: 10),
-                                      child: Text(
-                                        doc['feedback'],
-                                        style: const TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            fontSize: 16),
-                                        maxLines: 5,
-                                        overflow: TextOverflow.fade,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ))
-                          .toList());
-                } else if (snapshot.hasError) {
-                  return const Text('No feedbacks');
-                }
-                return const CircularProgressIndicator();
-              }),
+          child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            physics: const ClampingScrollPhysics(),
+            controller: _controller,
+            itemCount: feedbacks.length,
+            itemBuilder: (context, index) {
+              return Card(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ListTile(
+                      title: Text(
+                        feedbacks[index].user,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Color(0xFF124559)),
+                      ),
+                      subtitle: Text('Posted ${feedbacks[index].date}'),
+                      trailing: SmoothStarRating(
+                        allowHalfRating: true,
+                        rating: double.parse(feedbacks[index].stars),
+                        starCount: 5,
+                        size: 20.0,
+                        isReadOnly: false,
+                        color: const Color(0xFFF0972D),
+                        borderColor: const Color(0xFFCD7700),
+                        spacing: 0.0,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, bottom: 10),
+                      child: Text(
+                        feedbacks[index].feedback,
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic, fontSize: 16),
+                        maxLines: 5,
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

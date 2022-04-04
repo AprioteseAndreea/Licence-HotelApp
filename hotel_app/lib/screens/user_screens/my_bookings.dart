@@ -223,58 +223,6 @@ class _MyBookings extends State<MyBookings> {
                         ),
                   // return bookingCard(myBookings[index]);
                 );
-                //StreamBuilder<QuerySnapshot>(
-                //     stream: FirebaseFirestore.instance
-                //         .collection('users')
-                //         .snapshots(),
-                //     builder: (BuildContext context,
-                //         AsyncSnapshot<QuerySnapshot> asyncSnapshot) {
-                //       if (asyncSnapshot.hasData) {
-                //         return ListView(
-                //             shrinkWrap: true,
-                //             scrollDirection: Axis.vertical,
-                //             physics: const ClampingScrollPhysics(),
-                //             children: asyncSnapshot.data!.docs
-                //                 .firstWhere((element) =>
-                //                     element.id == 'reservations')['reservations']
-                //                 .map<Widget>(
-                //                   (reservation) => GestureDetector(
-                //                     onTap: () {
-                //                       ReservationModel resCurrent =
-                //                           ReservationModel(
-                //                               checkIn: reservation['checkIn'],
-                //                               checkOut: reservation['checkOut'],
-                //                               date: reservation['date'],
-                //                               price: reservation['price'],
-                //                               room: reservation['room'],
-                //                               user: reservation['user'],
-                //                               approved: reservation['approved'],
-                //                               facilities:
-                //                                   reservation['facilities']
-                //                                       .cast<String>(),
-                //                               guests: reservation['guests'],
-                //                               name: reservation['name'],
-                //                               id: reservation['id'],
-                //                               otherDetails:
-                //                                   reservation['otherDetails']);
-                //                       Navigator.push(
-                //                         context,
-                //                         MaterialPageRoute(
-                //                           builder: (context) => AboutReservation(
-                //                               reservationModel: resCurrent,
-                //                               isUser: true),
-                //                         ),
-                //                       );
-                //                     },
-                //                     child: bookingCard(reservation),
-                //                   ),
-                //                 )
-                //                 .toList());
-                //       } else if (asyncSnapshot.hasError) {
-                //         return const Text('No bookings');
-                //       }
-                //       return const CircularProgressIndicator();
-                //     })
               }),
         )));
   }
