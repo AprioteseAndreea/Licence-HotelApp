@@ -5,6 +5,7 @@ class Strings {
   static String applicationTitle = "Grand Hotel";
   static String selectedFacilities = "Selected facilities";
   static String close = "CLOSE";
+  static String approved = "APPROVED";
   static String approve = "APPROVE";
   static String bookingDetails = "Booking details";
   static String checkIn = "Check-in: ";
@@ -40,6 +41,7 @@ class Strings {
   static String status = "Status";
   static String login = "Login";
   static String capsFREE = "FREE";
+  static String downloadBill = "Download bill";
   static String capsOCCUPIED = "OCCUPIED";
   static String createAccountToContinue = "Create account to continue";
   static String alreadyHaveAnAccount = "Already have an account?";
@@ -57,7 +59,7 @@ class Strings {
   static String enterPhoneNumber = "Phone number must have 10 characters";
   static String enterOccupation = "Please enter occupation";
   static String enterSalary = "Please enter salary";
-  static String adminMode = "ADMINISTRATOR PANNEL";
+  static String adminMode = "ADMINISTRATOR PANEL";
   static String choose = "Choose...";
   static String phoneNumber = "Phone number";
   static String priceSmall = "Price";
@@ -74,7 +76,12 @@ class Strings {
   static String none = "none";
   static String salary = "Salary";
   static String noFeedbacks = "No feedbacks";
+  static String street = "Street Avenue 2301, SUA";
+  static String hotelPhone = "800 234 583";
+  static String hotelEmail = "grandluxuryhotel@gmail.com";
+  static String contactUs = "Contact us";
   static int darkTurquoise = 0xFF124559;
+  static int lightTurquoise = 0xFF82adb8;
   static int orange = 0xFFF0972D;
   static const Color red = Color(0xFFFF0000);
   static const Color green = Color(0xFF4CAF50);

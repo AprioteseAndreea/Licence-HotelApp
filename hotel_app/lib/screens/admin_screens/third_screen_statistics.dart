@@ -53,37 +53,65 @@ class _ThirdScreenState extends State<ThirdScreen> {
   }
 
   Widget _buildRoomsStatistics(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('users').snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const LinearProgressIndicator();
-          } else {
-            List<dynamic> roomsStatistics = snapshot.data!.docs
-                .firstWhere((element) => element.id == 'roomStatistics')[
-                    'roomStatistics']
-                .map((doc) => RoomStatisticsModel.fromJson(doc))
-                .toList();
+    // return StreamBuilder<QuerySnapshot>(
+    //     stream: FirebaseFirestore.instance.collection('users').snapshots(),
+    //     builder: (context, snapshot) {
+    //       if (!snapshot.hasData) {
+    //         return const LinearProgressIndicator();
+    //       } else {
+    //         List<dynamic> roomsStatistics = snapshot.data!.docs
+    //             .firstWhere((element) => element.id == 'roomStatistics')[
+    //                 'roomStatistics']
+    //             .map((doc) => RoomStatisticsModel.fromJson(doc))
+    //             .toList();
+    //
+    //         return _buildChart(context, roomsStatistics);
+    //       }
+    //     });
+    List<RoomStatisticsModel> roomsStatistics = [];
+    RoomStatisticsModel r1 =
+        RoomStatisticsModel(status: "free", value: 2, color: "#124559");
+    RoomStatisticsModel r2 =
+        RoomStatisticsModel(status: "occupied", value: 5, color: "#f0972d");
+    roomsStatistics.add(r2);
+    roomsStatistics.add(r1);
 
-            return _buildChart(context, roomsStatistics);
-          }
-        });
+    return _buildChart(context, roomsStatistics);
   }
+  // late String status;
+  // late int value;
+  // late String color;
 
   Widget _buildChart(BuildContext context, List<dynamic> roomsStatistics) {
     _roomsStatistics = roomsStatistics.cast<RoomStatisticsModel>();
+    Size mediaQuery = MediaQuery.of(context).size;
+
     _generateData(_roomsStatistics);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
         child: Column(
           children: <Widget>[
-            const Text(
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
               'Rooms statistics',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color(Strings.darkTurquoise)),
             ),
             const SizedBox(
               height: 10,
+            ),
+            Text(
+              'Here you can see the percentage of free rooms and those occupied in real time',
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontSize: mediaQuery.width * 0.048, color: Colors.grey),
+              maxLines: 2,
             ),
             Expanded(
               child: charts.PieChart(
@@ -127,7 +155,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
                                 color: Color(Strings.orange)),
                           ),
                           Text(
-                            _roomsStatistics[1].value.toString(),
+                            _roomsStatistics[0].value.toString(),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -163,7 +191,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
                                 color: Color(Strings.darkTurquoise)),
                           ),
                           Text(
-                            _roomsStatistics[0].value.toString(),
+                            _roomsStatistics[1].value.toString(),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,

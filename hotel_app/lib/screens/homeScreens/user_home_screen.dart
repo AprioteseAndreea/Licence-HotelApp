@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/models/user_model.dart' as user_model;
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
@@ -104,6 +106,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
+    Size mediaQuery = MediaQuery.of(context).size;
 
     users = userService.getUsers();
     return Scaffold(
@@ -151,88 +154,106 @@ class _UserHomeScreen extends State<UserHomeScreen> {
           children: [
             SingleChildScrollView(
               child: Column(children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15, top: 10),
-                      child: Text(
-                        'Hi $name !',
-                        style: const TextStyle(
-                            fontSize: 23,
-                            color: Color(0xFF124559),
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Column(
+                Card(
+                  semanticContainer: true,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                  color: const Color(0xFFFFFFFF),
+                  elevation: 5,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Image.asset(
-                          "assets/images/tourists.jpg",
-                          height: 130,
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Do you want to visit us?',
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Color(0xFF124559),
-                          ),
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                        MaterialButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const GetRoom()));
-                          },
-                          child: Ink(
-                            decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xff124559),
-                                    Color(0xff637e8d)
-                                  ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                ),
-                                borderRadius: BorderRadius.circular(50.0)),
-                            child: Container(
-                              constraints: const BoxConstraints(
-                                  maxWidth: 150.0, minHeight: 30.0),
-                              alignment: Alignment.center,
-                              child: const Text(
-                                "BOOK NOW",
-                                textAlign: TextAlign.center,
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15, top: 10),
+                              child: Text(
+                                'Hi $name!',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 15),
+                                    fontSize: mediaQuery.width * 0.055,
+                                    color: const Color(0xFF124559),
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Do you want to visit us?',
+                                  style: TextStyle(
+                                    fontSize: mediaQuery.width * 0.04,
+                                    color: const Color(0xFF124559),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                ),
+                                MaterialButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const GetRoom()));
+                                  },
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                        gradient: const LinearGradient(
+                                          colors: [
+                                            Color(0xff124559),
+                                            Color(0xff637e8d)
+                                          ],
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(50.0)),
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                          maxWidth: mediaQuery.width * 0.4,
+                                          minHeight: mediaQuery.height * 0.04),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "BOOK NOW",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: mediaQuery.width * 0.04),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Image.asset(
+                                  "assets/images/toursist.jpg",
+                                  width: mediaQuery.width * 0.4,
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ]),
                 ),
                 Padding(
                     padding: const EdgeInsets.only(left: 15, top: 20),
                     child: Row(
-                      children: const [
+                      children: [
                         Text(
                           'Facilities',
                           style: TextStyle(
-                            fontSize: 18,
-                            color: Color(0xFF124559),
-                          ),
+                              fontSize: mediaQuery.width * 0.045,
+                              color: const Color(0xFF124559),
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     )),
@@ -244,16 +265,14 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                     children: [
                       Container(
                         padding: const EdgeInsets.only(
-                          top: 10,
-                          bottom: 20,
-                        ),
-                        height: 120,
+                            top: 10, bottom: 20, left: 5, right: 5),
+                        height: mediaQuery.height * 0.18,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: facilities.length,
                             itemBuilder: (context, index) {
                               return SizedBox(
-                                width: 90,
+                                width: mediaQuery.width * 0.22,
                                 child: Card(
                                   semanticContainer: true,
                                   clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -264,18 +283,20 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                   elevation: 5,
                                   child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         Image.asset(
                                           facilities[index].toString(),
                                           fit: BoxFit.cover,
-                                          width: 35,
+                                          width: mediaQuery.width * 0.1,
                                         ),
                                         Text(
                                           facilitiesLabel[index].toString(),
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 13),
+                                              fontSize:
+                                                  mediaQuery.width * 0.032),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ]),
                                 ),
@@ -288,23 +309,14 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                 Padding(
                     padding: const EdgeInsets.only(left: 15, top: 5, right: 5),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Places to visit',
                           style: TextStyle(
-                            fontSize: 18,
-                            color: Color(0xFF124559),
-                          ),
+                              fontSize: mediaQuery.width * 0.045,
+                              color: const Color(0xFF124559),
+                              fontWeight: FontWeight.bold),
                         ),
-                        Row(
-                          children: const [
-                            Icon(
-                              CupertinoIcons.arrow_right,
-                              size: 20,
-                            ),
-                          ],
-                        )
                       ],
                     )),
                 Padding(
@@ -315,13 +327,13 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                     children: [
                       Container(
                         padding: const EdgeInsets.only(top: 10, bottom: 20),
-                        height: 170,
+                        height: mediaQuery.height * 0.3,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: placeToVisitPath.length,
                             itemBuilder: (context, index) {
                               return SizedBox(
-                                width: 150,
+                                width: mediaQuery.width * 0.35,
                                 child: Card(
                                     semanticContainer: true,
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -365,8 +377,9 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                                   left: 10, bottom: 5),
                                               child: Text(
                                                 placesToVisit[index].toString(),
-                                                style: const TextStyle(
-                                                    fontSize: 15,
+                                                style: TextStyle(
+                                                    fontSize: mediaQuery.width *
+                                                        0.036,
                                                     color: Colors.white),
                                               ),
                                             )

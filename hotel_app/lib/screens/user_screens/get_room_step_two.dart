@@ -568,7 +568,9 @@ class _GetRoomS2 extends State<GetRoomS2> {
                             otherDetails: super.widget.otherDetails);
 
                         await reservationProvider.addReservationsInFirebase(r);
-                        await reservationProvider.actualizeInformation();
+                        await reservationProvider
+                            .getReservationsCollectionFromFirebase();
+                        //await reservationProvider.actualizeInformation();
                       }
 
                       Navigator.push(

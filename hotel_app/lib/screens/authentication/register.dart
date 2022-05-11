@@ -82,7 +82,7 @@ class _RegisterState extends State<Register> {
                   'assets/images/grand_hotel_logo4.jpg'), //   <--- image
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 10, bottom: 10, left: 20, right: 20),
+                    top: 5, bottom: 10, left: 20, right: 20),
                 child: Form(
                   key: _formkey,
                   child: Column(
@@ -92,15 +92,15 @@ class _RegisterState extends State<Register> {
                       Text(
                         Strings.createAccountToContinue,
                         style: TextStyle(
-                          color: Color(Strings.darkTurquoise),
+                          color: Colors.grey,
                           fontSize: mediaQuery.width * 0.045,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       TextFormField(
                         style: TextStyle(
-                          fontSize: mediaQuery.width * 0.04,
+                          fontSize: mediaQuery.width * 0.035,
                         ),
                         controller: _emailController,
                         validator: (value) => EmailValidator.validate(value)
@@ -118,10 +118,10 @@ class _RegisterState extends State<Register> {
                           email = value;
                         },
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       TextFormField(
                         style: TextStyle(
-                          fontSize: mediaQuery.width * 0.04,
+                          fontSize: mediaQuery.width * 0.035,
                         ),
                         validator: (val) => val!.length < 6
                             ? Strings.enterMoreThanSixChars
@@ -142,10 +142,10 @@ class _RegisterState extends State<Register> {
                               borderRadius: BorderRadius.circular(10),
                             )),
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       TextFormField(
                         style: TextStyle(
-                          fontSize: mediaQuery.width * 0.04,
+                          fontSize: mediaQuery.width * 0.035,
                         ),
                         controller: _fullNameController,
                         validator: (val) =>
@@ -161,7 +161,7 @@ class _RegisterState extends State<Register> {
                           name = value;
                         },
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       TextFormField(
                         style: TextStyle(
                           fontSize: mediaQuery.width * 0.04,
@@ -180,7 +180,7 @@ class _RegisterState extends State<Register> {
                           phoneNumber = value;
                         },
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -248,8 +248,8 @@ class _RegisterState extends State<Register> {
                                 (route) => false);
                           }
                         },
-                        height: 45,
-                        minWidth: loginProvider.isLoading ? null : 200,
+                        height: mediaQuery.width * 0.12,
+                        minWidth: loginProvider.isLoading ? null : 150,
                         color: Theme.of(context).primaryColor,
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -263,20 +263,21 @@ class _RegisterState extends State<Register> {
                               )
                             : Text(
                                 Strings.register,
-                                style: const TextStyle(
-                                  fontSize: 18,
+                                style: TextStyle(
+                                  fontSize: mediaQuery.width * 0.042,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // ignore: prefer_const_constructors
                           Text(Strings.alreadyHaveAnAccount,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: mediaQuery.width * 0.035)),
                           // ignore: prefer_const_constructors
                           SizedBox(width: 3),
                           TextButton(
@@ -292,7 +293,8 @@ class _RegisterState extends State<Register> {
                                   (route) => false)
                             },
                             child: Text(Strings.login,
-                                style: const TextStyle(fontSize: 15)),
+                                style: TextStyle(
+                                    fontSize: mediaQuery.width * 0.035)),
                           )
                         ],
                       ),

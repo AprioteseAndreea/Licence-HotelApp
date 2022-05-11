@@ -3,6 +3,9 @@ import 'package:first_app_flutter/models/room_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class RoomsService with ChangeNotifier {
+  static final RoomsService _singletonRooms = RoomsService._interval();
+  RoomsService._interval();
+
   FirebaseFirestore? _instance;
   String _errorMessage = "";
   String get errorMessage => _errorMessage;
@@ -17,16 +20,15 @@ class RoomsService with ChangeNotifier {
     return _rooms;
   }
 
-  RoomsService() {
-    getRoomsCollectionFromFirebase();
+  factory RoomsService() {
+    return _singletonRooms;
   }
   Future<void> getRoomsCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference users = _instance!.collection('users');
-
+    _rooms.clear();
     DocumentSnapshot snapshot = await users.doc('rooms').get();
     //DocumentSnapshot reservations = await users.doc('reservations').get();
-
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       var roomsData = data['rooms'] as List<dynamic>;
@@ -87,11 +89,21 @@ class RoomsService with ChangeNotifier {
     });
   }
 
-  Future<void> updateRoomStatusInFirebase(String roomNumber, String status,
-      String? userName, String? interval) async {
+  Future<void> updateRoomStatusInFirebase() async {
     DocumentReference<Map<String, dynamic>> rooms =
         FirebaseFirestore.instance.collection('users').doc('rooms');
 
+    final roomsMap = <Map<String, dynamic>>[];
+    for (var f in _rooms) {
+      roomsMap.add(f.toJson());
+    }
+    rooms.set({
+      'rooms': roomsMap,
+    });
+  }
+
+  void updateRoom(
+      String roomNumber, String status, String userName, String interval) {
     for (int i = 0; i < _rooms.length; i++) {
       if (_rooms[i].number == roomNumber) {
         if (status == "free") {
@@ -101,18 +113,11 @@ class RoomsService with ChangeNotifier {
         }
         if (status == "occupied") {
           _rooms[i].free = false;
-          _rooms[i].idUser = userName!;
-          _rooms[i].interval = interval!;
+          _rooms[i].idUser = userName;
+          _rooms[i].interval = interval;
         }
       }
     }
-    final roomsMap = <Map<String, dynamic>>[];
-    for (var f in _rooms) {
-      roomsMap.add(f.toJson());
-    }
-    rooms.set({
-      'rooms': roomsMap,
-    });
   }
 
   Future<void> deleteRoomInFirebase(RoomModel r) async {

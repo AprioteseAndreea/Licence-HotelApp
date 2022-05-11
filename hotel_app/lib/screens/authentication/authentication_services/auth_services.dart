@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:first_app_flutter/screens/services/facilities_service.dart';
 import 'package:first_app_flutter/screens/services/feedback_service.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/screens/services/rooms_service.dart';
@@ -11,9 +12,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthServices with ChangeNotifier {
   bool _isLoading = false;
   String _errorMessage = "";
+
   bool get isLoading => _isLoading;
   String get errorMessage => _errorMessage;
+
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  UserService userService = UserService();
+  RoomsService roomsService = RoomsService();
+  FeedbackService feedbackService = FeedbackService();
+  StatisticsService statisticsService = StatisticsService();
+  ReservationService reservationService = ReservationService();
+  FacilityService facilityService = FacilityService();
 
   Future register(
       String email, String password, String name, String phoneNumber) async {
@@ -41,17 +51,36 @@ class AuthServices with ChangeNotifier {
     setLoading(true);
     try {
       UserService userService = UserService();
-      RoomsService roomsService = RoomsService();
-      FeedbackService feedbackService = FeedbackService();
-      StatisticsService statisticsService = StatisticsService();
-      ReservationService reservationService = ReservationService();
-      // await reservationService.actualizeInformation();
-      await reservationService.countNumberOfReservations(email);
+      await userService.getUsersCollectionFromFirebase();
       UserCredential authResult = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = authResult.user;
+      await userService.getNameFromSharedPrefs();
+      String role = "";
+      for (int i = 0; i < userService.getUsers().length; i++) {
+        if (userService.getUsers()[i].email ==
+            firebaseAuth.currentUser!.email) {
+          role = userService.getUsers()[i].role;
+        }
+      }
+      // switch (role) {
+      //   case 'user':
+      //     {
+      //       await instantiateDataForUser();
+      //       break;
+      //     }
+      //   case 'admin':
+      //     {
+      //       await instantiateDataForAdmin();
+      //       break;
+      //     }
+      //   case 'staff':
+      //     {
+      //       break;
+      //     }
+      // }
       setLoading(false);
-
+      notifyListeners();
       return user;
     } on SocketException {
       setLoading(false);
@@ -73,6 +102,22 @@ class AuthServices with ChangeNotifier {
     ReservationService reservationService = ReservationService();
     await reservationService.actualizeInformation();
   }
+
+  // Future<void> instantiateDataForUser() async {
+  //   await reservationService
+  //       .countNumberOfReservations(firebaseAuth.currentUser!.email);
+  //   await feedbackService.getFeedbacksCollectionFromFirebase();
+  //   await facilityService.getFacilitiesCollectionFromFirebase();
+  // }
+  //
+  // Future<void> instantiateDataForAdmin() async {
+  //   await roomsService.getRoomsCollectionFromFirebase();
+  //   await reservationService.getReservationsCollectionFromFirebase();
+  //   await userService.getStaffCollectionFromFirebase();
+  //   // await statisticsService.getRoomStatisticsCollectionFromFirebase();
+  //   // await statisticsService.getMonthlyReservationsCollectionFromFirebase();
+  //   // await statisticsService.getMonthlyIncomeCollectionFromFirebase();
+  // }
 
   void setLoading(val) {
     _isLoading = val;

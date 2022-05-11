@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/reservation_model.dart';
-import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/admin_screens/about_reservation.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
-import 'package:first_app_flutter/screens/services/rooms_service.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -34,8 +32,9 @@ class _Bookings extends State<Bookings> {
 
   @override
   Widget build(BuildContext context) {
-    reservationService = Provider.of<ReservationService>(context);
-    reservations = reservationService.getListOfReservations();
+    reservations = reservationService.getReservations();
+    Size mediaQuery = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
@@ -103,14 +102,14 @@ class _Bookings extends State<Bookings> {
                             children: [
                               Image.asset(
                                 'assets/images/tourist_avatar.png',
-                                height: 35,
+                                height: mediaQuery.height * 0.04,
                               ),
                               Text(
                                 ' ${reservations[index].name}',
-                                style: const TextStyle(
-                                    color: Color(0xFF124559),
+                                style: TextStyle(
+                                    color: Color(Strings.darkTurquoise),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 18),
+                                    fontSize: mediaQuery.width * 0.04),
                               ),
                             ],
                           ),
@@ -119,14 +118,14 @@ class _Bookings extends State<Bookings> {
                             children: [
                               Image.asset(
                                 'assets/images/bed_logo.png',
-                                height: 35,
+                                height: mediaQuery.height * 0.04,
                               ),
                               Text(
                                 'ROOM ${reservations[index].room}',
-                                style: const TextStyle(
-                                    color: Color(0xFFE16A10),
+                                style: TextStyle(
+                                    color: Color(Strings.orange),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16),
+                                    fontSize: mediaQuery.width * 0.03),
                               ),
                             ],
                           ),
@@ -144,21 +143,21 @@ class _Bookings extends State<Bookings> {
                             children: [
                               Text(
                                 formatDate(reservations[index].checkIn),
-                                style: const TextStyle(
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: 18,
+                                style: TextStyle(
+                                  color: const Color(0xFFFFFFFF),
+                                  fontSize: mediaQuery.width * 0.04,
                                 ),
                               ),
                               Image.asset(
                                 'assets/images/calendar.png',
-                                height: 25,
-                                width: 25,
+                                height: mediaQuery.width * 0.06,
+                                width: mediaQuery.width * 0.06,
                               ),
                               Text(
                                 formatDate(reservations[index].checkOut),
-                                style: const TextStyle(
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: 18,
+                                style: TextStyle(
+                                  color: const Color(0xFFFFFFFF),
+                                  fontSize: mediaQuery.width * 0.04,
                                 ),
                               ),
                             ],
@@ -172,23 +171,24 @@ class _Bookings extends State<Bookings> {
                       children: [
                         Text(
                           'Date: ${formatDate(reservations[index].date)}',
-                          style: const TextStyle(
-                              color: Color(0xFFE16A10),
-                              fontSize: 14,
+                          style: TextStyle(
+                              color: Color(Strings.orange),
+                              fontSize: mediaQuery.width * 0.04,
                               fontStyle: FontStyle.italic),
                         ),
                         if (reservations[index].approved.toString() == 'true')
-                          const Padding(
-                              padding: EdgeInsets.all(2),
+                          Padding(
+                              padding: const EdgeInsets.all(2),
                               child: Card(
                                 color: Colors.green,
                                 child: Padding(
-                                  padding: EdgeInsets.all(3),
+                                  padding: const EdgeInsets.all(3),
                                   child: Text(
                                     'APPROVED',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
+                                      fontSize: mediaQuery.width * 0.03,
                                     ),
                                   ),
                                 ),
@@ -205,15 +205,16 @@ class _Bookings extends State<Bookings> {
                                           .countNumberOfReservations(
                                               reservations[index].user),
                                     },
-                                child: const Card(
+                                child: Card(
                                   color: Colors.orange,
                                   child: Padding(
-                                    padding: EdgeInsets.all(3),
+                                    padding: const EdgeInsets.all(3),
                                     child: Text(
                                       'APPROVE',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
+                                        fontSize: mediaQuery.width * 0.03,
                                       ),
                                     ),
                                   ),

@@ -5,9 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService with ChangeNotifier {
+  static final UserService _singletionUsers = UserService._interval();
+  UserService._interval();
   FirebaseFirestore? _instance;
-  final List<User> _users = [];
-  final List<Staff> _staff = [];
+  List<User> _users = [];
+  late List<Staff> _staff = [];
 
   String name = "";
 
@@ -23,12 +25,14 @@ class UserService with ChangeNotifier {
     return name;
   }
 
-  UserService() {
-    getUsersCollectionFromFirebase();
-    getNameFromSharedPrefs();
-    getStaffCollectionFromFirebase();
+  factory UserService() {
+    return _singletionUsers;
+    // getUsersCollectionFromFirebase();
+    // getNameFromSharedPrefs();
+    // getStaffCollectionFromFirebase();
   }
   Future<void> getUsersCollectionFromFirebase() async {
+    _users.clear();
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');
 
@@ -46,15 +50,15 @@ class UserService with ChangeNotifier {
   }
 
   Future<void> getStaffCollectionFromFirebase() async {
+    _staff.clear();
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');
-
     DocumentSnapshot snapshot = await categories.doc('staff').get();
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       var staffData = data['staff'] as List<dynamic>;
-      for (var data in staffData) {
-        Staff staff = Staff.fromJson(data);
+      for (var s in staffData) {
+        Staff staff = Staff.fromJson(s);
         _staff.add(staff);
       }
     }
@@ -85,6 +89,24 @@ class UserService with ChangeNotifier {
     }
     users.set({
       'staff': staffMap,
+    });
+  }
+
+  Future<void> deleteStaffFromFirebase(String email) async {
+    DocumentReference<Map<String, dynamic>> rooms =
+        FirebaseFirestore.instance.collection('users').doc('staff');
+
+    for (int i = 0; i < _staff.length; i++) {
+      if (_staff[i].email == email) {
+        _staff.remove(_staff[i]);
+      }
+    }
+    final roomsMap = <Map<String, dynamic>>[];
+    for (var f in _staff) {
+      roomsMap.add(f.toJson());
+    }
+    rooms.set({
+      'staff': roomsMap,
     });
   }
 
@@ -124,13 +146,15 @@ class UserService with ChangeNotifier {
         _users[i].phoneNumber = phoneNumber;
       }
     }
-    final usersMap = <Map<String, dynamic>>[];
-    for (var f in _users) {
-      usersMap.add(f.toJson());
+    if (_users.isNotEmpty) {
+      final usersMap = <Map<String, dynamic>>[];
+      for (var f in _users) {
+        usersMap.add(f.toJson());
+      }
+      users.set({
+        'users': usersMap,
+      });
     }
-    users.set({
-      'users': usersMap,
-    });
   }
 
   Future<void> getNameFromSharedPrefs() async {
@@ -152,17 +176,6 @@ class UserService with ChangeNotifier {
         old = _users[i].old;
       }
     }
-    // for (int i = 0; i < _staff.length; i++) {
-    //   if (_staff[i].email == email) {
-    //     name = _staff[i].name;
-    //     phoneNumber = _staff[i].phone;
-    //     role = "staff";
-    //     gender = _staff[i].gender;
-    //     old = _staff[i].old;
-    //     position = _staff[i].position;
-    //     salary = _staff[i].salary;
-    //   }
-    // }
     await _prefs.setString('name', name);
     await _prefs.setString('phoneNumber', phoneNumber);
     await _prefs.setString('role', role);

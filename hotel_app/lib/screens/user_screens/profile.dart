@@ -32,6 +32,8 @@ class _Profile extends State<Profile> {
 
   late TextEditingController _fullNameController = TextEditingController();
   late TextEditingController _phoneController = TextEditingController();
+  UserService userService = UserService();
+
   late bool _fullNameIsEnable = false;
   late bool _phoneIsEnable = false;
 
@@ -73,6 +75,17 @@ class _Profile extends State<Profile> {
             'Profile',
             style: TextStyle(color: Color(0xFF124559)),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.save,
+                size: 30,
+              ),
+              onPressed: () => {
+                _saveProfileData(),
+              },
+            ),
+          ],
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -397,60 +410,26 @@ class _Profile extends State<Profile> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MaterialButton(
-                        onPressed: () async {
-                          var user = firebaseAuth.currentUser;
-                          await user!
-                              .updateDisplayName(_fullNameController.text);
-                          await user.updatePhotoURL(_phoneController.text);
-
-                          await userService.updateUserInFirebase(
-                              super.widget.email!,
-                              _fullNameController.text,
-                              _phoneController.text);
-
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text("Successfully saved"),
-                          ));
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => const UserHomeState()),
-                              (Route<dynamic> route) => false);
-                        },
-                        child: Ink(
-                          decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFFff8b00), Color(0xFFf1c796)],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              ),
-                              borderRadius: BorderRadius.circular(50.0)),
-                          child: Container(
-                            constraints: const BoxConstraints(
-                                maxWidth: 150.0, minHeight: 35.0),
-                            alignment: Alignment.center,
-                            child: const Text(
-                              "Update profile",
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
             ),
           ),
         ));
+  }
+
+  Future<void> _saveProfileData() async {
+    var user = firebaseAuth.currentUser;
+    await user!.updateDisplayName(_fullNameController.text);
+    await user.updatePhotoURL(_phoneController.text);
+
+    await userService.updateUserInFirebase(
+        super.widget.email!, _fullNameController.text, _phoneController.text);
+
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("Successfully saved"),
+    ));
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const UserHomeState()),
+        (Route<dynamic> route) => false);
   }
 
   Widget ranking(int noOfReservations) {

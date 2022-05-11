@@ -129,6 +129,7 @@ class _LoginState extends State<Login> {
                           fontSize: mediaQuery.width * 0.04,
                         ),
                         controller: _passwordController,
+                        // validator: FieldValidator.validatePassword,
                         obscureText: _obscuredText,
                         decoration: InputDecoration(
                             suffixIcon: TextButton(
@@ -207,8 +208,8 @@ class _LoginState extends State<Login> {
                             );
                           }
                         },
-                        height: 45,
-                        minWidth: loginProvider.isLoading ? null : 200,
+                        height: mediaQuery.width * 0.12,
+                        minWidth: loginProvider.isLoading ? null : 150,
                         color: Theme.of(context).primaryColor,
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -219,7 +220,7 @@ class _LoginState extends State<Login> {
                             : Text(
                                 Strings.login,
                                 style: TextStyle(
-                                  fontSize: mediaQuery.width * 0.04,
+                                  fontSize: mediaQuery.width * 0.042,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

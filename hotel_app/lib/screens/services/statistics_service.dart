@@ -7,6 +7,9 @@ import 'package:first_app_flutter/models/staff_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class StatisticsService with ChangeNotifier {
+  static final StatisticsService _singletonStatistics =
+      StatisticsService._interval();
+  StatisticsService._interval();
   FirebaseFirestore? _instance;
   final List<MonthlyRModel> _monthlyReservations = [];
   final List<MonthlyRModel> _monthlyIncome = [];
@@ -20,19 +23,19 @@ class StatisticsService with ChangeNotifier {
     return _monthlyIncome;
   }
 
-  StatisticsService() {
-    getMonthlyReservationsCollectionFromFirebase();
-    getMonthlyIncomeCollectionFromFirebase();
-    getRoomStatisticsCollectionFromFirebase();
-
-    //calculateMonthlyReservations();
+  factory StatisticsService() {
+    return _singletonStatistics;
+    // getMonthlyReservationsCollectionFromFirebase();
+    // getMonthlyIncomeCollectionFromFirebase();
+    // getRoomStatisticsCollectionFromFirebase();
+    // calculateMonthlyReservations();
     // calculateMonthlyIncome();
   }
 
   Future<void> getMonthlyReservationsCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');
-
+    _monthlyReservations.clear();
     DocumentSnapshot snapshot =
         await categories.doc('monthlyReservations').get();
     if (snapshot.exists) {
@@ -48,7 +51,7 @@ class StatisticsService with ChangeNotifier {
   Future<void> getRoomStatisticsCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');
-
+    _roomStatistics.clear();
     DocumentSnapshot snapshot = await categories.doc('roomStatistics').get();
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
@@ -64,14 +67,14 @@ class StatisticsService with ChangeNotifier {
   Future<void> getMonthlyIncomeCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');
-
+    _monthlyIncome.clear();
     DocumentSnapshot snapshot = await categories.doc('monthlyIncome').get();
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       var monthlyRData = data['monthly'] as List<dynamic>;
       for (var catData in monthlyRData) {
         MonthlyRModel m = MonthlyRModel.fromJson(catData);
-        _monthlyReservations.add(m);
+        _monthlyIncome.add(m);
       }
     }
   }

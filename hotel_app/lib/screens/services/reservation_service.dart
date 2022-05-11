@@ -4,6 +4,9 @@ import 'package:first_app_flutter/screens/services/rooms_service.dart';
 import 'package:flutter/cupertino.dart';
 
 class ReservationService with ChangeNotifier {
+  static final ReservationService _singletonReservations =
+      ReservationService._interval();
+  ReservationService._interval();
   FirebaseFirestore? _instance;
   final List<ReservationModel> _reservations = [];
   static int numberOfReservations = 0;
@@ -11,8 +14,8 @@ class ReservationService with ChangeNotifier {
     return _reservations;
   }
 
-  ReservationService() {
-    getReservationsCollectionFromFirebase();
+  factory ReservationService() {
+    return _singletonReservations;
   }
   static int getNumberOfReservation() {
     return numberOfReservations;
@@ -55,7 +58,7 @@ class ReservationService with ChangeNotifier {
     // sortReservationByDate();
   }
 
-  Future<void> countNumberOfReservations(String email) async {
+  Future<void> countNumberOfReservations(String? email) async {
     await getReservationsCollectionFromFirebase();
     numberOfReservations = 0;
     for (var r in _reservations) {
@@ -65,24 +68,22 @@ class ReservationService with ChangeNotifier {
 
   Future<void> actualizeInformation() async {
     RoomsService roomsService = RoomsService();
-    _reservations.clear();
-    await getReservationsCollectionFromFirebase();
+    // _reservations.clear();
+    // await getReservationsCollectionFromFirebase();
     for (var r in _reservations) {
       DateTime checkOutReserv = DateTime.parse(r.checkOut);
       DateTime checkInReserv = DateTime.parse(r.checkIn);
 
       DateTime now = DateTime.now();
       if (checkOutReserv.isAfter(now) && checkInReserv.isBefore(now)) {
-        await roomsService.updateRoomStatusInFirebase(
-            r.room,
-            "occupied",
-            r.name,
+        roomsService.updateRoom(r.room, "occupied", r.name!,
             '${checkInReserv.day}/${checkInReserv.month} - ${checkOutReserv.day}/${checkOutReserv.month}');
       } else {
-        await roomsService.updateRoomStatusInFirebase(
-            r.room, "free", r.name, '$checkInReserv - $checkOutReserv');
+        roomsService.updateRoom(
+            r.room, "free", r.name!, '$checkInReserv - $checkOutReserv');
       }
     }
+    roomsService.updateRoomStatusInFirebase();
   }
   //
   // Future<void> sortReservationByDate() async {
@@ -104,11 +105,7 @@ class ReservationService with ChangeNotifier {
   }
 
   Future<void> deleteReservation(ReservationModel r) async {
-    for (var reserv in _reservations) {
-      if (reserv.id == r.id) {
-        _reservations.remove(reserv);
-      }
-    }
+    _reservations.remove(r);
     DocumentReference<Map<String, dynamic>> reservations =
         FirebaseFirestore.instance.collection('users').doc('reservations');
 

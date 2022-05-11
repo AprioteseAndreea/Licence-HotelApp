@@ -1,7 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
-import 'package:first_app_flutter/screens/homeScreens/chat_screen.dart';
 import 'package:first_app_flutter/screens/homeScreens/user_home_screen.dart';
+import 'package:first_app_flutter/screens/user_screens/contact_screen.dart';
 import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
 import 'package:first_app_flutter/screens/user_screens/profile.dart';
 import 'package:first_app_flutter/screens/user_screens/feedback.dart'
@@ -76,8 +76,8 @@ class _UserHomeState extends State<UserHomeState> {
     );
     _children.add(const GetRoom());
     _children.add(const UserHomeScreen());
-    _children.add(const ChatScreen());
     _children.add(const feedback_screen.Feedback());
+    _children.add(const Contact());
   }
 
   @override
@@ -127,18 +127,18 @@ class _UserHomeState extends State<UserHomeState> {
               title: 'Home'),
           TabItem(
               icon: Icon(
-                CupertinoIcons.bubble_left_fill,
-                size: 22,
-                color: Colors.white,
-              ),
-              title: 'Chat'),
-          TabItem(
-              icon: Icon(
                 CupertinoIcons.star_fill,
                 size: 22,
                 color: Colors.white,
               ),
               title: 'Feedbacks'),
+          TabItem(
+              icon: Icon(
+                CupertinoIcons.location,
+                size: 22,
+                color: Colors.white,
+              ),
+              title: 'Contact'),
         ],
         top: -20,
         initialActiveIndex: _currentIndex, //optional, default as 0

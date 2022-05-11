@@ -1,6 +1,7 @@
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:first_app_flutter/models/staff_model.dart';
+import 'package:first_app_flutter/screens/admin_screens/staff_screen.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
@@ -29,6 +30,7 @@ class _AddStaff extends State<AddStaff> {
   final _formkey = GlobalKey<FormState>();
   late String occupation;
   AuthServices authServices = AuthServices();
+  late UserService userService;
   double rating = 5.0;
   late String _selectedGender;
   late String pageTitle;
@@ -36,6 +38,7 @@ class _AddStaff extends State<AddStaff> {
   @override
   void initState() {
     DateTime dateToday = DateTime.now();
+    userService = UserService();
     date = DateFormat('MMMM dd, yyyy').format(dateToday);
     _staffNameController = super.widget.staff.name == Strings.none
         ? TextEditingController()
@@ -92,6 +95,21 @@ class _AddStaff extends State<AddStaff> {
             color: Color(Strings.darkTurquoise),
           ),
           backgroundColor: Colors.white,
+          actions: [
+            pageTitle != Strings.addStaff
+                ? IconButton(
+                    icon: const Icon(
+                      CupertinoIcons.delete,
+                      size: 25,
+                    ),
+                    onPressed: () => {
+                      showAlertDialog(context),
+                    },
+                  )
+                : const SizedBox(
+                    width: 0,
+                  )
+          ],
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -496,7 +514,13 @@ class _AddStaff extends State<AddStaff> {
                                                     currentStaff);
                                           }
 
-                                          Navigator.pop(context);
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const StaffScreen(),
+                                              ),
+                                              ModalRoute.withName('/'));
                                         }
                                       },
                                       height: 40,
@@ -578,4 +602,42 @@ class _AddStaff extends State<AddStaff> {
           ],
         );
       });
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(Strings.cancel),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget okButton = TextButton(
+      child: Text(Strings.ok),
+      onPressed: () async {
+        await userService.deleteStaffFromFirebase(super.widget.staff.email);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const StaffScreen(),
+            ),
+            ModalRoute.withName('/'));
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(Strings.deleteRoom),
+      content:
+          Text("Do you want to delete the staff ${super.widget.staff.name}?"),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }

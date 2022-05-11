@@ -152,6 +152,9 @@ class _GetRoom extends State<GetRoom> {
   @override
   Widget build(BuildContext context) {
     final foundRoomProvider = Provider.of<FoundRoomServices>(context);
+    facilitiesCollection = facilityService.getFacilities();
+    Size mediaQuery = MediaQuery.of(context).size;
+
     return Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(
@@ -179,24 +182,26 @@ class _GetRoom extends State<GetRoom> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 20, bottom: 8, top: 15),
+                      padding:
+                          const EdgeInsets.only(left: 20, bottom: 8, top: 15),
                       child: Text(
                         'CHECK-IN',
                         style: TextStyle(
-                            color: Color(0xFF124559),
-                            fontSize: 15,
+                            color: const Color(0xFF124559),
+                            fontSize: mediaQuery.width * 0.04,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: 20, bottom: 8, top: 15),
+                      padding:
+                          const EdgeInsets.only(right: 20, bottom: 8, top: 15),
                       child: Text(
                         'CHECK-OUT',
                         style: TextStyle(
-                            color: Color(0xFF124559),
-                            fontSize: 15,
+                            color: const Color(0xFF124559),
+                            fontSize: mediaQuery.width * 0.04,
                             fontWeight: FontWeight.bold),
                       ),
                     )
@@ -211,10 +216,10 @@ class _GetRoom extends State<GetRoom> {
                             Row(
                               children: [
                                 IconButton(
-                                  icon: const Icon(
+                                  icon: Icon(
                                     CupertinoIcons.calendar_badge_plus,
-                                    size: 20,
-                                    color: Color(0xFFF0972D),
+                                    size: mediaQuery.width * 0.05,
+                                    color: const Color(0xFFF0972D),
                                   ),
                                   tooltip: 'Tap to open date picker',
                                   onPressed: () {
@@ -225,9 +230,9 @@ class _GetRoom extends State<GetRoom> {
                                   padding: const EdgeInsets.only(
                                       left: 10, bottom: 8, top: 10, right: 10),
                                   child: Text(checkInFormat,
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          color: Color(0xFF49758B))),
+                                      style: TextStyle(
+                                          fontSize: mediaQuery.width * 0.045,
+                                          color: const Color(0xFF49758B))),
                                 ),
                               ],
                             )
@@ -243,15 +248,15 @@ class _GetRoom extends State<GetRoom> {
                                   padding: const EdgeInsets.only(
                                       right: 10, bottom: 8, top: 10, left: 10),
                                   child: Text(checkOutFormat,
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          color: Color(0xFF49758B))),
+                                      style: TextStyle(
+                                          fontSize: mediaQuery.width * 0.045,
+                                          color: const Color(0xFF49758B))),
                                 ),
                                 IconButton(
-                                  icon: const Icon(
+                                  icon: Icon(
                                     CupertinoIcons.calendar_badge_plus,
-                                    size: 20,
-                                    color: Color(0xFFF0972D),
+                                    size: mediaQuery.width * 0.05,
+                                    color: const Color(0xFFF0972D),
                                   ),
                                   tooltip: 'Tap to open date picker',
                                   onPressed: () {
@@ -278,13 +283,13 @@ class _GetRoom extends State<GetRoom> {
                       ),
                     ),
                   ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20, bottom: 8, top: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, bottom: 8, top: 15),
                   child: Text(
                     'GUESTS',
                     style: TextStyle(
-                        color: Color(0xFF124559),
-                        fontSize: 15,
+                        color: const Color(0xFF124559),
+                        fontSize: mediaQuery.width * 0.04,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -303,13 +308,15 @@ class _GetRoom extends State<GetRoom> {
                                   children: <Widget>[
                                     Row(
                                       children: [
-                                        const Padding(
-                                          padding: EdgeInsets.only(
+                                        Padding(
+                                          padding: const EdgeInsets.only(
                                               left: 10, bottom: 8, top: 10),
                                           child: Text('ADULTS',
                                               style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color(0xFF333333))),
+                                                  fontSize:
+                                                      mediaQuery.width * 0.035,
+                                                  color:
+                                                      const Color(0xFF333333))),
                                         ),
                                         const SizedBox(
                                           width: 5,
@@ -333,9 +340,11 @@ class _GetRoom extends State<GetRoom> {
                                           padding:
                                               const EdgeInsets.only(right: 0),
                                           child: Text(adults.toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 30,
-                                                  color: Color(0xFF49758B))),
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      mediaQuery.width * 0.05,
+                                                  color:
+                                                      const Color(0xFF49758B))),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
@@ -362,13 +371,15 @@ class _GetRoom extends State<GetRoom> {
                                   children: <Widget>[
                                     Row(
                                       children: [
-                                        const Padding(
-                                          padding: EdgeInsets.only(
+                                        Padding(
+                                          padding: const EdgeInsets.only(
                                               left: 10, bottom: 8, top: 10),
                                           child: Text('CHILDREN',
                                               style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color(0xFF333333))),
+                                                  fontSize:
+                                                      mediaQuery.width * 0.035,
+                                                  color:
+                                                      const Color(0xFF333333))),
                                         ),
                                         const SizedBox(
                                           width: 5,
@@ -392,9 +403,11 @@ class _GetRoom extends State<GetRoom> {
                                           padding:
                                               const EdgeInsets.only(right: 0),
                                           child: Text(children.toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 30,
-                                                  color: Color(0xFF49758B))),
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      mediaQuery.width * 0.05,
+                                                  color:
+                                                      const Color(0xFF49758B))),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
@@ -421,13 +434,13 @@ class _GetRoom extends State<GetRoom> {
                     ),
                   ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 15, bottom: 8, top: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, bottom: 8, top: 15),
                   child: Text(
                     'SPECIAL FACILITIES',
                     style: TextStyle(
-                        color: Color(0xFF124559),
-                        fontSize: 15,
+                        color: const Color(0xFF124559),
+                        fontSize: mediaQuery.width * 0.04,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -464,7 +477,7 @@ class _GetRoom extends State<GetRoom> {
                                     padding: const EdgeInsets.only(
                                         left: 10, right: 10, top: 5, bottom: 5),
                                     child: SizedBox(
-                                      width: 100,
+                                      width: mediaQuery.width * 0.4,
                                       child: ElevatedButton(
                                         child: const Text(
                                           'Choose...',
@@ -506,13 +519,14 @@ class _GetRoom extends State<GetRoom> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.only(left: 15, bottom: 5, top: 10),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, bottom: 5, top: 10),
                       child: Text(
                         "OTHER DETAILS",
                         style: TextStyle(
-                            color: Color(0xFF124559),
-                            fontSize: 15,
+                            color: const Color(0xFF124559),
+                            fontSize: mediaQuery.width * 0.04,
                             fontWeight: FontWeight.bold),
                       ),
                     ),

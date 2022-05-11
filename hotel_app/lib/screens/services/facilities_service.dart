@@ -3,6 +3,8 @@ import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class FacilityService with ChangeNotifier {
+  static final FacilityService _singletonFacility = FacilityService._interval();
+  FacilityService._interval();
   FirebaseFirestore? _instance;
   final List<FacilityModel> _facilities = [];
 
@@ -10,13 +12,13 @@ class FacilityService with ChangeNotifier {
     return _facilities;
   }
 
-  FacilityService() {
-    getFacilitiesCollectionFromFirebase();
+  factory FacilityService() {
+    return _singletonFacility;
   }
   Future<void> getFacilitiesCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');
-
+    _facilities.clear();
     DocumentSnapshot snapshot = await categories.doc('extra-facilities').get();
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;

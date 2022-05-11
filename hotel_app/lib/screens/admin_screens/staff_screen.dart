@@ -19,6 +19,7 @@ class _StaffScreen extends State<StaffScreen> {
   final ScrollController _controller = ScrollController();
   UserService userService = UserService();
   List<Staff> staffList = [];
+
   @override
   void initState() {
     super.initState();

@@ -85,7 +85,8 @@ class _FirstScreenState extends State<FirstScreen> {
           } else {
             List<dynamic> monthlyReservations = snapshot.data!.docs
                 .firstWhere(
-                    (element) => element.id == 'monthlyReservations')['monthly']
+                  (element) => element.id == 'monthlyReservations',
+                )['monthly']
                 .map((doc) => MonthlyRModel.fromJson(doc))
                 .toList();
 

@@ -1,12 +1,19 @@
+import 'dart:io';
+import 'dart:async';
+
 import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
+import 'package:first_app_flutter/screens/user_screens/my_bookings.dart';
 import 'package:first_app_flutter/utils/buttons/reservation_button.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:timeline_node/timeline_node.dart';
 import 'package:intl/intl.dart';
+import 'package:first_app_flutter/screens/user_screens/pdf.dart';
 
 class AboutReservation extends StatefulWidget {
   final ReservationModel reservationModel;
@@ -65,19 +72,17 @@ class _AboutReservation extends State<AboutReservation> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Image.asset(
-                  'assets/images/booking.jpg',
-                  width: mediaQuery.width,
-                  height: mediaQuery.height * 0.18,
+                const SizedBox(
+                  width: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 10),
+                  padding: const EdgeInsets.only(left: 20, right: 10, top: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Image.asset(
                         'assets/images/tourist_avatar.png',
-                        width: 25,
+                        width: mediaQuery.height * 0.04,
                       ),
                       const SizedBox(
                         width: 10,
@@ -86,7 +91,7 @@ class _AboutReservation extends State<AboutReservation> {
                         super.widget.reservationModel.name!,
                         style: TextStyle(
                             color: Color(Strings.darkTurquoise),
-                            fontSize: 20,
+                            fontSize: mediaQuery.width * 0.05,
                             fontWeight: FontWeight.bold),
                       )
                     ],
@@ -120,14 +125,14 @@ class _AboutReservation extends State<AboutReservation> {
                             Text(
                               Strings.checkIn,
                               style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: mediaQuery.width * 0.04,
                                   color: Color(Strings.orange),
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
                               formatDate(timeLineList[0]),
                               style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: mediaQuery.width * 0.04,
                                   color: Color(Strings.darkTurquoise),
                                   fontStyle: FontStyle.italic),
                             )
@@ -375,14 +380,14 @@ class _AboutReservation extends State<AboutReservation> {
                     if (super.widget.isUser == true &&
                         super.widget.reservationModel.approved)
                       ReservationButton(
-                        textButton: Strings.approve,
+                        textButton: Strings.downloadBill,
                         color: 0xFF2dba49,
-                        onTap: () {},
+                        onTap: _createPDF,
                       ),
                     if (super.widget.reservationModel.approved &&
                         super.widget.isUser == false)
                       ReservationButton(
-                        textButton: Strings.approve,
+                        textButton: Strings.approved,
                         color: 0xFF2dba49,
                         onTap: () {},
                       ),
@@ -397,7 +402,7 @@ class _AboutReservation extends State<AboutReservation> {
                                           super.widget.reservationModel.id),
                                   changeColor(Colors.green),
                                   setState(() {
-                                    buttonText = Strings.approve;
+                                    buttonText = Strings.approved;
                                   }),
                                 },
                             child: Card(
@@ -421,6 +426,28 @@ class _AboutReservation extends State<AboutReservation> {
             ),
           ),
         ));
+  }
+
+  Future<void> _createPDF() async {
+    // Create a new PDF document.
+    final PdfDocument document = PdfDocument();
+// Add a PDF page and draw text.
+    document.pages.add().graphics.drawString(
+        'Hello World!', PdfStandardFont(PdfFontFamily.helvetica, 12),
+        brush: PdfSolidBrush(PdfColor(0, 0, 0)),
+        bounds: const Rect.fromLTWH(0, 0, 150, 20));
+// Save the document.
+    List<int> bytes = document.save();
+    final directory = await getApplicationDocumentsDirectory();
+
+//Get directory path
+    final path = directory.path;
+
+    final file = File('$path/HelloWorld.pdf');
+    await file.writeAsBytes(bytes, flush: true);
+    // await File('HelloWorld.pdf').writeAsBytes(document.save());
+// Dispose the document.
+    document.dispose();
   }
 
   _showMultipleChoiceDialog(BuildContext context) => showDialog(
@@ -467,9 +494,16 @@ class _AboutReservation extends State<AboutReservation> {
               onPressed: () async {
                 await reservationProvider
                     .deleteReservation(super.widget.reservationModel);
-                Navigator.pop(context);
-
+                await reservationProvider
+                    .getReservationsCollectionFromFirebase();
                 Navigator.of(context).pop();
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MyBookings(),
+                    ));
               },
             ),
             TextButton(

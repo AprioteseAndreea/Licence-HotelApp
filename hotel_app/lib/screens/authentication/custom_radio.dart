@@ -14,8 +14,8 @@ class CustomRadio extends StatelessWidget {
     return Card(
         color: _gender.isSelected ? const Color(0xFF124559) : Colors.white,
         child: Container(
-          height: mediaQuery.height * 0.07,
-          width: mediaQuery.height * 0.07,
+          height: mediaQuery.height * 0.09,
+          width: mediaQuery.height * 0.09,
           alignment: Alignment.center,
           margin: const EdgeInsets.all(5.0),
           child: Column(

@@ -1,6 +1,8 @@
 import 'package:first_app_flutter/models/feedback_model.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/feedback_service.dart';
+import 'package:first_app_flutter/screens/user_screens/feedback.dart'
+    as FeedBackScreen;
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -150,6 +152,13 @@ class _AddFeedback extends State<AddFeedback> {
                               feedbackService.addFeedbackInFirebase(feedback);
                             }
                             Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const FeedBackScreen.Feedback(),
+                                ));
                           },
                           height: 55,
                           color: Theme.of(context).primaryColor,

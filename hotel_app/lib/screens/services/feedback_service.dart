@@ -3,8 +3,14 @@ import 'package:first_app_flutter/models/feedback_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class FeedbackService with ChangeNotifier {
-  FirebaseFirestore? _instance;
+  static final FeedbackService _singletonFeedback = FeedbackService._interval();
+  FeedbackService._interval();
 
+  factory FeedbackService() {
+    return _singletonFeedback;
+  }
+
+  FirebaseFirestore? _instance;
   final List<FeedbackModel> _feedbacks = [];
   String name = "";
 
@@ -12,19 +18,16 @@ class FeedbackService with ChangeNotifier {
     return _feedbacks;
   }
 
-  FeedbackService() {
-    getFeedbacksCollectionFromFirebase();
-  }
   Future<void> getFeedbacksCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');
-
+    _feedbacks.clear();
     DocumentSnapshot snapshot = await categories.doc('feedbacks').get();
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       var feedbacksData = data['feedbacks'] as List<dynamic>;
-      for (var feedbackData in feedbacksData) {
-        FeedbackModel feedback = FeedbackModel.fromJson(feedbackData);
+      for (var f in feedbacksData) {
+        FeedbackModel feedback = FeedbackModel.fromJson(f);
         _feedbacks.add(feedback);
       }
     }

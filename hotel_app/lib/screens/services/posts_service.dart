@@ -4,11 +4,14 @@ import 'package:first_app_flutter/models/post_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class PostsService with ChangeNotifier {
+  static final PostsService _singletonPosts = PostsService._interval();
+  PostsService._interval();
+
   FirebaseFirestore? _instance;
   final List<Post> _posts = [];
 
-  PostsService() {
-    getPostsCollectionFromFirebase();
+  factory PostsService() {
+    return _singletonPosts;
   }
   List<Post> getPosts() {
     return _posts;

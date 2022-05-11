@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/screens/admin_screens/about_reservation.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
@@ -15,12 +16,14 @@ class MyBookings extends StatefulWidget {
 
 class _MyBookings extends State<MyBookings> {
   List<ReservationModel> myBookings = [];
-  String? name;
+  String? email;
   ReservationService reservationService = ReservationService();
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final ScrollController _controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
-    myBookings = reservationService.getListOfReservations();
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       await _readEmail();
     });
@@ -28,11 +31,11 @@ class _MyBookings extends State<MyBookings> {
 
   Future<void> _readEmail() async {
     final _prefs = await SharedPreferences.getInstance();
-    final _value = _prefs.getString('role');
+    final _value = _prefs.getString('email');
 
     if (_value != null) {
       setState(() {
-        name = _value;
+        email = _value;
       });
     }
   }
@@ -45,7 +48,9 @@ class _MyBookings extends State<MyBookings> {
     return formatted;
   }
 
-  Widget bookingCard(ReservationModel reservation) {
+  Widget bookingCard(ReservationModel reservation, BuildContext context) {
+    Size mediaQuery = MediaQuery.of(context).size;
+
     // String currenremail = super.widget.email.toString();
     // if (reservation['user'].toString() == currenremail) {
     return Card(
@@ -60,7 +65,7 @@ class _MyBookings extends State<MyBookings> {
       color: const Color(0xFFFFFFFF),
       child: Column(children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(left: 20, right: 15),
+          padding: const EdgeInsets.only(left: 20, right: 15, top: 5),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Row(
@@ -68,14 +73,14 @@ class _MyBookings extends State<MyBookings> {
               children: [
                 Image.asset(
                   'assets/images/tourist_avatar.png',
-                  height: 30,
+                  height: mediaQuery.height * 0.04,
                 ),
                 Text(
                   reservation.name!,
-                  style: const TextStyle(
-                      color: Color(0xFF124559),
+                  style: TextStyle(
+                      color: const Color(0xFF124559),
                       fontWeight: FontWeight.bold,
-                      fontSize: 18),
+                      fontSize: mediaQuery.width * 0.04),
                 ),
               ],
             ),
@@ -84,14 +89,14 @@ class _MyBookings extends State<MyBookings> {
               children: [
                 Image.asset(
                   'assets/images/bed_logo.png',
-                  height: 35,
+                  height: mediaQuery.height * 0.04,
                 ),
                 Text(
                   'ROOM ${reservation.room}',
-                  style: const TextStyle(
-                      color: Color(0xFFE16A10),
+                  style: TextStyle(
+                      color: const Color(0xFFE16A10),
                       fontWeight: FontWeight.bold,
-                      fontSize: 16),
+                      fontSize: mediaQuery.width * 0.03),
                 ),
               ],
             ),
@@ -109,21 +114,21 @@ class _MyBookings extends State<MyBookings> {
                   children: [
                     Text(
                       formatDate(reservation.checkIn),
-                      style: const TextStyle(
-                        color: Color(0xFFFFFFFF),
-                        fontSize: 18,
+                      style: TextStyle(
+                        color: const Color(0xFFFFFFFF),
+                        fontSize: mediaQuery.width * 0.04,
                       ),
                     ),
                     Image.asset(
                       'assets/images/calendar.png',
-                      height: 25,
-                      width: 25,
+                      height: mediaQuery.width * 0.06,
+                      width: mediaQuery.width * 0.06,
                     ),
                     Text(
                       formatDate(reservation.checkOut),
-                      style: const TextStyle(
-                        color: Color(0xFFFFFFFF),
-                        fontSize: 18,
+                      style: TextStyle(
+                        color: const Color(0xFFFFFFFF),
+                        fontSize: mediaQuery.width * 0.04,
                       ),
                     ),
                   ],
@@ -137,40 +142,40 @@ class _MyBookings extends State<MyBookings> {
             children: [
               Text(
                 'Date: ${formatDate(reservation.date)}',
-                style: const TextStyle(
-                    color: Color(0xFFE16A10),
-                    fontSize: 14,
+                style: TextStyle(
+                    color: const Color(0xFFE16A10),
+                    fontSize: mediaQuery.width * 0.04,
                     fontStyle: FontStyle.italic),
               ),
               if (reservation.approved.toString() == 'true')
-                const Padding(
-                    padding: EdgeInsets.all(2),
+                Padding(
+                    padding: const EdgeInsets.all(2),
                     child: Card(
                       color: Colors.green,
                       child: Padding(
-                        padding: EdgeInsets.all(3),
+                        padding: const EdgeInsets.all(3),
                         child: Text(
                           'APPROVED',
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: mediaQuery.width * 0.03),
                         ),
                       ),
                     )),
               if (reservation.approved.toString() == 'false')
-                const Padding(
-                    padding: EdgeInsets.all(2),
+                Padding(
+                    padding: const EdgeInsets.all(2),
                     child: Card(
                       color: Colors.orange,
                       child: Padding(
-                        padding: EdgeInsets.all(3),
+                        padding: const EdgeInsets.all(3),
                         child: Text(
                           'PENDING',
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: mediaQuery.width * 0.03),
                         ),
                       ),
                     )),
@@ -186,6 +191,13 @@ class _MyBookings extends State<MyBookings> {
 
   @override
   Widget build(BuildContext context) {
+    Size mediaQuery = MediaQuery.of(context).size;
+    myBookings = reservationService.getReservations();
+    for (int i = 0; i < myBookings.length; i++) {
+      if (firebaseAuth.currentUser!.email != myBookings[i].user) {
+        myBookings.remove(myBookings[i]);
+      }
+    }
     return Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(
@@ -200,30 +212,65 @@ class _MyBookings extends State<MyBookings> {
         ),
         body: SafeArea(
             child: SingleChildScrollView(
-          child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              padding: const EdgeInsets.all(5),
-              itemCount: myBookings.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AboutReservation(
-                            reservationModel: myBookings[index], isUser: true),
-                      ),
+          child: myBookings.isNotEmpty
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  padding: const EdgeInsets.all(5),
+                  physics: const ClampingScrollPhysics(),
+                  controller: _controller,
+                  itemCount: myBookings.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AboutReservation(
+                                reservationModel: myBookings[index],
+                                isUser: true),
+                          ),
+                        );
+                      },
+                      child: bookingCard(myBookings[index], context),
+                      // return bookingCard(myBookings[index]);
                     );
-                  },
-                  child: myBookings[index].user == name
-                      ? bookingCard(myBookings[index])
-                      : const SizedBox(
-                          height: 0,
+                  })
+              : Column(
+                  children: [
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Image.asset(
+                      'assets/images/nodatafound.jpg',
+                      height: mediaQuery.height * 0.4,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "No reservations found!",
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: mediaQuery.width * 0.05,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 10),
+                      child: Text(
+                        "You can try to add a new reservation on your hotel.",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: mediaQuery.width * 0.045,
                         ),
-                  // return bookingCard(myBookings[index]);
-                );
-              }),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      ),
+                    )
+                  ],
+                ),
         )));
   }
 }

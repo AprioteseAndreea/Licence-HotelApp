@@ -339,13 +339,14 @@ class _AboutRoom extends State<AboutRoom> {
                               ),
                             ),
                             MaterialButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 super.widget.roomModel.maxGuests =
                                     maxGuestsController;
                                 super.widget.roomModel.cost = priceController;
-
                                 roomsService.updateRoomInFirebase(
                                     super.widget.roomModel);
+                                await roomsService
+                                    .getRoomsCollectionFromFirebase();
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
@@ -457,6 +458,10 @@ class _AboutRoom extends State<AboutRoom> {
         super.widget.roomModel.idUser = Strings.none;
         super.widget.roomModel.interval = Strings.none;
         super.widget.roomModel.free = true;
+      } else {
+        super.widget.roomModel.idUser = Strings.none;
+        super.widget.roomModel.interval = Strings.none;
+        super.widget.roomModel.free = false;
       }
     });
   }

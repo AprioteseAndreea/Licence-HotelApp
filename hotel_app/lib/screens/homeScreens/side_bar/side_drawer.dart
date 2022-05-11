@@ -1,14 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/user_screens/contact_screen.dart';
 import 'package:first_app_flutter/screens/user_screens/feedback.dart'
     as feedback_screen;
 import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
 import 'package:first_app_flutter/screens/user_screens/my_bookings.dart';
 import 'package:first_app_flutter/screens/user_screens/profile.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SideDrawer extends StatelessWidget {
-  const SideDrawer(
+  SideDrawer(
       {Key? key,
       required this.gender,
       required this.name,
@@ -17,8 +21,12 @@ class SideDrawer extends StatelessWidget {
       required this.phoneNumber})
       : super(key: key);
   final String gender, name, email, old, phoneNumber;
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
+    final loginProvider = Provider.of<AuthServices>(context);
+
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -105,18 +113,18 @@ class SideDrawer extends StatelessWidget {
                           )))
             },
           ),
+          // ListTile(
+          //   leading: const Icon(
+          //     CupertinoIcons.bubble_left_fill,
+          //     color: Color(0xFFF0972D),
+          //   ),
+          //   title: textWidget('Chat'),
+          //   onTap: () => {Navigator.of(context).pop()},
+          // ),
           ListTile(
-            leading: const Icon(
-              CupertinoIcons.bubble_left_fill,
-              color: Color(0xFFF0972D),
-            ),
-            title: textWidget('Chat'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: const Icon(
+            leading: Icon(
               CupertinoIcons.star_fill,
-              color: Color(0xFF124559),
+              color: Color(Strings.orange),
             ),
             title: textWidget('Feedbacks'),
             onTap: () => {
@@ -128,9 +136,9 @@ class SideDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(
-              CupertinoIcons.envelope_fill,
-              color: Color(0xFFF0972D),
+            leading: Icon(
+              CupertinoIcons.location_fill,
+              color: Color(Strings.darkTurquoise),
             ),
             title: textWidget('Contact'),
             onTap: () => {
@@ -140,12 +148,13 @@ class SideDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               CupertinoIcons.square_arrow_right,
-              color: Color(0xFF124559),
+              color: Color(Strings.orange),
             ),
             title: textWidget('Logout'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () async =>
+                {firebaseAuth.signOut(), await loginProvider.logout()},
           ),
         ],
       ),

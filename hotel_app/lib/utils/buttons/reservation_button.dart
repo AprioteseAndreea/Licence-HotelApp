@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../strings.dart';
+
 class ReservationButton extends StatelessWidget {
   final String textButton;
   final int color;
@@ -17,18 +19,28 @@ class ReservationButton extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       child: MaterialButton(
         onPressed: onTap,
-        height: 45,
+        height: 40,
         color: Color(color),
         textColor: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(15),
         ),
-        child: Text(
-          textButton,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+        child: Row(
+          children: [
+            Text(
+              textButton,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            if (textButton == Strings.downloadBill)
+              const Icon(
+                Icons.download,
+                size: 20,
+                color: Colors.white,
+              )
+          ],
         ),
       ),
     );

@@ -36,7 +36,7 @@ class _AddRoom extends State<AddRoom> {
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
-            color: Color(Strings.darkTurquoise), //change your color here
+            color: Color(Strings.darkTurquoise),
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
@@ -184,9 +184,9 @@ class _AddRoom extends State<AddRoom> {
                   child: Text(
                     Strings.addRoom,
                     style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ),
                 if (roomsService.errorMessage != "")
