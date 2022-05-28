@@ -3,8 +3,11 @@ import 'package:first_app_flutter/screens/admin_screens/bookings.dart';
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:first_app_flutter/screens/staff_screens/book_staff.dart';
 import 'package:first_app_flutter/screens/staff_screens/posts.dart';
 import 'package:first_app_flutter/screens/staff_screens/staff_profile.dart';
+import 'package:first_app_flutter/screens/user_screens/facilities.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -81,54 +84,10 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                     children: [
                       GestureDetector(
                         onTap: () => {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const StaffProfile(),
-                          //   ),
-                          // )
-                        },
-                        child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          color: const Color(0xFF124559),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              SizedBox(
-                                height: mediaQuery.height * 0.15,
-                                width: mediaQuery.width * 0.35,
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/staff.png",
-                                        fit: BoxFit.cover,
-                                        width: 40,
-                                      ),
-                                      const Text(
-                                        'MY PROFILE',
-                                        style: TextStyle(
-                                            color: Color(0xFFF0972D),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                    ]),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Bookings(),
+                              builder: (context) => const StaffProfile(),
                             ),
                           )
                         },
@@ -149,13 +108,57 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset(
-                                        "assets/images/bookings.png",
-                                        fit: BoxFit.cover,
-                                        width: 45,
+                                      Icon(
+                                        Icons.account_circle_rounded,
+                                        color: Colors.white,
+                                        size: mediaQuery.width * 0.085,
                                       ),
                                       const Text(
-                                        'BOOKINGS',
+                                        'MY PROFILE',
+                                        style: TextStyle(
+                                            color: Color(0xFFF0972D),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Posts(),
+                            ),
+                          )
+                        },
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: const Color(0xFF124559),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: mediaQuery.height * 0.15,
+                                width: mediaQuery.width * 0.35,
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon(
+                                        Icons.chat_rounded,
+                                        color: Colors.white,
+                                        size: mediaQuery.width * 0.085,
+                                      ),
+                                      const Text(
+                                        'POSTS',
                                         style: TextStyle(
                                             color: Color(0xFFF0972D),
                                             fontWeight: FontWeight.bold,
@@ -200,10 +203,10 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset(
-                                        "assets/images/rooms.png",
-                                        fit: BoxFit.cover,
-                                        width: 40,
+                                      Icon(
+                                        Icons.bed_sharp,
+                                        color: Colors.white,
+                                        size: mediaQuery.width * 0.085,
                                       ),
                                       const Text(
                                         'ROOMS',
@@ -223,7 +226,7 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Posts(),
+                              builder: (context) => const Bookings(),
                             ),
                           )
                         },
@@ -244,13 +247,13 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset(
-                                        "assets/images/chat.png",
-                                        fit: BoxFit.cover,
-                                        width: 45,
+                                      Icon(
+                                        Icons.auto_stories_rounded,
+                                        color: Colors.white,
+                                        size: mediaQuery.width * 0.085,
                                       ),
                                       const Text(
-                                        'POSTS',
+                                        'BOOKINGS',
                                         style: TextStyle(
                                             color: Color(0xFFF0972D),
                                             fontWeight: FontWeight.bold,
@@ -271,12 +274,10 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                     children: [
                       GestureDetector(
                         onTap: () => {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const Rooms(),
-                          //   ),
-                          // )
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const BookStaff())),
                         },
                         child: Card(
                           semanticContainer: true,
@@ -295,13 +296,13 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset(
-                                        "assets/images/statistics.png",
-                                        fit: BoxFit.cover,
-                                        width: 40,
+                                      Icon(
+                                        Icons.create,
+                                        color: Colors.white,
+                                        size: mediaQuery.width * 0.085,
                                       ),
                                       const Text(
-                                        'STATISTICS',
+                                        'BOOK NOW',
                                         style: TextStyle(
                                             color: Color(0xFFF0972D),
                                             fontWeight: FontWeight.bold,
@@ -332,10 +333,10 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Image.asset(
-                                        "assets/images/logout.png",
-                                        fit: BoxFit.cover,
-                                        width: 40,
+                                      Icon(
+                                        Icons.logout,
+                                        color: Colors.white,
+                                        size: mediaQuery.width * 0.085,
                                       ),
                                       const Text(
                                         'LOGOUT',

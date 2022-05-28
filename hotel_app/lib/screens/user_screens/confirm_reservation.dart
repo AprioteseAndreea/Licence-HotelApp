@@ -1,3 +1,4 @@
+import 'package:first_app_flutter/screens/homeScreens/home_screen.dart';
 import 'package:first_app_flutter/screens/homeScreens/user_screen_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -65,13 +66,20 @@ class _ConfirmReservation extends State<ConfirmReservation> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    'Please check-in after 14:00 and check-out until 10:00',
-                    textAlign: TextAlign.justify,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 15, color: Color(0xFF124559)),
-                    maxLines: 2,
+                children: [
+                  Flexible(
+                    child: Container(
+                      padding:
+                          const EdgeInsets.only(left: 20, top: 10, right: 20),
+                      child: const Text(
+                        'Please check-in after 14:00 and check-out until 10:00',
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style:
+                            TextStyle(fontSize: 15, color: Color(0xFF124559)),
+                        maxLines: 2,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -113,7 +121,7 @@ class _ConfirmReservation extends State<ConfirmReservation> {
                     onPressed: () {
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                              builder: (context) => const UserHomeState()),
+                              builder: (context) => const HomeScreen()),
                           (Route<dynamic> route) => false);
                     },
                     height: 40,

@@ -55,6 +55,7 @@ class Strings {
   static String enterStaffsEmail = "Enter staff's email";
   static String enterStaffsOccupation = "Enter staff's occupation";
   static String enterStaffsPhoneNumber = "Enter staff's phone number";
+  static String phoneNumberValidation = "Phone number must have 10 digits";
   static String occupation = "Occupation";
   static String enterPhoneNumber = "Phone number must have 10 characters";
   static String enterOccupation = "Please enter occupation";

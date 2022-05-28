@@ -26,6 +26,7 @@ class _Feedback extends State<Feedback> {
 
   @override
   Widget build(BuildContext context) {
+    feedbacks = [];
     feedbacks = feedbackService.getFeedbacks();
     return Scaffold(
       appBar: AppBar(

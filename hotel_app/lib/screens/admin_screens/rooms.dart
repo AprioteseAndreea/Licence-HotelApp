@@ -28,6 +28,7 @@ class _Rooms extends State<Rooms> {
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
     roomsService = Provider.of<RoomsService>(context);
+    roomsList = [];
     roomsList = roomsService.getRooms();
     return Scaffold(
       appBar: AppBar(

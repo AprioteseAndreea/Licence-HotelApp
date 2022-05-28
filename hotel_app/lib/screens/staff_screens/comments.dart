@@ -1,6 +1,7 @@
 import 'package:first_app_flutter/models/comment_model.dart';
 import 'package:first_app_flutter/models/post_model.dart';
 import 'package:first_app_flutter/screens/services/posts_service.dart';
+import 'package:first_app_flutter/screens/staff_screens/posts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -39,6 +40,27 @@ class _Comments extends State<Comments> {
           title: const Text(
             'Comments',
             style: TextStyle(color: Color(0xFF124559)),
+          ),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(
+                  CupertinoIcons.arrow_left,
+                  size: 25,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Posts(),
+                      ));
+                },
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              );
+            },
           ),
         ),
         body: SafeArea(

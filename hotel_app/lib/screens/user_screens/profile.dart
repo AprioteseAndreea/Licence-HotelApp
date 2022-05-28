@@ -3,8 +3,10 @@ import 'package:first_app_flutter/screens/authentication/authentication_services
 import 'package:first_app_flutter/screens/homeScreens/user_screen_state.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
@@ -33,6 +35,7 @@ class _Profile extends State<Profile> {
   late TextEditingController _fullNameController = TextEditingController();
   late TextEditingController _phoneController = TextEditingController();
   UserService userService = UserService();
+  final _formkey = GlobalKey<FormState>();
 
   late bool _fullNameIsEnable = false;
   late bool _phoneIsEnable = false;
@@ -82,7 +85,10 @@ class _Profile extends State<Profile> {
                 size: 30,
               ),
               onPressed: () => {
-                _saveProfileData(),
+                if (_formkey.currentState!.validate())
+                  {
+                    _saveProfileData(),
+                  }
               },
             ),
           ],
@@ -154,260 +160,277 @@ class _Profile extends State<Profile> {
                     children: [
                       Row(
                         children: [
-                          ranking((reserv / 2).round()),
+                          ranking((reserv).round()),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          color: const Color(0xFFFFFFFF),
-                          elevation: 10,
-                          child: SizedBox(
-                            width: mediaQuery.width * 0.9,
-                            child: Column(children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 10,
-                                  top: 10,
-                                ),
-                                child: Row(
-                                  children: const [
-                                    Icon(
-                                      CupertinoIcons.person_fill,
-                                      color: Color(0xFF124559),
-                                      size: 20,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 5),
-                                      child: Text(
-                                        "Full Name",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10, top: 5, bottom: 10, right: 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: TextFormField(
-                                        controller: _fullNameController,
-                                        enabled: _fullNameIsEnable,
-                                        decoration: const InputDecoration(
-                                          hintStyle: TextStyle(
-                                            fontSize: 16,
-                                            color: Color(0xFF124559),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Card(
-                                      semanticContainer: true,
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                      ),
-                                      color: const Color(0xFFFFFFFF),
-                                      elevation: 5,
-                                      child: SizedBox(
-                                        width: 35,
-                                        height: 35,
-                                        child: IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _fullNameIsEnable = true;
-                                            });
-                                          },
-                                          icon: const Icon(
-                                            CupertinoIcons.pencil,
-                                            color: Color(0xFFF0972D),
-                                            size: 25,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 10,
-                                  top: 10,
-                                ),
-                                child: Row(
-                                  children: const [
-                                    Icon(
-                                      CupertinoIcons.envelope_fill,
-                                      color: Color(0xFF124559),
-                                      size: 20,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 5),
-                                      child: Text(
-                                        "Email",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10, top: 5, bottom: 10, right: 10),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      super.widget.email ?? "",
-                                      style: const TextStyle(
-                                        fontSize: 16,
+                Form(
+                  key: _formkey,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Card(
+                            semanticContainer: true,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            color: const Color(0xFFFFFFFF),
+                            elevation: 10,
+                            child: SizedBox(
+                              width: mediaQuery.width * 0.9,
+                              child: Column(children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    top: 10,
+                                  ),
+                                  child: Row(
+                                    children: const [
+                                      Icon(
+                                        CupertinoIcons.person_fill,
                                         color: Color(0xFF124559),
+                                        size: 20,
                                       ),
-                                      textAlign: TextAlign.justify,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 10,
-                                  top: 10,
-                                ),
-                                child: Row(
-                                  children: const [
-                                    Icon(
-                                      CupertinoIcons.phone_fill,
-                                      color: Color(0xFF124559),
-                                      size: 20,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 5),
-                                      child: Text(
-                                        "Phone number",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10, top: 5, bottom: 10, right: 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: TextFormField(
-                                        controller: _phoneController,
-                                        enabled: _phoneIsEnable,
-                                        decoration: const InputDecoration(
-                                          hintStyle: TextStyle(
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          "Full Name",
+                                          style: TextStyle(
                                             fontSize: 16,
-                                            color: Color(0xFF124559),
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, top: 5, bottom: 10, right: 10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller: _fullNameController,
+                                          enabled: _fullNameIsEnable,
+                                          decoration: const InputDecoration(
+                                            hintStyle: TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xFF124559),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Card(
-                                      semanticContainer: true,
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                      ),
-                                      color: const Color(0xFFFFFFFF),
-                                      elevation: 5,
-                                      child: SizedBox(
-                                        width: 35,
-                                        height: 35,
-                                        child: IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _phoneIsEnable = true;
-                                            });
-                                          },
-                                          icon: const Icon(
-                                            CupertinoIcons.pencil,
-                                            color: Color(0xFFF0972D),
-                                            size: 25,
+                                      Card(
+                                        semanticContainer: true,
+                                        clipBehavior:
+                                            Clip.antiAliasWithSaveLayer,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                        ),
+                                        color: const Color(0xFFFFFFFF),
+                                        elevation: 5,
+                                        child: SizedBox(
+                                          width: 35,
+                                          height: 35,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _fullNameIsEnable = true;
+                                              });
+                                            },
+                                            icon: const Icon(
+                                              CupertinoIcons.pencil,
+                                              color: Color(0xFFF0972D),
+                                              size: 25,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    )
-                                  ],
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 10,
-                                  top: 10,
-                                ),
-                                child: Row(
-                                  children: const [
-                                    Icon(
-                                      CupertinoIcons.calendar,
-                                      color: Color(0xFF124559),
-                                      size: 20,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 5),
-                                      child: Text(
-                                        "Account created at",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10, top: 5, bottom: 10, right: 10),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      super.widget.old ?? "",
-                                      style: const TextStyle(
-                                        fontSize: 16,
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    top: 10,
+                                  ),
+                                  child: Row(
+                                    children: const [
+                                      Icon(
+                                        CupertinoIcons.envelope_fill,
                                         color: Color(0xFF124559),
+                                        size: 20,
                                       ),
-                                    ),
-                                  ],
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          "Email",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ]),
-                          )),
-                    ],
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, top: 5, bottom: 10, right: 10),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        super.widget.email ?? "",
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFF124559),
+                                        ),
+                                        textAlign: TextAlign.justify,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    top: 10,
+                                  ),
+                                  child: Row(
+                                    children: const [
+                                      Icon(
+                                        CupertinoIcons.phone_fill,
+                                        color: Color(0xFF124559),
+                                        size: 20,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          "Phone number",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, top: 5, bottom: 10, right: 10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          controller: _phoneController,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
+                                          validator: (val) {
+                                            if (val!.length != 10) {
+                                              return Strings
+                                                  .phoneNumberValidation;
+                                            }
+                                            return null;
+                                          },
+                                          enabled: _phoneIsEnable,
+                                          decoration: const InputDecoration(
+                                            hintStyle: TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xFF124559),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Card(
+                                        semanticContainer: true,
+                                        clipBehavior:
+                                            Clip.antiAliasWithSaveLayer,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                        ),
+                                        color: const Color(0xFFFFFFFF),
+                                        elevation: 5,
+                                        child: SizedBox(
+                                          width: 35,
+                                          height: 35,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _phoneIsEnable = true;
+                                              });
+                                            },
+                                            icon: const Icon(
+                                              CupertinoIcons.pencil,
+                                              color: Color(0xFFF0972D),
+                                              size: 25,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    top: 10,
+                                  ),
+                                  child: Row(
+                                    children: const [
+                                      Icon(
+                                        CupertinoIcons.calendar,
+                                        color: Color(0xFF124559),
+                                        size: 20,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          "Account created at",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, top: 5, bottom: 10, right: 10),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        super.widget.old ?? "",
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFF124559),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ]),
+                            )),
+                      ],
+                    ),
                   ),
                 ),
               ],

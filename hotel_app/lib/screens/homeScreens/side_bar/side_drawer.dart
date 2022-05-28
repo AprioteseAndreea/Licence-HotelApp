@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/user_screens/contact_screen.dart';
+import 'package:first_app_flutter/screens/user_screens/facilities.dart';
 import 'package:first_app_flutter/screens/user_screens/feedback.dart'
     as feedback_screen;
 import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
@@ -123,8 +124,22 @@ class SideDrawer extends StatelessWidget {
           // ),
           ListTile(
             leading: Icon(
-              CupertinoIcons.star_fill,
+              Icons.spa,
               color: Color(Strings.orange),
+            ),
+            title: textWidget('Facilities'),
+            onTap: () => {
+              Navigator.of(context).pop(),
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const FacilitiesScreen()))
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              CupertinoIcons.star_fill,
+              color: Color(Strings.darkTurquoise),
             ),
             title: textWidget('Feedbacks'),
             onTap: () => {
@@ -135,10 +150,11 @@ class SideDrawer extends StatelessWidget {
                       builder: (context) => const feedback_screen.Feedback()))
             },
           ),
+
           ListTile(
             leading: Icon(
               CupertinoIcons.location_fill,
-              color: Color(Strings.darkTurquoise),
+              color: Color(Strings.orange),
             ),
             title: textWidget('Contact'),
             onTap: () => {
@@ -150,7 +166,7 @@ class SideDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(
               CupertinoIcons.square_arrow_right,
-              color: Color(Strings.orange),
+              color: Color(Strings.darkTurquoise),
             ),
             title: textWidget('Logout'),
             onTap: () async =>

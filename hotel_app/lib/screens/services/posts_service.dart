@@ -18,6 +18,7 @@ class PostsService with ChangeNotifier {
   }
 
   Future<void> getPostsCollectionFromFirebase() async {
+    _posts.clear();
     _instance = FirebaseFirestore.instance;
     CollectionReference users = _instance!.collection('users');
 

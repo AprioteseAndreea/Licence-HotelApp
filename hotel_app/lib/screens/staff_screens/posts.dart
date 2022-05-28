@@ -50,6 +50,7 @@ class _Posts extends State<Posts> {
   @override
   Widget build(BuildContext context) {
     postsService = Provider.of<PostsService>(context);
+    postsList = [];
     postsList = postsService.getPosts();
     return Scaffold(
         appBar: AppBar(

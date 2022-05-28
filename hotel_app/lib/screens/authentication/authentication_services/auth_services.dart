@@ -63,22 +63,6 @@ class AuthServices with ChangeNotifier {
           role = userService.getUsers()[i].role;
         }
       }
-      // switch (role) {
-      //   case 'user':
-      //     {
-      //       await instantiateDataForUser();
-      //       break;
-      //     }
-      //   case 'admin':
-      //     {
-      //       await instantiateDataForAdmin();
-      //       break;
-      //     }
-      //   case 'staff':
-      //     {
-      //       break;
-      //     }
-      // }
       setLoading(false);
       notifyListeners();
       return user;
@@ -98,25 +82,9 @@ class AuthServices with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> actualizeInformation() async {
-    ReservationService reservationService = ReservationService();
-    await reservationService.actualizeInformation();
-  }
-
-  // Future<void> instantiateDataForUser() async {
-  //   await reservationService
-  //       .countNumberOfReservations(firebaseAuth.currentUser!.email);
-  //   await feedbackService.getFeedbacksCollectionFromFirebase();
-  //   await facilityService.getFacilitiesCollectionFromFirebase();
-  // }
-  //
-  // Future<void> instantiateDataForAdmin() async {
-  //   await roomsService.getRoomsCollectionFromFirebase();
-  //   await reservationService.getReservationsCollectionFromFirebase();
-  //   await userService.getStaffCollectionFromFirebase();
-  //   // await statisticsService.getRoomStatisticsCollectionFromFirebase();
-  //   // await statisticsService.getMonthlyReservationsCollectionFromFirebase();
-  //   // await statisticsService.getMonthlyIncomeCollectionFromFirebase();
+  // Future<void> actualizeInformation() async {
+  //   ReservationService reservationService = ReservationService();
+  //   await reservationService.actualizeInformation();
   // }
 
   void setLoading(val) {

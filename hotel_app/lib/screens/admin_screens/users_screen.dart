@@ -26,6 +26,7 @@ class _UsersScreen extends State<UsersScreen> {
   @override
   Widget build(BuildContext context) {
     userService = Provider.of<UserService>(context);
+    usersList = [];
     usersList = userService.getUsers();
     return Scaffold(
       appBar: AppBar(

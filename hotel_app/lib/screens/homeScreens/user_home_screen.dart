@@ -5,7 +5,9 @@ import 'package:first_app_flutter/models/user_model.dart' as user_model;
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/homeScreens/side_bar/side_drawer.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:first_app_flutter/screens/user_screens/facilities.dart';
 import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -236,7 +238,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                               children: [
                                 Image.asset(
                                   "assets/images/toursist.jpg",
-                                  width: mediaQuery.width * 0.4,
+                                  width: mediaQuery.width * 0.35,
                                 )
                               ],
                             ),
@@ -247,6 +249,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                 Padding(
                     padding: const EdgeInsets.only(left: 15, top: 20),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'Facilities',
@@ -255,6 +258,33 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                               color: const Color(0xFF124559),
                               fontWeight: FontWeight.bold),
                         ),
+                        TextButton(
+                          onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const FacilitiesScreen())),
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                'View info',
+                                style: TextStyle(
+                                    fontSize: mediaQuery.width * 0.042,
+                                    color: const Color(0xFF124559),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              const Icon(
+                                CupertinoIcons.arrow_right,
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     )),
                 Padding(

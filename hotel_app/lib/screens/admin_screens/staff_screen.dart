@@ -28,6 +28,7 @@ class _StaffScreen extends State<StaffScreen> {
   @override
   Widget build(BuildContext context) {
     Staff emptyStaff;
+    staffList = [];
     userService = Provider.of<UserService>(context);
     staffList = userService.getStaff();
     // setState(() {

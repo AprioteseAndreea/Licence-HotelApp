@@ -228,10 +228,10 @@ class _GetRoom extends State<GetRoom> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 10, bottom: 8, top: 10, right: 10),
+                                      left: 10, bottom: 8, top: 10, right: 20),
                                   child: Text(checkInFormat,
                                       style: TextStyle(
-                                          fontSize: mediaQuery.width * 0.045,
+                                          fontSize: mediaQuery.width * 0.04,
                                           color: const Color(0xFF49758B))),
                                 ),
                               ],
@@ -246,10 +246,10 @@ class _GetRoom extends State<GetRoom> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      right: 10, bottom: 8, top: 10, left: 10),
+                                      right: 10, bottom: 8, top: 10, left: 20),
                                   child: Text(checkOutFormat,
                                       style: TextStyle(
-                                          fontSize: mediaQuery.width * 0.045,
+                                          fontSize: mediaQuery.width * 0.04,
                                           color: const Color(0xFF49758B))),
                                 ),
                                 IconButton(
@@ -275,7 +275,12 @@ class _GetRoom extends State<GetRoom> {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     color: Colors.amberAccent,
                     child: ListTile(
-                      title: Text(foundRoomProvider.errorMessage),
+                      title: Text(
+                        foundRoomProvider.errorMessage,
+                        style: const TextStyle(
+                          fontSize: 13,
+                        ),
+                      ),
                       leading: const Icon(Icons.error),
                       trailing: IconButton(
                         icon: const Icon(Icons.close),
@@ -314,7 +319,7 @@ class _GetRoom extends State<GetRoom> {
                                           child: Text('ADULTS',
                                               style: TextStyle(
                                                   fontSize:
-                                                      mediaQuery.width * 0.035,
+                                                      mediaQuery.width * 0.030,
                                                   color:
                                                       const Color(0xFF333333))),
                                         ),
@@ -323,7 +328,7 @@ class _GetRoom extends State<GetRoom> {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 2, right: 2),
+                                              left: 0, right: 0),
                                           child: IconButton(
                                             icon: const Icon(
                                               Icons.remove_circle_outlined,
@@ -342,13 +347,13 @@ class _GetRoom extends State<GetRoom> {
                                           child: Text(adults.toString(),
                                               style: TextStyle(
                                                   fontSize:
-                                                      mediaQuery.width * 0.05,
+                                                      mediaQuery.width * 0.04,
                                                   color:
                                                       const Color(0xFF49758B))),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 2, right: 2),
+                                              left: 0, right: 0),
                                           child: IconButton(
                                             icon: const Icon(
                                               Icons.add_circle_outlined,
@@ -377,7 +382,7 @@ class _GetRoom extends State<GetRoom> {
                                           child: Text('CHILDREN',
                                               style: TextStyle(
                                                   fontSize:
-                                                      mediaQuery.width * 0.035,
+                                                      mediaQuery.width * 0.030,
                                                   color:
                                                       const Color(0xFF333333))),
                                         ),
@@ -386,7 +391,7 @@ class _GetRoom extends State<GetRoom> {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 2, right: 2),
+                                              left: 0, right: 0),
                                           child: IconButton(
                                             icon: const Icon(
                                               Icons.remove_circle_outlined,
@@ -405,13 +410,13 @@ class _GetRoom extends State<GetRoom> {
                                           child: Text(children.toString(),
                                               style: TextStyle(
                                                   fontSize:
-                                                      mediaQuery.width * 0.05,
+                                                      mediaQuery.width * 0.04,
                                                   color:
                                                       const Color(0xFF49758B))),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 2, right: 2),
+                                              left: 0, right: 0),
                                           child: IconButton(
                                             icon: const Icon(
                                               Icons.add_circle_outlined,

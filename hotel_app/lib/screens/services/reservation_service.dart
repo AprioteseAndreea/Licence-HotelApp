@@ -21,10 +21,6 @@ class ReservationService with ChangeNotifier {
     return numberOfReservations;
   }
 
-  List<ReservationModel> getListOfReservations() {
-    return _reservations;
-  }
-
   Future<void> getReservationsCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference categories = _instance!.collection('users');

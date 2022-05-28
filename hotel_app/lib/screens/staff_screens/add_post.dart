@@ -1,6 +1,7 @@
 import 'package:first_app_flutter/models/comment_model.dart';
 import 'package:first_app_flutter/models/post_model.dart';
 import 'package:first_app_flutter/screens/services/posts_service.dart';
+import 'package:first_app_flutter/screens/staff_screens/posts.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -98,6 +99,11 @@ class _AddPost extends State<AddPost> {
 
                     postsService.addPostInFirebase(newPost);
                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Posts(),
+                        ));
                   }
                 },
                 height: 40,

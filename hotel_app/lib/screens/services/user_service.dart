@@ -8,8 +8,8 @@ class UserService with ChangeNotifier {
   static final UserService _singletionUsers = UserService._interval();
   UserService._interval();
   FirebaseFirestore? _instance;
-  List<User> _users = [];
-  late List<Staff> _staff = [];
+  final List<User> _users = [];
+  final List<Staff> _staff = [];
 
   String name = "";
 
@@ -132,6 +132,19 @@ class UserService with ChangeNotifier {
     users.set({
       'staff': staffMap,
     });
+    await writeInSharedPrefs(staff);
+  }
+
+  Future<void> writeInSharedPrefs(Staff staff) async {
+    final _prefs = await SharedPreferences.getInstance();
+
+    await _prefs.setString('email', staff.email);
+    await _prefs.setString('name', staff.name);
+    await _prefs.setString('phoneNumber', staff.phone);
+    await _prefs.setString('gender', staff.gender);
+    await _prefs.setString('old', staff.old);
+    await _prefs.setString('position', staff.position);
+    await _prefs.setString('salary', staff.salary.toString());
   }
 
   Future<void> updateUserInFirebase(
