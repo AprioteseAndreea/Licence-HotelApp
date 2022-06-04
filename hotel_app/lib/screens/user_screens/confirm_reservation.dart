@@ -1,5 +1,5 @@
 import 'package:first_app_flutter/screens/homeScreens/home_screen.dart';
-import 'package:first_app_flutter/screens/homeScreens/user_screen_state.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -22,14 +22,14 @@ class _ConfirmReservation extends State<ConfirmReservation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color(0xFF124559),
+        iconTheme: IconThemeData(
+          color: Color(Strings.darkTurquoise),
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'Grand Hotel',
-          style: TextStyle(color: Color(0xFF124559)),
+        title: Text(
+          Strings.grandHotel,
+          style: TextStyle(color: Color(Strings.darkTurquoise)),
         ),
       ),
       body: SafeArea(
@@ -50,11 +50,11 @@ class _ConfirmReservation extends State<ConfirmReservation> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    'Thank you for your reservation!',
+                    Strings.thankYouForReservation,
                     style: TextStyle(
-                      color: Color(0xFF124559),
+                      color: Color(Strings.darkTurquoise),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -71,12 +71,12 @@ class _ConfirmReservation extends State<ConfirmReservation> {
                     child: Container(
                       padding:
                           const EdgeInsets.only(left: 20, top: 10, right: 20),
-                      child: const Text(
-                        'Please check-in after 14:00 and check-out until 10:00',
+                      child: Text(
+                        Strings.checkInInformation,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
-                        style:
-                            TextStyle(fontSize: 15, color: Color(0xFF124559)),
+                        style: TextStyle(
+                            fontSize: 15, color: Color(Strings.darkTurquoise)),
                         maxLines: 2,
                       ),
                     ),
@@ -100,11 +100,11 @@ class _ConfirmReservation extends State<ConfirmReservation> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    'You\'re welcome!',
+                    Strings.youreWelcome,
                     style: TextStyle(
-                      color: Color(0xFF124559),
+                      color: Color(Strings.darkTurquoise),
                       fontSize: 23,
                       fontWeight: FontWeight.bold,
                     ),
@@ -131,9 +131,9 @@ class _ConfirmReservation extends State<ConfirmReservation> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    child: const Text(
-                      "Go home",
-                      style: TextStyle(
+                    child: Text(
+                      Strings.goHome,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),

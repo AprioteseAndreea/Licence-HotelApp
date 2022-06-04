@@ -16,7 +16,7 @@ class BookStaffTwo extends StatefulWidget {
   final DateTime checkOutDate;
   final int adults, children;
   final List<FacilityModel> selectedSpecialFacilities;
-  final RoomModel room;
+  final List<RoomModel> rooms;
   final String name;
   final String email;
   const BookStaffTwo({
@@ -26,7 +26,7 @@ class BookStaffTwo extends StatefulWidget {
     required this.adults,
     required this.children,
     required this.selectedSpecialFacilities,
-    required this.room,
+    required this.rooms,
     required this.name,
     required this.email,
   }) : super(key: key);
@@ -35,8 +35,7 @@ class BookStaffTwo extends StatefulWidget {
 }
 
 class _BookStaffTwo extends State<BookStaffTwo> {
-  late String facilitiesEnumeration = '';
-  late int extraBeds;
+  late String facilitiesEnumeration = '', roomsNumer = '';
   late int extraFacilities = 0;
   late int roomCost = 0;
   late int nights = 0;
@@ -50,18 +49,19 @@ class _BookStaffTwo extends State<BookStaffTwo> {
       extraFacilities +=
           int.parse(f.cost) * (super.widget.adults + super.widget.children);
     }
-    if (int.parse(super.widget.room.maxGuests) <
-        (super.widget.adults + super.widget.children)) {
-      extraBeds = (super.widget.adults + super.widget.children) -
-          int.parse(super.widget.room.maxGuests);
-    } else {
-      extraBeds = 0;
+    for (var r in super.widget.rooms) {
+      roomsNumer += (" • ") + r.number;
     }
+    ;
     nights =
         super.widget.checkOutDate.difference(super.widget.checkInDate).inDays +
             1;
-    roomCost = int.parse(super.widget.room.cost) * nights;
-    total = roomCost + (extraBeds * 10) + extraFacilities;
+    int roomsTotal = 0;
+    for (var r in super.widget.rooms) {
+      roomsTotal += int.parse(r.cost);
+    }
+    roomCost = roomsTotal * nights;
+    total = roomCost + extraFacilities;
     guests = super.widget.adults + super.widget.children;
   }
 
@@ -116,12 +116,12 @@ class _BookStaffTwo extends State<BookStaffTwo> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const StepProgressIndicator(
+              StepProgressIndicator(
                 totalSteps: 3,
-                currentStep: 2,
+                currentStep: 3,
                 size: 13,
-                selectedColor: Color(0xFF124559),
-                unselectedColor: Color(0xFF72B0D4),
+                selectedColor: Color(Strings.darkTurquoise),
+                unselectedColor: Color(Strings.lightBlue),
               ),
               const SizedBox(
                 height: 15,
@@ -131,7 +131,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
                 elevation: 6,
-                shadowColor: const Color(0xFF124559),
+                shadowColor: Color(Strings.darkTurquoise),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -145,7 +145,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                           Padding(
                             padding: const EdgeInsets.only(top: 10, left: 10),
                             child: Text(
-                              'Booking Details',
+                              Strings.bookingDetails,
                               style: TextStyle(
                                   color: Color(Strings.darkTurquoise),
                                   fontSize: mediaQuery.width * 0.044,
@@ -161,7 +161,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                           color: Color(Strings.orange),
                         ),
                         title: Text(
-                          'Name',
+                          Strings.fullName,
                           style: TextStyle(
                             color: const Color(0xff848181),
                             fontSize: mediaQuery.width * 0.040,
@@ -183,7 +183,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                           color: Color(Strings.orange),
                         ),
                         title: Text(
-                          'Email',
+                          Strings.email,
                           style: TextStyle(
                             color: const Color(0xff848181),
                             fontSize: mediaQuery.width * 0.040,
@@ -205,7 +205,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                           color: Color(Strings.orange),
                         ),
                         title: Text(
-                          'Check-In - Check-Out',
+                          Strings.checkInCheckOut,
                           style: TextStyle(
                             color: const Color(0xff848181),
                             fontSize: mediaQuery.width * 0.040,
@@ -229,7 +229,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                           color: Color(Strings.orange),
                         ),
                         title: Text(
-                          'Guests',
+                          Strings.guests,
                           style: TextStyle(
                             color: const Color(0xff848181),
                             fontSize: mediaQuery.width * 0.040,
@@ -251,7 +251,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                           color: Color(Strings.orange),
                         ),
                         title: Text(
-                          'Room',
+                          Strings.rooms,
                           style: TextStyle(
                             color: const Color(0xff848181),
                             fontSize: mediaQuery.width * 0.040,
@@ -259,7 +259,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                         ),
                         horizontalTitleGap: 5,
                         subtitle: Text(
-                          super.widget.room.number,
+                          roomsNumer,
                           style: TextStyle(
                             color: Color(Strings.darkTurquoise),
                             fontSize: mediaQuery.width * 0.040,
@@ -273,7 +273,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                           color: Color(Strings.orange),
                         ),
                         title: Text(
-                          'Facilities',
+                          Strings.facilities,
                           style: TextStyle(
                             color: const Color(0xff848181),
                             fontSize: mediaQuery.width * 0.040,
@@ -282,35 +282,13 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                         horizontalTitleGap: 5,
                         subtitle: showFacilities(mediaQuery.width * 0.040),
                       ),
-                      ListTile(
-                        leading: Icon(
-                          Icons.king_bed,
-                          size: 30,
-                          color: Color(Strings.orange),
-                        ),
-                        title: Text(
-                          'Extra beds',
-                          style: TextStyle(
-                            color: const Color(0xff848181),
-                            fontSize: mediaQuery.width * 0.040,
-                          ),
-                        ),
-                        horizontalTitleGap: 5,
-                        subtitle: Text(
-                          extraBeds.toString(),
-                          style: TextStyle(
-                            color: Color(Strings.darkTurquoise),
-                            fontSize: mediaQuery.width * 0.040,
-                          ),
-                        ),
-                      ),
                       Row(
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(
                                 top: 10, left: 10, bottom: 10),
                             child: Text(
-                              'Payment Summary',
+                              Strings.paymentSummary,
                               style: TextStyle(
                                   color: Color(Strings.darkTurquoise),
                                   fontSize: mediaQuery.width * 0.044,
@@ -323,7 +301,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Room cost',
+                            Strings.roomCost,
                             style: TextStyle(
                               color: Color(Strings.darkTurquoise),
                               fontSize: mediaQuery.width * 0.040,
@@ -342,7 +320,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Facilities cost',
+                            Strings.facilitiesCost,
                             style: TextStyle(
                               color: Color(Strings.darkTurquoise),
                               fontSize: mediaQuery.width * 0.040,
@@ -361,26 +339,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Extra beds cost',
-                            style: TextStyle(
-                              color: Color(Strings.darkTurquoise),
-                              fontSize: mediaQuery.width * 0.040,
-                            ),
-                          ),
-                          Text(
-                            '\$${extraBeds * 10}',
-                            style: TextStyle(
-                              color: Color(Strings.darkTurquoise),
-                              fontSize: mediaQuery.width * 0.040,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Subtotal',
+                            Strings.subtotal,
                             style: TextStyle(
                               color: Color(Strings.darkTurquoise),
                               fontSize: mediaQuery.width * 0.040,
@@ -399,7 +358,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'VAT (23%)',
+                            Strings.vat,
                             style: TextStyle(
                               color: Color(Strings.darkTurquoise),
                               fontSize: mediaQuery.width * 0.040,
@@ -418,7 +377,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Total',
+                            Strings.total,
                             style: TextStyle(
                               color: Color(Strings.darkTurquoise),
                               fontSize: mediaQuery.width * 0.040,
@@ -446,6 +405,10 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                                   in super.widget.selectedSpecialFacilities) {
                                 facilities.add(f.facility);
                               }
+                              List<String> rooms = [];
+                              for (var r in super.widget.rooms) {
+                                rooms.add(r.number);
+                              }
 
                               ReservationModel r = ReservationModel(
                                   checkIn: super.widget.checkInDate.toString(),
@@ -453,7 +416,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                                       super.widget.checkOutDate.toString(),
                                   date: DateTime.now().toString(),
                                   price: total,
-                                  room: super.widget.room.number,
+                                  rooms: rooms,
                                   user: super.widget.email,
                                   approved: true,
                                   facilities: facilities,
@@ -471,7 +434,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                                   .addReservationsInFirebase(r);
                               await reservationProvider
                                   .getReservationsCollectionFromFirebase();
-                              await reservationProvider.actualizeInformation();
+                              // await reservationProvider.actualizeInformation();
 
                               Navigator.push(
                                   context,
@@ -487,9 +450,9 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
-                            child: const Text(
-                              "Confirm reservation",
-                              style: TextStyle(
+                            child: Text(
+                              Strings.confirmReservation,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),

@@ -1,10 +1,9 @@
 import 'package:first_app_flutter/models/extra_facility_model.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/material.dart';
 
-import 'data.dart';
-
 class SingleNotifier extends ChangeNotifier {
-  String _currentOccupation = countries[0];
+  String _currentOccupation = Strings.countries[0];
   SingleNotifier();
 
   String get currentCountry => _currentOccupation;

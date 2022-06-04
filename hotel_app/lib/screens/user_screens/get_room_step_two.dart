@@ -16,7 +16,7 @@ class GetRoomS2 extends StatefulWidget {
   final DateTime checkOutDate;
   final int adults, children;
   final List<FacilityModel> selectedSpecialFacilities;
-  final RoomModel room;
+  final List<RoomModel> foundedRooms;
   final String name;
   final String otherDetails;
   const GetRoomS2(
@@ -26,7 +26,7 @@ class GetRoomS2 extends StatefulWidget {
       required this.adults,
       required this.children,
       required this.selectedSpecialFacilities,
-      required this.room,
+      required this.foundedRooms,
       required this.name,
       required this.otherDetails})
       : super(key: key);
@@ -36,7 +36,7 @@ class GetRoomS2 extends StatefulWidget {
 
 class _GetRoomS2 extends State<GetRoomS2> {
   late String facilitiesEnumeration = '';
-  late int extraBeds;
+  late String roomsNumber = '';
   late int extraFacilities = 0;
   late int roomCost = 0;
   late int nights = 0;
@@ -49,18 +49,18 @@ class _GetRoomS2 extends State<GetRoomS2> {
       extraFacilities +=
           int.parse(f.cost) * (super.widget.adults + super.widget.children);
     }
-    if (int.parse(super.widget.room.maxGuests) <
-        (super.widget.adults + super.widget.children)) {
-      extraBeds = (super.widget.adults + super.widget.children) -
-          int.parse(super.widget.room.maxGuests);
-    } else {
-      extraBeds = 0;
+    for (var r in super.widget.foundedRooms) {
+      roomsNumber += (" • ") + r.number;
     }
     nights =
         super.widget.checkOutDate.difference(super.widget.checkInDate).inDays +
             1;
-    roomCost = int.parse(super.widget.room.cost) * nights;
-    total = roomCost + (extraBeds * 10) + extraFacilities;
+    int roomsTotal = 0;
+    for (var r in super.widget.foundedRooms) {
+      roomsTotal += int.parse(r.cost);
+    }
+    roomCost = roomsTotal * nights;
+    total = roomCost + extraFacilities;
   }
 
   @override
@@ -75,7 +75,7 @@ class _GetRoomS2 extends State<GetRoomS2> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
-          'Grand Hotel',
+          'Step 3',
           style: TextStyle(color: Color(0xFF124559)),
         ),
       ),
@@ -87,7 +87,7 @@ class _GetRoomS2 extends State<GetRoomS2> {
             children: [
               const StepProgressIndicator(
                 totalSteps: 3,
-                currentStep: 2,
+                currentStep: 3,
                 size: 13,
                 selectedColor: Color(0xFF124559),
                 unselectedColor: Color(0xFF72B0D4),
@@ -362,19 +362,12 @@ class _GetRoomS2 extends State<GetRoomS2> {
                   children: <Widget>[
                     ListTile(
                       title: Text(
-                        'ROOM ${super.widget.room.number}',
+                        'ROOMS: $roomsNumber',
                         style: const TextStyle(
                             color: Color(0xFF124559),
-                            fontSize: 20,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold),
                       ),
-                      // subtitle: const Text(
-                      //   'FACILITIES: ',
-                      //   style: TextStyle(
-                      //     color: Color(0xFF124559),
-                      //     fontSize: 13,
-                      //   ),
-                      // ),
                       leading: Image.asset(
                         'assets/images/key.jpg',
                         height: 50,
@@ -388,18 +381,11 @@ class _GetRoomS2 extends State<GetRoomS2> {
                             size: 25.0,
                           ),
                           Text(
-                            super.widget.room.cost,
+                            roomCost.toString(),
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF72B0D4),
-                            ),
-                          ),
-                          const Text(
-                            '/night',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFF124559),
                             ),
                           ),
                         ],
@@ -407,18 +393,6 @@ class _GetRoomS2 extends State<GetRoomS2> {
                     ),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'For this room you need to buy more $extraBeds beds',
-                    style: const TextStyle(
-                      color: Color(0xFF124559),
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
               ),
               Card(
                 child: Column(
@@ -442,33 +416,6 @@ class _GetRoomS2 extends State<GetRoomS2> {
                           ),
                           Text(
                             '$roomCost',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF72B0D4),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text(
-                        'Extra beds',
-                        style: TextStyle(
-                          color: Color(0xFF124559),
-                          fontSize: 17,
-                        ),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Icon(
-                            Icons.euro,
-                            color: Color(0xFF124559),
-                            size: 25.0,
-                          ),
-                          Text(
-                            '${extraBeds * 10}',
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -542,6 +489,10 @@ class _GetRoomS2 extends State<GetRoomS2> {
                       for (var f in super.widget.selectedSpecialFacilities) {
                         facilities.add(f.facility);
                       }
+                      List<String> rooms = [];
+                      for (var r in super.widget.foundedRooms) {
+                        rooms.add(r.number);
+                      }
                       final _prefs = await SharedPreferences.getInstance();
                       final _value = _prefs.getString('email');
                       final _name = _prefs.getString('name');
@@ -552,7 +503,7 @@ class _GetRoomS2 extends State<GetRoomS2> {
                             checkOut: super.widget.checkOutDate.toString(),
                             date: DateTime.now().toString(),
                             price: total,
-                            room: super.widget.room.number,
+                            rooms: rooms,
                             user: _value,
                             approved: false,
                             facilities: facilities,

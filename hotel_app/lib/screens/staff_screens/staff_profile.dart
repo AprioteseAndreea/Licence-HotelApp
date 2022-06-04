@@ -105,14 +105,14 @@ class _StaffProfile extends State<StaffProfile> {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color(0xFF124559), //change your color here
+        iconTheme: IconThemeData(
+          color: Color(Strings.darkTurquoise), //change your color here
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'My profile',
-          style: TextStyle(color: Color(0xFF124559)),
+        title: Text(
+          Strings.myProfile,
+          style: TextStyle(color: Color(Strings.darkTurquoise)),
         ),
       ),
       body: SafeArea(

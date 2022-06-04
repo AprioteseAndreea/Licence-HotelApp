@@ -7,6 +7,7 @@ import 'package:first_app_flutter/screens/staff_screens/book_staff.dart';
 import 'package:first_app_flutter/screens/staff_screens/posts.dart';
 import 'package:first_app_flutter/screens/staff_screens/staff_profile.dart';
 import 'package:first_app_flutter/screens/user_screens/facilities.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -208,10 +209,10 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                         color: Colors.white,
                                         size: mediaQuery.width * 0.085,
                                       ),
-                                      const Text(
-                                        'ROOMS',
+                                      Text(
+                                        Strings.roomsCapital,
                                         style: TextStyle(
-                                            color: Color(0xFFF0972D),
+                                            color: Color(Strings.orange),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15),
                                       ),
@@ -236,7 +237,7 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          color: const Color(0xFF124559),
+                          color: Color(Strings.darkTurquoise),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
@@ -252,10 +253,10 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                         color: Colors.white,
                                         size: mediaQuery.width * 0.085,
                                       ),
-                                      const Text(
-                                        'BOOKINGS',
+                                      Text(
+                                        Strings.bookings.toUpperCase(),
                                         style: TextStyle(
-                                            color: Color(0xFFF0972D),
+                                            color: Color(Strings.orange),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15),
                                       ),
@@ -285,7 +286,7 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          color: const Color(0xFF124559),
+                          color: Color(Strings.darkTurquoise),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
@@ -301,10 +302,10 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                         color: Colors.white,
                                         size: mediaQuery.width * 0.085,
                                       ),
-                                      const Text(
-                                        'BOOK NOW',
+                                      Text(
+                                        Strings.bookNow,
                                         style: TextStyle(
-                                            color: Color(0xFFF0972D),
+                                            color: Color(Strings.orange),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15),
                                       ),
@@ -322,7 +323,7 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          color: const Color(0xFF124559),
+                          color: Color(Strings.darkTurquoise),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
@@ -338,10 +339,10 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                         color: Colors.white,
                                         size: mediaQuery.width * 0.085,
                                       ),
-                                      const Text(
-                                        'LOGOUT',
+                                      Text(
+                                        Strings.logout.toUpperCase(),
                                         style: TextStyle(
-                                            color: Color(0xFFF0972D),
+                                            color: Color(Strings.orange),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15),
                                       ),

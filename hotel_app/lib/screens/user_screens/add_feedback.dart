@@ -3,6 +3,7 @@ import 'package:first_app_flutter/screens/authentication/authentication_services
 import 'package:first_app_flutter/screens/services/feedback_service.dart';
 import 'package:first_app_flutter/screens/user_screens/feedback.dart'
     as FeedBackScreen;
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,12 +46,12 @@ class _AddFeedback extends State<AddFeedback> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text(
-            'Add new feedback',
-            style: TextStyle(color: Color(0xFF124559)),
+          title: Text(
+            Strings.addNewFeedback,
+            style: TextStyle(color: Color(Strings.darkTurquoise)),
           ),
-          iconTheme: const IconThemeData(
-            color: Color(0xFF124559),
+          iconTheme: IconThemeData(
+            color: Color(Strings.darkTurquoise),
           ),
           backgroundColor: Colors.white,
         ),
@@ -60,20 +61,20 @@ class _AddFeedback extends State<AddFeedback> {
               children: [
                 const SizedBox(height: 20),
 
-                const Text(
-                  "Send us your feedback!",
+                Text(
+                  Strings.sendUsYourFeedback,
                   style: TextStyle(
-                    color: Color(0xFF124559),
+                    color: Color(Strings.darkTurquoise),
                     fontSize: 23,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Padding(
-                  padding:
-                      EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 8),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20, right: 20, bottom: 20, top: 8),
                   child: Text(
-                    "Please tell us what your experience at the Grand Hotel was like",
-                    style: TextStyle(
+                    Strings.facilityPhrase,
+                    style: const TextStyle(
                       color: Color(0xFF5E676C),
                       fontSize: 17,
                       fontWeight: FontWeight.normal,
@@ -99,10 +100,10 @@ class _AddFeedback extends State<AddFeedback> {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text(
-                          "How was your experience?",
+                        Text(
+                          Strings.howWasYourExperience,
                           style: TextStyle(
-                            color: Color(0xFF124559),
+                            color: Color(Strings.darkTurquoise),
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
                           ),
@@ -131,9 +132,9 @@ class _AddFeedback extends State<AddFeedback> {
                         ),
                         TextField(
                           controller: _feedbackController,
-                          decoration: const InputDecoration(
-                            hintText: "Describe your experience here ...",
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            hintText: Strings.describeYourExperience,
+                            border: const OutlineInputBorder(),
                           ),
                           keyboardType: TextInputType.multiline,
                           maxLines: 3,
@@ -166,9 +167,9 @@ class _AddFeedback extends State<AddFeedback> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          child: const Text(
-                            "Send feedback",
-                            style: TextStyle(
+                          child: Text(
+                            Strings.sendFeedback,
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),

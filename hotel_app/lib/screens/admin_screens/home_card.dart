@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 class HomeCard extends StatelessWidget {
   String title;
-  String imageUrl;
+  IconData icon;
   GestureTapCallback? onPressed;
 
   HomeCard(
       {Key? key,
       required this.title,
-      required this.imageUrl,
+      required this.icon,
       required this.onPressed})
       : super(key: key);
 
@@ -35,10 +35,10 @@ class HomeCard extends StatelessWidget {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Image.asset(
-                      imageUrl,
-                      fit: BoxFit.cover,
-                      width: mediaQuery.height * 0.055,
+                    Icon(
+                      icon,
+                      color: Colors.white,
+                      size: mediaQuery.width * 0.085,
                     ),
                     Text(
                       title,

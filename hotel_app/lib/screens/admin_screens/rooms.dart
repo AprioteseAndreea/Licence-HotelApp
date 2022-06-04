@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/services/rooms_service.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -37,9 +38,9 @@ class _Rooms extends State<Rooms> {
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'Rooms',
-          style: TextStyle(color: Color(0xFF124559)),
+        title: Text(
+          Strings.rooms,
+          style: const TextStyle(color: Color(0xFF124559)),
         ),
         actions: [
           IconButton(
@@ -112,7 +113,7 @@ class _Rooms extends State<Rooms> {
                                   padding: const EdgeInsets.only(
                                       left: 7, right: 7, top: 5, bottom: 5),
                                   child: Text(
-                                    'ROOM ${roomsList[index].number}',
+                                    Strings.room + roomsList[index].number,
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -143,9 +144,9 @@ class _Rooms extends State<Rooms> {
                                               color: Color(0xFF124559),
                                             ),
                                           ),
-                                          const Text(
-                                            '/night',
-                                            style: TextStyle(
+                                          Text(
+                                            Strings.night,
+                                            style: const TextStyle(
                                               fontSize: 15,
                                               color: Color(0xFF124559),
                                             ),
@@ -160,15 +161,15 @@ class _Rooms extends State<Rooms> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               if (roomsList[index].free == true)
-                                const Padding(
-                                    padding: EdgeInsets.all(2),
+                                Padding(
+                                    padding: const EdgeInsets.all(2),
                                     child: Card(
                                       color: Colors.green,
                                       child: Padding(
-                                        padding: EdgeInsets.all(3),
+                                        padding: const EdgeInsets.all(3),
                                         child: Text(
-                                          'FREE',
-                                          style: TextStyle(
+                                          Strings.freeCapital,
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,
                                           ),
@@ -176,15 +177,15 @@ class _Rooms extends State<Rooms> {
                                       ),
                                     )),
                               if (roomsList[index].free == false)
-                                const Padding(
-                                    padding: EdgeInsets.all(2),
+                                Padding(
+                                    padding: const EdgeInsets.all(2),
                                     child: Card(
                                       color: Colors.red,
                                       child: Padding(
-                                        padding: EdgeInsets.all(3),
+                                        padding: const EdgeInsets.all(3),
                                         child: Text(
-                                          'OCCUPIED',
-                                          style: TextStyle(
+                                          Strings.occupiedCapital,
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,
                                           ),
@@ -193,7 +194,8 @@ class _Rooms extends State<Rooms> {
                                     )),
                             ],
                           ),
-                          if (roomsList[index].idUser.toString() != 'none')
+                          if (roomsList[index].idUser.toString() !=
+                              Strings.none)
                             Card(
                               color: Colors.white,
                               child: Padding(

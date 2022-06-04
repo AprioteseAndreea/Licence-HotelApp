@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -112,9 +113,9 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text(
-                      "CLOSE",
-                      style: TextStyle(fontSize: 18),
+                    child: Text(
+                      Strings.close,
+                      style: const TextStyle(fontSize: 18),
                     )),
               ),
             ],
@@ -128,7 +129,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             radius: 45,
             child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(45)),
-                child: widget.userGender == 'male'
+                child: widget.userGender == Strings.male
                     ? const CircleAvatar(
                         radius: 45,
                         backgroundColor: Color(0xFFF0972D),

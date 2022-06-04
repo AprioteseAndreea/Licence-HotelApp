@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/monthly_reservation_model.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -12,21 +13,6 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  List<String> months = <String>[
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-
   late List<MonthlyRModel> _monthlyReservations;
 
   late List<charts.Series<MonthlyRModel, String>> series = [];
@@ -36,7 +22,8 @@ class _FirstScreenState extends State<FirstScreen> {
     series.add(charts.Series(
         id: "MontlyReservations",
         data: monthlyReservations,
-        domainFn: (MonthlyRModel series, _) => months[int.parse(series.month)],
+        domainFn: (MonthlyRModel series, _) =>
+            Strings.months[int.parse(series.month)],
         measureFn: (MonthlyRModel series, _) => series.numberOfR,
         colorFn: (MonthlyRModel m, _) =>
             charts.Color.fromHex(code: "#285668")));

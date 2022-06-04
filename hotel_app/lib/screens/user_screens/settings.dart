@@ -1,3 +1,4 @@
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,14 +18,14 @@ class _Settings extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Color(0xFF124559), //change your color here
+          iconTheme: IconThemeData(
+            color: Color(Strings.darkTurquoise), //change your color here
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: const Text(
-            'Settings',
-            style: TextStyle(color: Color(0xFF124559)),
+          title: Text(
+            Strings.settings,
+            style: TextStyle(color: Color(Strings.darkTurquoise)),
           ),
         ),
         body: SafeArea(

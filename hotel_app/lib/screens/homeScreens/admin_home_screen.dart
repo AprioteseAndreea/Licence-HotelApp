@@ -67,7 +67,7 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
             height: 10,
           ),
           Text(
-            'Manage your business with a simple click away.',
+            Strings.adminHomePagePhrase,
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -85,8 +85,8 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       HomeCard(
-                        title: "ROOMS",
-                        imageUrl: "assets/images/rooms.png",
+                        title: Strings.roomsCapital,
+                        icon: Icons.king_bed,
                         onPressed: () => {
                           Navigator.push(
                             context,
@@ -97,8 +97,8 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                         },
                       ),
                       HomeCard(
-                        title: "BOOKINGS",
-                        imageUrl: "assets/images/bookings.png",
+                        title: Strings.bookingsCapital,
+                        icon: Icons.hotel,
                         onPressed: () => {
                           Navigator.push(
                             context,
@@ -116,8 +116,8 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       HomeCard(
-                        title: "USERS",
-                        imageUrl: "assets/images/users.png",
+                        title: Strings.users,
+                        icon: Icons.people,
                         onPressed: () => {
                           Navigator.push(
                             context,
@@ -128,8 +128,8 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                         },
                       ),
                       HomeCard(
-                        title: "STAFF",
-                        imageUrl: "assets/images/staff.png",
+                        title: Strings.staff.toUpperCase(),
+                        icon: Icons.room_service,
                         onPressed: () => {
                           Navigator.push(
                             context,
@@ -147,8 +147,8 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       HomeCard(
-                        title: "STATISTICS",
-                        imageUrl: "assets/images/statistics.png",
+                        title: Strings.statistics.toUpperCase(),
+                        icon: Icons.insights_rounded,
                         onPressed: () => {
                           Navigator.push(
                             context,
@@ -159,8 +159,8 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                         },
                       ),
                       HomeCard(
-                        title: "LOGOUT",
-                        imageUrl: "assets/images/logout.png",
+                        title: Strings.logout.toUpperCase(),
+                        icon: Icons.logout,
                         onPressed: () async => await loginProvider.logout(),
                       ),
                     ]),

@@ -31,9 +31,7 @@ class _StaffScreen extends State<StaffScreen> {
     staffList = [];
     userService = Provider.of<UserService>(context);
     staffList = userService.getStaff();
-    // setState(() {
-    //   staffList = userService.getStaff();
-    // });
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -42,7 +40,7 @@ class _StaffScreen extends State<StaffScreen> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          Strings.staff,
+          Strings.hotelStaff,
           style: TextStyle(color: Color(Strings.darkTurquoise)),
         ),
         actions: [
@@ -95,7 +93,7 @@ class _StaffScreen extends State<StaffScreen> {
                       maxLines: 1,
                     ),
                     subtitle: Text(staffList[index].position),
-                    leading: staffList[index].gender == 'female'
+                    leading: staffList[index].gender == Strings.female
                         ? const Padding(
                             padding: EdgeInsets.only(top: 7, bottom: 4),
                             child: CircleAvatar(

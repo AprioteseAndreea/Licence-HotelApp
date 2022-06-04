@@ -191,17 +191,17 @@ class _Profile extends State<Profile> {
                                     top: 10,
                                   ),
                                   child: Row(
-                                    children: const [
+                                    children: [
                                       Icon(
                                         CupertinoIcons.person_fill,
-                                        color: Color(0xFF124559),
+                                        color: Color(Strings.darkTurquoise),
                                         size: 20,
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 5),
+                                        padding: const EdgeInsets.only(left: 5),
                                         child: Text(
-                                          "Full Name",
-                                          style: TextStyle(
+                                          Strings.fullName,
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.grey,
                                           ),
@@ -221,10 +221,11 @@ class _Profile extends State<Profile> {
                                         child: TextFormField(
                                           controller: _fullNameController,
                                           enabled: _fullNameIsEnable,
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
                                             hintStyle: TextStyle(
                                               fontSize: 16,
-                                              color: Color(0xFF124559),
+                                              color:
+                                                  Color(Strings.darkTurquoise),
                                             ),
                                           ),
                                         ),
@@ -248,9 +249,9 @@ class _Profile extends State<Profile> {
                                                 _fullNameIsEnable = true;
                                               });
                                             },
-                                            icon: const Icon(
+                                            icon: Icon(
                                               CupertinoIcons.pencil,
-                                              color: Color(0xFFF0972D),
+                                              color: Color(Strings.orange),
                                               size: 25,
                                             ),
                                           ),
@@ -265,17 +266,17 @@ class _Profile extends State<Profile> {
                                     top: 10,
                                   ),
                                   child: Row(
-                                    children: const [
+                                    children: [
                                       Icon(
                                         CupertinoIcons.envelope_fill,
-                                        color: Color(0xFF124559),
+                                        color: Color(Strings.darkTurquoise),
                                         size: 20,
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 5),
+                                        padding: const EdgeInsets.only(left: 5),
                                         child: Text(
-                                          "Email",
-                                          style: TextStyle(
+                                          Strings.email,
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.grey,
                                           ),
@@ -291,9 +292,9 @@ class _Profile extends State<Profile> {
                                     children: [
                                       Text(
                                         super.widget.email ?? "",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 16,
-                                          color: Color(0xFF124559),
+                                          color: Color(Strings.darkTurquoise),
                                         ),
                                         textAlign: TextAlign.justify,
                                         overflow: TextOverflow.ellipsis,
@@ -308,17 +309,17 @@ class _Profile extends State<Profile> {
                                     top: 10,
                                   ),
                                   child: Row(
-                                    children: const [
+                                    children: [
                                       Icon(
                                         CupertinoIcons.phone_fill,
-                                        color: Color(0xFF124559),
+                                        color: Color(Strings.darkTurquoise),
                                         size: 20,
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 5),
+                                        padding: const EdgeInsets.only(left: 5),
                                         child: Text(
-                                          "Phone number",
-                                          style: TextStyle(
+                                          Strings.phoneNumber,
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.grey,
                                           ),
@@ -349,10 +350,11 @@ class _Profile extends State<Profile> {
                                             return null;
                                           },
                                           enabled: _phoneIsEnable,
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
                                             hintStyle: TextStyle(
                                               fontSize: 16,
-                                              color: Color(0xFF124559),
+                                              color:
+                                                  Color(Strings.darkTurquoise),
                                             ),
                                           ),
                                         ),
@@ -376,9 +378,9 @@ class _Profile extends State<Profile> {
                                                 _phoneIsEnable = true;
                                               });
                                             },
-                                            icon: const Icon(
+                                            icon: Icon(
                                               CupertinoIcons.pencil,
-                                              color: Color(0xFFF0972D),
+                                              color: Color(Strings.orange),
                                               size: 25,
                                             ),
                                           ),
@@ -393,17 +395,17 @@ class _Profile extends State<Profile> {
                                     top: 10,
                                   ),
                                   child: Row(
-                                    children: const [
+                                    children: [
                                       Icon(
                                         CupertinoIcons.calendar,
-                                        color: Color(0xFF124559),
+                                        color: Color(Strings.darkTurquoise),
                                         size: 20,
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.only(left: 5),
+                                        padding: const EdgeInsets.only(left: 5),
                                         child: Text(
-                                          "Account created at",
-                                          style: TextStyle(
+                                          Strings.accountCreatedAt,
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.grey,
                                           ),
@@ -419,9 +421,9 @@ class _Profile extends State<Profile> {
                                     children: [
                                       Text(
                                         super.widget.old ?? "",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 16,
-                                          color: Color(0xFF124559),
+                                          color: Color(Strings.darkTurquoise),
                                         ),
                                       ),
                                     ],

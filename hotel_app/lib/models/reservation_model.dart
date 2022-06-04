@@ -1,8 +1,10 @@
+import 'package:first_app_flutter/models/room_model.dart';
+
 class ReservationModel {
   late String checkIn;
   late String checkOut;
   late String date;
-  late String room;
+  late List<String> rooms = [];
   late String user;
   late String? name;
   late String id;
@@ -19,7 +21,7 @@ class ReservationModel {
       required this.checkOut,
       required this.date,
       required this.price,
-      required this.room,
+      required this.rooms,
       required this.user,
       required this.approved,
       required this.facilities,
@@ -34,7 +36,7 @@ class ReservationModel {
         checkOut: json['checkOut'],
         date: json['date'],
         price: json['price'],
-        room: json['room'],
+        rooms: json['rooms'].cast<String>(),
         user: json['user'],
         approved: json['approved'],
         facilities: json['facilities'].cast<String>(),
@@ -49,7 +51,7 @@ class ReservationModel {
         "checkOut": r.checkOut,
         "date": r.date,
         "price": r.price,
-        "room": r.room,
+        "rooms": r.rooms,
         "user": r.user,
         "approved": r.approved,
         "facilities": r.facilities,

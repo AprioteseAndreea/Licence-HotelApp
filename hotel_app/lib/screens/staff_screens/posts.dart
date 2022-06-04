@@ -1,6 +1,7 @@
 import 'package:first_app_flutter/models/comment_model.dart';
 import 'package:first_app_flutter/models/post_model.dart';
 import 'package:first_app_flutter/screens/services/posts_service.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -105,7 +106,7 @@ class _Posts extends State<Posts> {
                             color: Color(0xFF124559)),
                       ),
                       subtitle: Text('Posted ${postsList[index].date}'),
-                      leading: postsList[index].gender == 'male'
+                      leading: postsList[index].gender == Strings.male
                           ? const Padding(
                               padding: EdgeInsets.only(top: 7, bottom: 4),
                               child: CircleAvatar(

@@ -24,7 +24,7 @@ class _AboutReservation extends State<AboutReservation> {
   String buttonText = Strings.approve;
   final List<String> timeLineList = [];
   Color cardBackgroundColor = Colors.orange;
-
+  String rooms = '';
   void changeColor(Color changeToColor) {
     setState(() {
       cardBackgroundColor = changeToColor;
@@ -34,6 +34,9 @@ class _AboutReservation extends State<AboutReservation> {
   @override
   void initState() {
     super.initState();
+    for (var r in super.widget.reservationModel.rooms) {
+      rooms += (" • ") + r;
+    }
     name = super.widget.reservationModel.name!;
     timeLineList.add(super.widget.reservationModel.checkIn);
     timeLineList.add(super.widget.reservationModel.checkOut);
@@ -129,7 +132,7 @@ class _AboutReservation extends State<AboutReservation> {
                             Padding(
                               padding: const EdgeInsets.only(top: 10, left: 10),
                               child: Text(
-                                'Booking Details',
+                                Strings.bookingDetails,
                                 style: TextStyle(
                                     color: Color(Strings.darkTurquoise),
                                     fontSize: mediaQuery.width * 0.044,
@@ -145,7 +148,7 @@ class _AboutReservation extends State<AboutReservation> {
                             color: Color(0xff848181),
                           ),
                           title: Text(
-                            'User name',
+                            Strings.userName,
                             style: TextStyle(
                               color: const Color(0xff848181),
                               fontSize: mediaQuery.width * 0.040,
@@ -191,7 +194,7 @@ class _AboutReservation extends State<AboutReservation> {
                             color: Color(0xff848181),
                           ),
                           title: Text(
-                            'Room',
+                            Strings.rooms,
                             style: TextStyle(
                               color: const Color(0xff848181),
                               fontSize: mediaQuery.width * 0.040,
@@ -199,7 +202,7 @@ class _AboutReservation extends State<AboutReservation> {
                           ),
                           horizontalTitleGap: 5,
                           subtitle: Text(
-                            super.widget.reservationModel.room,
+                            rooms,
                             style: TextStyle(
                               color: Color(Strings.darkTurquoise),
                               fontSize: mediaQuery.width * 0.040,
@@ -213,7 +216,7 @@ class _AboutReservation extends State<AboutReservation> {
                             color: Color(Strings.orange),
                           ),
                           title: Text(
-                            'Guests',
+                            Strings.guests,
                             style: TextStyle(
                               color: const Color(0xff848181),
                               fontSize: mediaQuery.width * 0.040,
@@ -235,7 +238,7 @@ class _AboutReservation extends State<AboutReservation> {
                             color: Color(0xff848181),
                           ),
                           title: Text(
-                            'Other details',
+                            Strings.otherDetails,
                             style: TextStyle(
                               color: const Color(0xff848181),
                               fontSize: mediaQuery.width * 0.040,
@@ -250,7 +253,7 @@ class _AboutReservation extends State<AboutReservation> {
                               padding: const EdgeInsets.only(
                                   top: 10, left: 10, bottom: 10),
                               child: Text(
-                                'Payment Summary',
+                                Strings.paymentSummary,
                                 style: TextStyle(
                                     color: Color(Strings.darkTurquoise),
                                     fontSize: mediaQuery.width * 0.044,
@@ -263,7 +266,7 @@ class _AboutReservation extends State<AboutReservation> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Subtotal',
+                              Strings.subtotal,
                               style: TextStyle(
                                 color: Color(Strings.darkTurquoise),
                                 fontSize: mediaQuery.width * 0.040,
@@ -287,7 +290,7 @@ class _AboutReservation extends State<AboutReservation> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'VAT (23%)',
+                              Strings.vat,
                               style: TextStyle(
                                 color: Color(Strings.darkTurquoise),
                                 fontSize: mediaQuery.width * 0.040,
@@ -438,7 +441,6 @@ class _AboutReservation extends State<AboutReservation> {
       context: context,
       builder: (context) {
         final reservationProvider = Provider.of<ReservationService>(context);
-
         return AlertDialog(
           title: Text(Strings.deleteReservationQuestion),
           actions: [

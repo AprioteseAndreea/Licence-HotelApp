@@ -1,5 +1,6 @@
 import 'package:first_app_flutter/screens/admin_screens/second_screen_statistics.dart';
 import 'package:first_app_flutter/screens/admin_screens/third_screen_statistics.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'first_screen_statistics.dart';
@@ -27,19 +28,19 @@ class _Statistics extends State<Statistics> {
             ),
             backgroundColor: Colors.white,
             centerTitle: true,
-            title: const Text('Statistics',
-                style: TextStyle(color: Color(0xFF124559))),
-            bottom: const TabBar(
-              labelColor: Color(0xFF124559),
+            title: Text(Strings.statistics,
+                style: const TextStyle(color: Color(0xFF124559))),
+            bottom: TabBar(
+              labelColor: const Color(0xFF124559),
               tabs: [
                 Tab(
-                  text: 'Monthly stats',
+                  text: Strings.monthlyStats,
                 ),
                 Tab(
-                  text: 'Annual stats',
+                  text: Strings.annualStats,
                 ),
                 Tab(
-                  text: 'Rooms stats',
+                  text: Strings.roomsStats,
                 )
               ],
             ),

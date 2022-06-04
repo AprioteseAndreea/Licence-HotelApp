@@ -92,7 +92,7 @@ class _MyBookings extends State<MyBookings> {
                   height: mediaQuery.height * 0.04,
                 ),
                 Text(
-                  'ROOM ${reservation.room}',
+                  'ROOM ${reservation.rooms[0]}',
                   style: TextStyle(
                       color: const Color(0xFFE16A10),
                       fontWeight: FontWeight.bold,

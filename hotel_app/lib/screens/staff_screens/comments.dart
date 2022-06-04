@@ -2,6 +2,7 @@ import 'package:first_app_flutter/models/comment_model.dart';
 import 'package:first_app_flutter/models/post_model.dart';
 import 'package:first_app_flutter/screens/services/posts_service.dart';
 import 'package:first_app_flutter/screens/staff_screens/posts.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +20,7 @@ class Comments extends StatefulWidget {
 
 class _Comments extends State<Comments> {
   late TextEditingController _commentController;
+  late PostsService postsService = PostsService();
 
   @override
   void initState() {
@@ -41,6 +43,16 @@ class _Comments extends State<Comments> {
             'Comments',
             style: TextStyle(color: Color(0xFF124559)),
           ),
+          actions: [
+            if (super.widget.loggedUser == super.widget.currentPost.userName)
+              IconButton(
+                icon: const Icon(
+                  CupertinoIcons.delete,
+                  size: 25,
+                ),
+                onPressed: () => {showAlertDialog(context)},
+              ),
+          ],
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -218,5 +230,44 @@ class _Comments extends State<Comments> {
             ],
           ),
         )));
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(Strings.cancel),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget okButton = TextButton(
+        child: Text(Strings.ok),
+        onPressed: () async {
+          await postsService.deletePostInFirebase(super.widget.currentPost);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Posts(),
+              ));
+        });
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(Strings.deleteRoom),
+      content: Text(Strings.deletePostQuestion),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

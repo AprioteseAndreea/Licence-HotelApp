@@ -30,24 +30,6 @@ class _UserHomeScreen extends State<UserHomeScreen> {
   List<String> placeToVisitPath = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  List<String> facilitiesLabel = [
-    "Spa",
-    "Restaurant",
-    "Pool",
-    "Babysitter",
-    "Car parking",
-    "Pet Friendly"
-  ];
-  List<String> placesToVisit = [
-    "Statue of Liberty",
-    "Central Park",
-    "Rockefeller Center",
-    "Metropolitan Museum of Art",
-    "Empire State Building",
-    "Times Square",
-    "Brooklyn Bridge"
-  ];
-
   GlobalKey globalKey = GlobalKey();
   bool isMenuOpen = false;
   @override
@@ -175,7 +157,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                 'Hi $name!',
                                 style: TextStyle(
                                     fontSize: mediaQuery.width * 0.055,
-                                    color: const Color(0xFF124559),
+                                    color: Color(Strings.darkTurquoise),
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -188,10 +170,10 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Do you want to visit us?',
+                                  Strings.doYouWantToVisitUs,
                                   style: TextStyle(
                                     fontSize: mediaQuery.width * 0.04,
-                                    color: const Color(0xFF124559),
+                                    color: Color(Strings.darkTurquoise),
                                   ),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.ellipsis,
@@ -207,10 +189,10 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                   },
                                   child: Ink(
                                     decoration: BoxDecoration(
-                                        gradient: const LinearGradient(
+                                        gradient: LinearGradient(
                                           colors: [
-                                            Color(0xff124559),
-                                            Color(0xff637e8d)
+                                            Color(Strings.darkTurquoise),
+                                            Color(Strings.lightGrey)
                                           ],
                                           begin: Alignment.centerLeft,
                                           end: Alignment.centerRight,
@@ -223,7 +205,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                           minHeight: mediaQuery.height * 0.04),
                                       alignment: Alignment.center,
                                       child: Text(
-                                        "BOOK NOW",
+                                        Strings.bookNow,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -252,10 +234,10 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Facilities',
+                          Strings.statistics,
                           style: TextStyle(
                               fontSize: mediaQuery.width * 0.045,
-                              color: const Color(0xFF124559),
+                              color: Color(Strings.darkTurquoise),
                               fontWeight: FontWeight.bold),
                         ),
                         TextButton(
@@ -269,10 +251,10 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                           child: Row(
                             children: [
                               Text(
-                                'View info',
+                                Strings.viewInfo,
                                 style: TextStyle(
                                     fontSize: mediaQuery.width * 0.042,
-                                    color: const Color(0xFF124559),
+                                    color: Color(Strings.darkTurquoise),
                                     fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(
@@ -321,7 +303,8 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                           width: mediaQuery.width * 0.1,
                                         ),
                                         Text(
-                                          facilitiesLabel[index].toString(),
+                                          Strings.facilitiesLabel[index]
+                                              .toString(),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize:
@@ -341,10 +324,10 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                     child: Row(
                       children: [
                         Text(
-                          'Places to visit',
+                          Strings.placesToVisitTitle,
                           style: TextStyle(
                               fontSize: mediaQuery.width * 0.045,
-                              color: const Color(0xFF124559),
+                              color: Color(Strings.darkTurquoise),
                               fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -406,7 +389,8 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                               padding: const EdgeInsets.only(
                                                   left: 10, bottom: 5),
                                               child: Text(
-                                                placesToVisit[index].toString(),
+                                                Strings.placesToVisit[index]
+                                                    .toString(),
                                                 style: TextStyle(
                                                     fontSize: mediaQuery.width *
                                                         0.036,

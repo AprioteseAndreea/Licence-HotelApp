@@ -53,21 +53,6 @@ class _ThirdScreenState extends State<ThirdScreen> {
   }
 
   Widget _buildRoomsStatistics(BuildContext context) {
-    // return StreamBuilder<QuerySnapshot>(
-    //     stream: FirebaseFirestore.instance.collection('users').snapshots(),
-    //     builder: (context, snapshot) {
-    //       if (!snapshot.hasData) {
-    //         return const LinearProgressIndicator();
-    //       } else {
-    //         List<dynamic> roomsStatistics = snapshot.data!.docs
-    //             .firstWhere((element) => element.id == 'roomStatistics')[
-    //                 'roomStatistics']
-    //             .map((doc) => RoomStatisticsModel.fromJson(doc))
-    //             .toList();
-    //
-    //         return _buildChart(context, roomsStatistics);
-    //       }
-    //     });
     List<RoomStatisticsModel> roomsStatistics = [];
     RoomStatisticsModel r1 =
         RoomStatisticsModel(status: "free", value: 2, color: "#124559");
@@ -78,9 +63,6 @@ class _ThirdScreenState extends State<ThirdScreen> {
 
     return _buildChart(context, roomsStatistics);
   }
-  // late String status;
-  // late int value;
-  // late String color;
 
   Widget _buildChart(BuildContext context, List<dynamic> roomsStatistics) {
     _roomsStatistics = roomsStatistics.cast<RoomStatisticsModel>();
@@ -96,7 +78,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
               height: 10,
             ),
             Text(
-              'Rooms statistics',
+              Strings.roomsStatistics,
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -106,7 +88,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
               height: 10,
             ),
             Text(
-              'Here you can see the percentage of free rooms and those occupied in real time',
+              Strings.roomsStatisticsTitle,
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(

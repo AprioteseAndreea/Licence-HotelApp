@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/annual_revenue_model.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -70,9 +71,9 @@ class _SecondScreenState extends State<SecondScreen> {
       child: Center(
         child: Column(
           children: <Widget>[
-            const Text(
-              'Annual revenue',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Text(
+              Strings.annualRevenue,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 10,

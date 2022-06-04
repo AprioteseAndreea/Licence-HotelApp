@@ -30,14 +30,14 @@ class _AddPost extends State<AddPost> {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color(0xFF124559),
+        iconTheme: IconThemeData(
+          color: Color(Strings.darkTurquoise),
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'Add new post',
-          style: TextStyle(color: Color(0xFF124559)),
+        title: Text(
+          Strings.addNewPost,
+          style: TextStyle(color: Color(Strings.darkTurquoise)),
         ),
       ),
       body: SafeArea(
@@ -49,7 +49,7 @@ class _AddPost extends State<AddPost> {
             height: mediaQuery.height * 0.35,
           ),
           Text(
-            "Add a new post for your collegues",
+            Strings.addNewPostForColleagues,
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -62,9 +62,9 @@ class _AddPost extends State<AddPost> {
             padding: const EdgeInsets.only(left: 3, right: 3, top: 5),
             child: TextField(
               controller: _postController,
-              decoration: const InputDecoration(
-                hintText: "Add a new post...",
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: Strings.addNewPostWithDots,
+                border: const OutlineInputBorder(),
               ),
               keyboardType: TextInputType.multiline,
               maxLines: 3,
@@ -112,9 +112,9 @@ class _AddPost extends State<AddPost> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Text(
-                  "Post",
-                  style: TextStyle(
+                child: Text(
+                  Strings.post,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

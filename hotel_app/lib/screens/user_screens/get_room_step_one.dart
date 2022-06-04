@@ -2,7 +2,9 @@ import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/services/facilities_service.dart';
 import 'package:first_app_flutter/screens/services/found_room_service.dart';
+import 'package:first_app_flutter/screens/user_screens/get_room_possible_rooms.dart';
 import 'package:first_app_flutter/screens/user_screens/not_found_room.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -32,7 +34,7 @@ class _GetRoom extends State<GetRoom> {
 
   int adults = 1;
   int children = 0;
-
+  int rooms = 1;
   List<FacilityModel> facilitiesCollection = [];
   List<FacilityModel> selectedSpecialFacilities = [];
 
@@ -107,12 +109,40 @@ class _GetRoom extends State<GetRoom> {
       if (adults < 5) {
         adults++;
       }
+      if (adults > 3) {
+        rooms++;
+      }
     });
   }
 
   decrementAdults(BuildContext context) {
     setState(() {
       if (adults > 1) {
+        adults--;
+      }
+      if (rooms > 1) {
+        rooms--;
+      }
+    });
+  }
+
+  incrementRooms(BuildContext context) {
+    setState(() {
+      if (rooms < 20) {
+        rooms++;
+      }
+      if (adults < rooms) {
+        adults++;
+      }
+    });
+  }
+
+  decrementRooms(BuildContext context) {
+    setState(() {
+      if (rooms > 1) {
+        rooms--;
+      }
+      if (adults > rooms * 3) {
         adults--;
       }
     });
@@ -163,7 +193,7 @@ class _GetRoom extends State<GetRoom> {
           backgroundColor: Colors.white,
           centerTitle: true,
           title: const Text(
-            'Grand Hotel',
+            'Step 1',
             style: TextStyle(color: Color(0xFF124559)),
           ),
         ),
@@ -439,6 +469,102 @@ class _GetRoom extends State<GetRoom> {
                     ),
                   ],
                 ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                        top: 10,
+                        right: 10,
+                      ),
+                      child: Text(
+                        "Rooms",
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          color: Color(Strings.darkTurquoise),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Card(
+                                child: Row(
+                                  children: <Widget>[
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, bottom: 8, top: 10),
+                                          child: Text('Rooms',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      mediaQuery.width * 0.030,
+                                                  color:
+                                                      const Color(0xFF333333))),
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 0, right: 0),
+                                          child: IconButton(
+                                            icon: const Icon(
+                                              Icons.remove_circle_outlined,
+                                              size: 20,
+                                              color: Color(0xFFF0972D),
+                                            ),
+                                            tooltip: 'Tap to open date picker',
+                                            onPressed: () {
+                                              decrementRooms(context);
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 0),
+                                          child: Text(rooms.toString(),
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      mediaQuery.width * 0.04,
+                                                  color:
+                                                      const Color(0xFF49758B))),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 0, right: 0),
+                                          child: IconButton(
+                                            icon: const Icon(
+                                              Icons.add_circle_outlined,
+                                              size: 20,
+                                              color: Color(0xFFF0972D),
+                                            ),
+                                            tooltip: 'Tap to open date picker',
+                                            onPressed: () {
+                                              incrementRooms(context);
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ]),
+                      ],
+                    ),
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.only(left: 15, bottom: 8, top: 15),
                   child: Text(
@@ -558,7 +684,7 @@ class _GetRoom extends State<GetRoom> {
                     MaterialButton(
                       onPressed: () async {
                         await foundRoomProvider.checkData(checkIn, checkOut,
-                            adults, children, selectedSpecialFacilities);
+                            adults, children, rooms, selectedSpecialFacilities);
 
                         if (foundRoomProvider.errorMessage == "") {
                           List<RoomModel> rooms = foundRoomProvider.getRooms();
@@ -566,17 +692,19 @@ class _GetRoom extends State<GetRoom> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => GetRoomS2(
-                                    checkInDate: checkIn,
-                                    checkOutDate: checkOut,
-                                    adults: adults,
-                                    children: children,
-                                    selectedSpecialFacilities:
-                                        selectedSpecialFacilities,
-                                    room: rooms[0],
-                                    name: nameController.text,
-                                    otherDetails: _otherDetailsController.text,
-                                  ),
+                                  builder: (context) => PossibleRooms(
+                                      checkInDate: checkIn,
+                                      checkOutDate: checkOut,
+                                      adults: adults,
+                                      children: children,
+                                      selectedSpecialFacilities:
+                                          selectedSpecialFacilities,
+                                      foundedRooms: rooms,
+                                      name: nameController.text,
+                                      otherDetails:
+                                          _otherDetailsController.text,
+                                      isStaff: false,
+                                      email: ""),
                                 ));
                           } else {
                             Navigator.push(

@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/feedback_model.dart';
 import 'package:first_app_flutter/screens/services/feedback_service.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-
 import 'add_feedback.dart';
 
 class Feedback extends StatefulWidget {
@@ -30,14 +28,14 @@ class _Feedback extends State<Feedback> {
     feedbacks = feedbackService.getFeedbacks();
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color(0xFF124559),
+        iconTheme: IconThemeData(
+          color: Color(Strings.darkTurquoise),
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'Feedbacks',
-          style: TextStyle(color: Color(0xFF124559)),
+        title: Text(
+          Strings.feedbacks,
+          style: TextStyle(color: Color(Strings.darkTurquoise)),
         ),
         actions: [
           IconButton(
@@ -72,10 +70,10 @@ class _Feedback extends State<Feedback> {
                     ListTile(
                       title: Text(
                         feedbacks[index].user,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: Color(0xFF124559)),
+                            color: Color(Strings.darkTurquoise)),
                       ),
                       subtitle: Text('Posted ${feedbacks[index].date}'),
                       trailing: SmoothStarRating(

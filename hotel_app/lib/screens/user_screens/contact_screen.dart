@@ -62,7 +62,7 @@ class _Contact extends State<Contact> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "You can find us at:",
+                                Strings.findUs,
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Color(Strings.darkTurquoise),

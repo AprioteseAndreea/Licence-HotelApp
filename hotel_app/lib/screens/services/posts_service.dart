@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:first_app_flutter/models/comment_model.dart';
 import 'package:first_app_flutter/models/post_model.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -21,10 +20,7 @@ class PostsService with ChangeNotifier {
     _posts.clear();
     _instance = FirebaseFirestore.instance;
     CollectionReference users = _instance!.collection('users');
-
     DocumentSnapshot snapshot = await users.doc('posts').get();
-    //DocumentSnapshot reservations = await .doc('reservations').get();
-
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       var roomsData = data['posts'] as List<dynamic>;
@@ -44,6 +40,25 @@ class PostsService with ChangeNotifier {
       postsMap.add(f.toJSON());
     }
     feedbacks.set({
+      'posts': postsMap,
+    });
+  }
+
+  Future<void> deletePostInFirebase(Post p) async {
+    DocumentReference<Map<String, dynamic>> rooms =
+        FirebaseFirestore.instance.collection('users').doc('posts');
+    for (int i = 0; i < _posts.length; i++) {
+      if (_posts[i].userName == p.userName &&
+          _posts[i].post == p.post &&
+          _posts[i].date == p.date) {
+        _posts.remove(_posts[i]);
+      }
+    }
+    final postsMap = <Map<String, dynamic>>[];
+    for (var f in _posts) {
+      postsMap.add(f.toJson());
+    }
+    rooms.set({
       'posts': postsMap,
     });
   }

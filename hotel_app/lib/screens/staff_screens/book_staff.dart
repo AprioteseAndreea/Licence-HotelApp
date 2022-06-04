@@ -4,6 +4,7 @@ import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/services/facilities_service.dart';
 import 'package:first_app_flutter/screens/services/found_room_service.dart';
 import 'package:first_app_flutter/screens/staff_screens/book_staff_two.dart';
+import 'package:first_app_flutter/screens/user_screens/get_room_possible_rooms.dart';
 import 'package:first_app_flutter/screens/user_screens/not_found_room.dart';
 import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
 import 'package:first_app_flutter/utils/strings.dart';
@@ -36,7 +37,7 @@ class _BookStaff extends State<BookStaff> {
 
   int adults = 1;
   int children = 0;
-
+  int rooms = 1;
   List<FacilityModel> facilitiesCollection = [];
   List<FacilityModel> selectedSpecialFacilities = [];
 
@@ -111,12 +112,40 @@ class _BookStaff extends State<BookStaff> {
       if (adults < 5) {
         adults++;
       }
+      if (adults > 3) {
+        rooms++;
+      }
     });
   }
 
   decrementAdults(BuildContext context) {
     setState(() {
       if (adults > 1) {
+        adults--;
+      }
+      if (rooms > 1) {
+        rooms--;
+      }
+    });
+  }
+
+  incrementRooms(BuildContext context) {
+    setState(() {
+      if (rooms < 20) {
+        rooms++;
+      }
+      if (adults < rooms) {
+        adults++;
+      }
+    });
+  }
+
+  decrementRooms(BuildContext context) {
+    setState(() {
+      if (rooms > 1) {
+        rooms--;
+      }
+      if (adults > rooms * 3) {
         adults--;
       }
     });
@@ -166,9 +195,9 @@ class _BookStaff extends State<BookStaff> {
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: const Text(
-            'Grand Hotel',
-            style: TextStyle(color: Color(0xFF124559)),
+          title: Text(
+            Strings.step1,
+            style: TextStyle(color: Color(Strings.darkTurquoise)),
           ),
         ),
         body: SafeArea(
@@ -177,12 +206,12 @@ class _BookStaff extends State<BookStaff> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const StepProgressIndicator(
+                StepProgressIndicator(
                   totalSteps: 3,
                   currentStep: 1,
                   size: 13,
-                  selectedColor: Color(0xFF124559),
-                  unselectedColor: Color(0xFF72B0D4),
+                  selectedColor: Color(Strings.darkTurquoise),
+                  unselectedColor: Color(Strings.lightBlue),
                 ),
                 Form(
                     key: _formkey,
@@ -275,7 +304,7 @@ class _BookStaff extends State<BookStaff> {
                                         right: 10,
                                       ),
                                       child: Text(
-                                        "E-mail",
+                                        Strings.email,
                                         style: TextStyle(
                                           fontSize: 15.0,
                                           color: Color(Strings.darkTurquoise),
@@ -292,12 +321,13 @@ class _BookStaff extends State<BookStaff> {
                                       Expanded(
                                         child: TextFormField(
                                           controller: _emailController,
-                                          validator: (value) => EmailValidator
-                                                  .validate(value)
-                                              ? null
-                                              : 'Please enter client\'s email',
+                                          validator: (value) =>
+                                              EmailValidator.validate(value)
+                                                  ? null
+                                                  : Strings.enterClientEmail,
                                           decoration: InputDecoration(
-                                              hintText: 'Enter client\'s email',
+                                              hintText:
+                                                  Strings.enterClientEmail,
                                               hintStyle:
                                                   const TextStyle(fontSize: 15),
                                               prefixIcon: Container(
@@ -340,9 +370,9 @@ class _BookStaff extends State<BookStaff> {
                                       padding: const EdgeInsets.only(
                                           left: 20, bottom: 8, top: 15),
                                       child: Text(
-                                        'Check-in',
+                                        Strings.checkIn,
                                         style: TextStyle(
-                                            color: const Color(0xFF124559),
+                                            color: Color(Strings.darkTurquoise),
                                             fontSize: mediaQuery.width * 0.04,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -351,9 +381,9 @@ class _BookStaff extends State<BookStaff> {
                                       padding: const EdgeInsets.only(
                                           right: 20, bottom: 8, top: 15),
                                       child: Text(
-                                        'Check-out',
+                                        Strings.checkOut,
                                         style: TextStyle(
-                                            color: const Color(0xFF124559),
+                                            color: Color(Strings.darkTurquoise),
                                             fontSize: mediaQuery.width * 0.04,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -376,10 +406,10 @@ class _BookStaff extends State<BookStaff> {
                                                     size:
                                                         mediaQuery.width * 0.05,
                                                     color:
-                                                        const Color(0xFFF0972D),
+                                                        Color(Strings.orange),
                                                   ),
                                                   tooltip:
-                                                      'Tap to open date picker',
+                                                      Strings.dataPickerToolTip,
                                                   onPressed: () {
                                                     _checkInDate(context);
                                                   },
@@ -431,10 +461,10 @@ class _BookStaff extends State<BookStaff> {
                                                     size:
                                                         mediaQuery.width * 0.05,
                                                     color:
-                                                        const Color(0xFFF0972D),
+                                                        Color(Strings.orange),
                                                   ),
                                                   tooltip:
-                                                      'Tap to open date picker',
+                                                      Strings.dataPickerToolTip,
                                                   onPressed: () {
                                                     _checkOutDate(context);
                                                   },
@@ -509,7 +539,8 @@ class _BookStaff extends State<BookStaff> {
                                                                   left: 10,
                                                                   bottom: 8,
                                                                   top: 10),
-                                                          child: Text('Adults',
+                                                          child: Text(
+                                                              Strings.adults,
                                                               style: TextStyle(
                                                                   fontSize:
                                                                       mediaQuery
@@ -528,15 +559,16 @@ class _BookStaff extends State<BookStaff> {
                                                                   left: 0,
                                                                   right: 0),
                                                           child: IconButton(
-                                                            icon: const Icon(
+                                                            icon: Icon(
                                                               Icons
                                                                   .remove_circle_outlined,
                                                               size: 20,
                                                               color: Color(
-                                                                  0xFFF0972D),
+                                                                  Strings
+                                                                      .orange),
                                                             ),
-                                                            tooltip:
-                                                                'Tap to open date picker',
+                                                            tooltip: Strings
+                                                                .dataPickerToolTip,
                                                             onPressed: () {
                                                               decrementAdults(
                                                                   context);
@@ -565,15 +597,16 @@ class _BookStaff extends State<BookStaff> {
                                                                   left: 0,
                                                                   right: 0),
                                                           child: IconButton(
-                                                            icon: const Icon(
+                                                            icon: Icon(
                                                               Icons
                                                                   .add_circle_outlined,
                                                               size: 20,
                                                               color: Color(
-                                                                  0xFFF0972D),
+                                                                  Strings
+                                                                      .orange),
                                                             ),
-                                                            tooltip:
-                                                                'Tap to open date picker',
+                                                            tooltip: Strings
+                                                                .dataPickerToolTip,
                                                             onPressed: () {
                                                               incrementAdults(
                                                                   context);
@@ -598,7 +631,7 @@ class _BookStaff extends State<BookStaff> {
                                                                   bottom: 8,
                                                                   top: 10),
                                                           child: Text(
-                                                              'Children',
+                                                              Strings.children,
                                                               style: TextStyle(
                                                                   fontSize:
                                                                       mediaQuery
@@ -617,15 +650,16 @@ class _BookStaff extends State<BookStaff> {
                                                                   left: 0,
                                                                   right: 0),
                                                           child: IconButton(
-                                                            icon: const Icon(
+                                                            icon: Icon(
                                                               Icons
                                                                   .remove_circle_outlined,
                                                               size: 20,
                                                               color: Color(
-                                                                  0xFFF0972D),
+                                                                  Strings
+                                                                      .orange),
                                                             ),
-                                                            tooltip:
-                                                                'Tap to open date picker',
+                                                            tooltip: Strings
+                                                                .dataPickerToolTip,
                                                             onPressed: () {
                                                               decrementChildren(
                                                                   context);
@@ -655,12 +689,13 @@ class _BookStaff extends State<BookStaff> {
                                                                   left: 0,
                                                                   right: 0),
                                                           child: IconButton(
-                                                            icon: const Icon(
+                                                            icon: Icon(
                                                               Icons
                                                                   .add_circle_outlined,
                                                               size: 20,
                                                               color: Color(
-                                                                  0xFFF0972D),
+                                                                  Strings
+                                                                      .orange),
                                                             ),
                                                             tooltip:
                                                                 'Tap to open date picker',
@@ -689,7 +724,134 @@ class _BookStaff extends State<BookStaff> {
                                         right: 10,
                                       ),
                                       child: Text(
-                                        'Special facilities',
+                                        Strings.rooms,
+                                        style: TextStyle(
+                                          fontSize: 15.0,
+                                          color: Color(Strings.darkTurquoise),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: <Widget>[
+                                              Card(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 10,
+                                                                  bottom: 8,
+                                                                  top: 10),
+                                                          child: Text(
+                                                              Strings.rooms,
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      mediaQuery
+                                                                              .width *
+                                                                          0.030,
+                                                                  color: const Color(
+                                                                      0xFF333333))),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 0,
+                                                                  right: 0),
+                                                          child: IconButton(
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .remove_circle_outlined,
+                                                              size: 20,
+                                                              color: Color(
+                                                                  Strings
+                                                                      .orange),
+                                                            ),
+                                                            tooltip: Strings
+                                                                .dataPickerToolTip,
+                                                            onPressed: () {
+                                                              decrementRooms(
+                                                                  context);
+                                                            },
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 0),
+                                                          child: Text(
+                                                              rooms.toString(),
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      mediaQuery
+                                                                              .width *
+                                                                          0.04,
+                                                                  color: const Color(
+                                                                      0xFF49758B))),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 0,
+                                                                  right: 0),
+                                                          child: IconButton(
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .add_circle_outlined,
+                                                              size: 20,
+                                                              color: Color(
+                                                                  Strings
+                                                                      .orange),
+                                                            ),
+                                                            tooltip:
+                                                                'Tap to open date picker',
+                                                            onPressed: () {
+                                                              incrementRooms(
+                                                                  context);
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ]),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 10,
+                                        top: 10,
+                                        right: 10,
+                                      ),
+                                      child: Text(
+                                        Strings.specialFacilities,
                                         style: TextStyle(
                                           fontSize: 15.0,
                                           color: Color(Strings.darkTurquoise),
@@ -713,18 +875,20 @@ class _BookStaff extends State<BookStaff> {
                                                   const SizedBox(
                                                     width: 10,
                                                   ),
-                                                  const Icon(
+                                                  Icon(
                                                     Icons.beach_access,
                                                     size: 18,
-                                                    color: Color(0xFFF0972D),
+                                                    color:
+                                                        Color(Strings.orange),
                                                   ),
                                                   const SizedBox(
                                                     width: 10,
                                                   ),
-                                                  const Icon(
+                                                  Icon(
                                                     Icons.bedroom_baby,
                                                     size: 18,
-                                                    color: Color(0xFFF0972D),
+                                                    color:
+                                                        Color(Strings.orange),
                                                   ),
                                                   const SizedBox(
                                                     width: 5,
@@ -740,9 +904,10 @@ class _BookStaff extends State<BookStaff> {
                                                       width: mediaQuery.width *
                                                           0.4,
                                                       child: ElevatedButton(
-                                                        child: const Text(
-                                                          'Choose...',
-                                                          style: TextStyle(
+                                                        child: Text(
+                                                          Strings.choose,
+                                                          style:
+                                                              const TextStyle(
                                                             fontSize: 12,
                                                           ),
                                                         ),
@@ -755,18 +920,20 @@ class _BookStaff extends State<BookStaff> {
                                                   const SizedBox(
                                                     width: 5,
                                                   ),
-                                                  const Icon(
+                                                  Icon(
                                                     Icons.dry_cleaning,
                                                     size: 18,
-                                                    color: Color(0xFFF0972D),
+                                                    color:
+                                                        Color(Strings.orange),
                                                   ),
                                                   const SizedBox(
                                                     width: 10,
                                                   ),
-                                                  const Icon(
+                                                  Icon(
                                                     Icons.fitness_center,
                                                     size: 18,
-                                                    color: Color(0xFFF0972D),
+                                                    color:
+                                                        Color(Strings.orange),
                                                   ),
                                                   const SizedBox(
                                                     width: 10,
@@ -792,6 +959,7 @@ class _BookStaff extends State<BookStaff> {
                                             checkOut,
                                             adults,
                                             children,
+                                            rooms,
                                             selectedSpecialFacilities);
 
                                         if (foundRoomProvider.errorMessage ==
@@ -802,19 +970,20 @@ class _BookStaff extends State<BookStaff> {
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      BookStaffTwo(
-                                                    checkInDate: checkIn,
-                                                    checkOutDate: checkOut,
-                                                    adults: adults,
-                                                    children: children,
-                                                    selectedSpecialFacilities:
-                                                        selectedSpecialFacilities,
-                                                    room: rooms[0],
-                                                    name: _nameController.text,
-                                                    email:
-                                                        _emailController.text,
-                                                  ),
+                                                  builder: (context) => PossibleRooms(
+                                                      checkInDate: checkIn,
+                                                      checkOutDate: checkOut,
+                                                      adults: adults,
+                                                      children: children,
+                                                      selectedSpecialFacilities:
+                                                          selectedSpecialFacilities,
+                                                      foundedRooms: rooms,
+                                                      name:
+                                                          _nameController.text,
+                                                      otherDetails: "",
+                                                      isStaff: true,
+                                                      email: _emailController
+                                                          .text),
                                                 ));
                                           } else {
                                             Navigator.push(

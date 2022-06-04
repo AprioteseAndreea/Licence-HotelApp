@@ -1,3 +1,4 @@
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -19,14 +20,14 @@ class _NotFoundRoom extends State<NotFoundRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color(0xFF124559),
+        iconTheme: IconThemeData(
+          color: Color(Strings.darkTurquoise),
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'Grand Hotel',
-          style: TextStyle(color: Color(0xFF124559)),
+        title: Text(
+          Strings.grandHotel,
+          style: TextStyle(color: Color(Strings.darkTurquoise)),
         ),
       ),
       body: SafeArea(
@@ -40,11 +41,11 @@ class _NotFoundRoom extends State<NotFoundRoom> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    'Sorry! :(',
+                    Strings.sorry,
                     style: TextStyle(
-                      color: Color(0xFF124559),
+                      color: Color(Strings.darkTurquoise),
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
@@ -68,16 +69,17 @@ class _NotFoundRoom extends State<NotFoundRoom> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   SizedBox(
                       width: 280,
                       child: Center(
                         child: Text(
-                          'We could not find any rooms available for the period you want',
+                          Strings.noRoomAvailable,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
-                          style:
-                              TextStyle(fontSize: 17, color: Color(0xFF124559)),
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: Color(Strings.darkTurquoise)),
                           maxLines: 2,
                         ),
                       )),
@@ -88,11 +90,11 @@ class _NotFoundRoom extends State<NotFoundRoom> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    'Please try again!',
+                    Strings.pleaseTryAgain,
                     style: TextStyle(
-                      color: Color(0xFF124559),
+                      color: Color(Strings.darkTurquoise),
                       fontSize: 23,
                       fontWeight: FontWeight.bold,
                     ),

@@ -42,9 +42,9 @@ class _Bookings extends State<Bookings> {
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'Bookings',
-          style: TextStyle(color: Color(0xFF124559)),
+        title: Text(
+          Strings.bookings,
+          style: const TextStyle(color: Color(0xFF124559)),
         ),
       ),
       body: SafeArea(
@@ -63,7 +63,7 @@ class _Bookings extends State<Bookings> {
                     checkOut: reservations[index].checkOut,
                     date: reservations[index].date,
                     price: reservations[index].price,
-                    room: reservations[index].room,
+                    rooms: reservations[index].rooms,
                     user: reservations[index].user,
                     approved: reservations[index].approved,
                     facilities: reservations[index].facilities.cast<String>(),
@@ -121,7 +121,7 @@ class _Bookings extends State<Bookings> {
                                 height: mediaQuery.height * 0.04,
                               ),
                               Text(
-                                'ROOM ${reservations[index].room}',
+                                Strings.room + reservations[index].rooms[0],
                                 style: TextStyle(
                                     color: Color(Strings.orange),
                                     fontWeight: FontWeight.bold,
@@ -170,7 +170,7 @@ class _Bookings extends State<Bookings> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Date: ${formatDate(reservations[index].date)}',
+                          Strings.date + formatDate(reservations[index].date),
                           style: TextStyle(
                               color: Color(Strings.orange),
                               fontSize: mediaQuery.width * 0.04,
@@ -184,7 +184,7 @@ class _Bookings extends State<Bookings> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Text(
-                                    'APPROVED',
+                                    Strings.approved,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
@@ -193,7 +193,7 @@ class _Bookings extends State<Bookings> {
                                   ),
                                 ),
                               )),
-                        if (reservations[index].approved.toString() == 'false')
+                        if (!reservations[index].approved)
                           Padding(
                             padding: const EdgeInsets.all(2),
                             child: GestureDetector(
@@ -210,7 +210,7 @@ class _Bookings extends State<Bookings> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(3),
                                     child: Text(
-                                      'APPROVE',
+                                      Strings.approve,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,

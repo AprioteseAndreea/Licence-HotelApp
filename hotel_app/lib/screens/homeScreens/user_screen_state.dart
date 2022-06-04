@@ -6,6 +6,7 @@ import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
 import 'package:first_app_flutter/screens/user_screens/profile.dart';
 import 'package:first_app_flutter/screens/user_screens/feedback.dart'
     as feedback_screen;
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -103,49 +104,49 @@ class _UserHomeState extends State<UserHomeState> {
           ? _children[_currentIndex]
           : const CircularProgressIndicator(),
       bottomNavigationBar: ConvexAppBar(
-        items: const [
+        items: [
           TabItem(
-              icon: Icon(
+              icon: const Icon(
                 CupertinoIcons.person_alt,
                 size: 22,
                 color: Colors.white,
               ),
-              title: 'Profile'),
+              title: Strings.profile),
           TabItem(
-              icon: Icon(
+              icon: const Icon(
                 CupertinoIcons.book_fill,
                 size: 22,
                 color: Colors.white,
               ),
-              title: 'Book'),
+              title: Strings.book),
           TabItem(
-              icon: Icon(
+              icon: const Icon(
                 CupertinoIcons.home,
                 size: 22,
                 color: Colors.white,
               ),
-              title: 'Home'),
+              title: Strings.home),
           TabItem(
-              icon: Icon(
+              icon: const Icon(
                 CupertinoIcons.star_fill,
                 size: 22,
                 color: Colors.white,
               ),
-              title: 'Feedbacks'),
+              title: Strings.feedbacks),
           TabItem(
-              icon: Icon(
+              icon: const Icon(
                 CupertinoIcons.location,
                 size: 22,
                 color: Colors.white,
               ),
-              title: 'Contact'),
+              title: Strings.contact),
         ],
         top: -20,
         initialActiveIndex: _currentIndex, //optional, default as 0
         onTap: onTabTapped,
         color: Colors.white,
-        activeColor: const Color(0xFFF0972D),
-        backgroundColor: const Color(0xFF124559),
+        activeColor: Color(Strings.orange),
+        backgroundColor: Color(Strings.darkTurquoise),
         height: 50,
       ),
     );

@@ -67,11 +67,11 @@ class SideDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               CupertinoIcons.person_fill,
-              color: Color(0xFF124559),
+              color: Color(Strings.darkTurquoise),
             ),
-            title: textWidget('Profile'),
+            title: textWidget(Strings.profile),
             onTap: () => {
               Navigator.of(context).pop(),
               Navigator.push(
@@ -87,11 +87,11 @@ class SideDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               Icons.border_color,
-              color: Color(0xFFF0972D),
+              color: Color(Strings.orange),
             ),
-            title: textWidget('Book now'),
+            title: textWidget(Strings.bookNowSmall),
             onTap: () => {
               Navigator.of(context).pop(),
               Navigator.push(context,
@@ -99,11 +99,11 @@ class SideDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(
+            leading: Icon(
               CupertinoIcons.book_fill,
-              color: Color(0xFF124559),
+              color: Color(Strings.darkTurquoise),
             ),
-            title: textWidget('My bookings'),
+            title: textWidget(Strings.myBookings),
             onTap: () => {
               Navigator.of(context).pop(),
               Navigator.push(
@@ -114,20 +114,12 @@ class SideDrawer extends StatelessWidget {
                           )))
             },
           ),
-          // ListTile(
-          //   leading: const Icon(
-          //     CupertinoIcons.bubble_left_fill,
-          //     color: Color(0xFFF0972D),
-          //   ),
-          //   title: textWidget('Chat'),
-          //   onTap: () => {Navigator.of(context).pop()},
-          // ),
           ListTile(
             leading: Icon(
               Icons.spa,
               color: Color(Strings.orange),
             ),
-            title: textWidget('Facilities'),
+            title: textWidget(Strings.facilities),
             onTap: () => {
               Navigator.of(context).pop(),
               Navigator.push(
@@ -141,7 +133,7 @@ class SideDrawer extends StatelessWidget {
               CupertinoIcons.star_fill,
               color: Color(Strings.darkTurquoise),
             ),
-            title: textWidget('Feedbacks'),
+            title: textWidget(Strings.feedbacks),
             onTap: () => {
               Navigator.of(context).pop(),
               Navigator.push(
@@ -150,13 +142,12 @@ class SideDrawer extends StatelessWidget {
                       builder: (context) => const feedback_screen.Feedback()))
             },
           ),
-
           ListTile(
             leading: Icon(
               CupertinoIcons.location_fill,
               color: Color(Strings.orange),
             ),
-            title: textWidget('Contact'),
+            title: textWidget(Strings.contact),
             onTap: () => {
               Navigator.of(context).pop(),
               Navigator.push(context,
@@ -168,7 +159,7 @@ class SideDrawer extends StatelessWidget {
               CupertinoIcons.square_arrow_right,
               color: Color(Strings.darkTurquoise),
             ),
-            title: textWidget('Logout'),
+            title: textWidget(Strings.logout),
             onTap: () async =>
                 {firebaseAuth.signOut(), await loginProvider.logout()},
           ),
@@ -179,9 +170,9 @@ class SideDrawer extends StatelessWidget {
 
   Widget textWidget(String text) {
     return Text(text,
-        style: const TextStyle(
+        style: TextStyle(
             fontSize: 16,
-            color: Color(0xFF124559),
+            color: Color(Strings.darkTurquoise),
             fontWeight: FontWeight.bold));
   }
 }

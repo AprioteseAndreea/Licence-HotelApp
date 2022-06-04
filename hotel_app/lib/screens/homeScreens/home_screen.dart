@@ -65,7 +65,7 @@ class _HomeState extends State<HomeScreen> {
 
   Future<void> actualizeInformation() async {
     ReservationService reservationService = ReservationService();
-    await reservationService.actualizeInformation();
+    // await reservationService.actualizeInformation();
   }
 
   Future<void> instantiateDataForUser() async {

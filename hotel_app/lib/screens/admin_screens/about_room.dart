@@ -185,103 +185,69 @@ class _AboutRoom extends State<AboutRoom> {
                                 )
                               ],
                             ),
-                            Row(
-                              children: [
-                                sectionTitle(Strings.price),
-                              ],
-                            ),
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 10,
-                                      top: 10,
-                                      right: 10,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.euro,
-                                            color: Color(Strings.orange)),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          priceController,
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color:
-                                                  Color(Strings.darkTurquoise),
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 10,
-                                      top: 10,
-                                      right: 10,
-                                    ),
-                                    child: IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      color: Color(Strings.orange),
-                                      onPressed: () {
-                                        _showMyDialog(context,
-                                            Strings.modifyPriceForRoom);
-                                      },
-                                    ),
-                                  ),
-                                ]),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                sectionTitle(Strings.maxGuests),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 10,
-                                    top: 10,
-                                    right: 10,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.people,
-                                          color: Color(Strings.orange)),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        maxGuestsController,
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Color(Strings.darkTurquoise),
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
+                            ListTile(
+                              leading: Icon(
+                                Icons.euro,
+                                size: 30,
+                                color: Color(Strings.orange),
+                              ),
+                              title: Text(
+                                Strings.price,
+                                style: TextStyle(
+                                  color: const Color(0xff848181),
+                                  fontSize: mediaQuery.width * 0.040,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 10,
-                                    top: 10,
-                                    right: 10,
-                                  ),
-                                  child: IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    color: Color(Strings.orange),
-                                    onPressed: () {
-                                      _showMyDialog(context,
-                                          Strings.modifyMaxGuestsForRoom);
-                                    },
-                                  ),
-                                )
-                              ],
+                              ),
+                              horizontalTitleGap: 5,
+                              subtitle: Text(
+                                priceController,
+                                style: TextStyle(
+                                  color: Color(Strings.darkTurquoise),
+                                  fontSize: mediaQuery.width * 0.040,
+                                ),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(
+                                  Icons.edit,
+                                  size: 25,
+                                ),
+                                onPressed: () => {
+                                  _showMyDialog(
+                                      context, Strings.modifyPriceForRoom)
+                                },
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(
+                                Icons.people,
+                                size: 30,
+                                color: Color(Strings.orange),
+                              ),
+                              title: Text(
+                                Strings.maxGuests,
+                                style: TextStyle(
+                                  color: const Color(0xff848181),
+                                  fontSize: mediaQuery.width * 0.040,
+                                ),
+                              ),
+                              horizontalTitleGap: 5,
+                              subtitle: Text(
+                                maxGuestsController,
+                                style: TextStyle(
+                                  color: Color(Strings.darkTurquoise),
+                                  fontSize: mediaQuery.width * 0.040,
+                                ),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(
+                                  Icons.edit,
+                                  size: 25,
+                                ),
+                                onPressed: () => {
+                                  _showMyDialog(
+                                      context, Strings.modifyMaxGuestsForRoom)
+                                },
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
