@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService with ChangeNotifier {
-  static final UserService _singletionUsers = UserService._interval();
+  static final UserService _singletonUsers = UserService._interval();
   UserService._interval();
   FirebaseFirestore? _instance;
   final List<User> _users = [];
@@ -26,7 +26,7 @@ class UserService with ChangeNotifier {
   }
 
   factory UserService() {
-    return _singletionUsers;
+    return _singletonUsers;
     // getUsersCollectionFromFirebase();
     // getNameFromSharedPrefs();
     // getStaffCollectionFromFirebase();
@@ -42,11 +42,27 @@ class UserService with ChangeNotifier {
       var categoriesData = data['users'] as List<dynamic>;
       for (var catData in categoriesData) {
         User user = User.fromJson(catData);
-        _users.add(user);
+        if (!verifyIfAlreadyUserExist(user)) {
+          _users.add(user);
+        }
       }
     }
 
     getNameFromSharedPrefs();
+  }
+
+  bool verifyIfAlreadyUserExist(User user) {
+    for (var u in _users) {
+      if (u.email == user.email) return true;
+    }
+    return false;
+  }
+
+  bool verifyIfAlreadyStaffExist(Staff staff) {
+    for (var s in _staff) {
+      if (s.email == staff.email) return true;
+    }
+    return false;
   }
 
   Future<void> getStaffCollectionFromFirebase() async {
@@ -59,7 +75,9 @@ class UserService with ChangeNotifier {
       var staffData = data['staff'] as List<dynamic>;
       for (var s in staffData) {
         Staff staff = Staff.fromJson(s);
-        _staff.add(staff);
+        if (!verifyIfAlreadyStaffExist(staff)) {
+          _staff.add(staff);
+        }
       }
     }
 

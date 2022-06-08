@@ -5,6 +5,7 @@ import 'package:first_app_flutter/screens/admin_screens/staff_screen.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
+import 'package:first_app_flutter/utils/form_text_field_title.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -135,24 +136,7 @@ class _AddStaff extends State<AddStaff> {
                             width: mediaQuery.width * 0.9,
                             child: Column(
                               children: [
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 10,
-                                        top: 10,
-                                        right: 10,
-                                      ),
-                                      child: Text(
-                                        Strings.fullName,
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          color: Color(Strings.darkTurquoise),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                TextFormFieldTitle(title: Strings.fullName),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 10, top: 10, right: 10, bottom: 10),
@@ -200,24 +184,7 @@ class _AddStaff extends State<AddStaff> {
                                     ],
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 10,
-                                        top: 5,
-                                        right: 10,
-                                      ),
-                                      child: Text(
-                                        "E-mail",
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          color: Color(Strings.darkTurquoise),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                TextFormFieldTitle(title: Strings.email),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 10, top: 10, right: 10, bottom: 10),
@@ -267,24 +234,7 @@ class _AddStaff extends State<AddStaff> {
                                     ],
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 10,
-                                        top: 5,
-                                        right: 10,
-                                      ),
-                                      child: Text(
-                                        Strings.phoneNumber,
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          color: Color(Strings.darkTurquoise),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                TextFormFieldTitle(title: Strings.phoneNumber),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 10, top: 10, right: 10, bottom: 10),
@@ -337,24 +287,7 @@ class _AddStaff extends State<AddStaff> {
                                     ],
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 10,
-                                        top: 5,
-                                        right: 10,
-                                      ),
-                                      child: Text(
-                                        Strings.occupation,
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          color: Color(Strings.darkTurquoise),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                TextFormFieldTitle(title: Strings.occupation),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 10, top: 10, right: 10, bottom: 10),
@@ -390,24 +323,7 @@ class _AddStaff extends State<AddStaff> {
                                                     color: Color(0xFF9a9b9c))))),
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 10,
-                                        top: 5,
-                                        right: 10,
-                                      ),
-                                      child: Text(
-                                        Strings.salary,
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          color: Color(Strings.darkTurquoise),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                TextFormFieldTitle(title: Strings.salary),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 10, top: 10, right: 10, bottom: 10),
@@ -460,24 +376,7 @@ class _AddStaff extends State<AddStaff> {
                                     ],
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 10,
-                                        top: 5,
-                                        right: 10,
-                                      ),
-                                      child: Text(
-                                        Strings.gender,
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          color: Color(Strings.darkTurquoise),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                TextFormFieldTitle(title: Strings.gender),
                                 CupertinoRadioChoice(
                                   choices: Strings.genderMap,
                                   onChange: onGenderSelected,

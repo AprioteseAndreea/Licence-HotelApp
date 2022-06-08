@@ -3,7 +3,6 @@ import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/services/facilities_service.dart';
 import 'package:first_app_flutter/screens/services/found_room_service.dart';
-import 'package:first_app_flutter/screens/staff_screens/book_staff_two.dart';
 import 'package:first_app_flutter/screens/user_screens/get_room_possible_rooms.dart';
 import 'package:first_app_flutter/screens/user_screens/not_found_room.dart';
 import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
@@ -58,7 +57,7 @@ class _BookStaff extends State<BookStaff> {
       builder: (context) {
         final _multipleNotifier = Provider.of<MultipleNotifier>(context);
         return AlertDialog(
-          title: const Text('Select your special facilities'),
+          title: Text(Strings.selectYourSpecialFacilities),
           content: SingleChildScrollView(
             child: SizedBox(
                 width: double.infinity,
@@ -83,7 +82,7 @@ class _BookStaff extends State<BookStaff> {
           actions: [
             // ignore: deprecated_member_use
             FlatButton(
-              child: const Text('OK'),
+              child: Text(Strings.ok),
               onPressed: () {
                 selectedSpecialFacilities = _multipleNotifier.selectedItems;
                 Navigator.of(context).pop();
@@ -258,9 +257,10 @@ class _BookStaff extends State<BookStaff> {
                                           controller: _nameController,
                                           validator: (val) => val!.isNotEmpty
                                               ? null
-                                              : 'Please enter client\'s name',
+                                              : Strings.enterClientEmail,
                                           decoration: InputDecoration(
-                                              hintText: 'Enter client\'s name',
+                                              hintText:
+                                                  Strings.enterClientEmail,
                                               hintStyle:
                                                   const TextStyle(fontSize: 15),
                                               prefixIcon: Container(

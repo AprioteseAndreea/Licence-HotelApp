@@ -25,9 +25,18 @@ class FacilityService with ChangeNotifier {
       var facilitiesData = data['extra'] as List<dynamic>;
       for (var facilityData in facilitiesData) {
         FacilityModel f = FacilityModel.fromJson(facilityData);
-        _facilities.add(f);
+        if (!verifyIfAlreadyFacilityExist(f)) {
+          _facilities.add(f);
+        }
       }
     }
+  }
+
+  bool verifyIfAlreadyFacilityExist(FacilityModel facility) {
+    for (var f in _facilities) {
+      if (f.facility == facility.facility) return true;
+    }
+    return false;
   }
 
   Future<void> addFacilityInFirebase(FacilityModel f) async {

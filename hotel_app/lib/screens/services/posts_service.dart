@@ -26,9 +26,18 @@ class PostsService with ChangeNotifier {
       var roomsData = data['posts'] as List<dynamic>;
       for (var roomData in roomsData) {
         Post post = Post.fromJson(roomData);
-        _posts.add(post);
+        if (!verifyIfAlreadyPostExist(post)) {
+          _posts.add(post);
+        }
       }
     }
+  }
+
+  bool verifyIfAlreadyPostExist(Post post) {
+    for (var p in _posts) {
+      if (p.post == post.post && p.userName == post.userName) return true;
+    }
+    return false;
   }
 
   Future<void> addPostInFirebase(Post p) async {

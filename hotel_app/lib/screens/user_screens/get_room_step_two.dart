@@ -3,6 +3,7 @@ import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/screens/user_screens/confirm_reservation.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -17,7 +18,7 @@ class GetRoomS2 extends StatefulWidget {
   final int adults, children;
   final List<FacilityModel> selectedSpecialFacilities;
   final List<RoomModel> foundedRooms;
-  final String name;
+  final String name, email;
   final String otherDetails;
   const GetRoomS2(
       {Key? key,
@@ -28,6 +29,7 @@ class GetRoomS2 extends StatefulWidget {
       required this.selectedSpecialFacilities,
       required this.foundedRooms,
       required this.name,
+      required this.email,
       required this.otherDetails})
       : super(key: key);
   @override
@@ -41,6 +43,8 @@ class _GetRoomS2 extends State<GetRoomS2> {
   late int roomCost = 0;
   late int nights = 0;
   late int total = 0;
+  late int guests = 0;
+
   @override
   void initState() {
     super.initState();
@@ -61,11 +65,41 @@ class _GetRoomS2 extends State<GetRoomS2> {
     }
     roomCost = roomsTotal * nights;
     total = roomCost + extraFacilities;
+    guests = super.widget.adults + super.widget.children;
+  }
+
+  Widget showFacilities(double fontSize) {
+    if (facilitiesEnumeration.isNotEmpty) {
+      return Text(
+        facilitiesEnumeration,
+        style: TextStyle(
+          color: Color(Strings.darkTurquoise),
+          fontSize: fontSize,
+        ),
+      );
+    } else {
+      return Text(
+        Strings.noFacilitiesSelected,
+        style: TextStyle(
+          color: Color(Strings.darkTurquoise),
+          fontSize: fontSize,
+        ),
+      );
+    }
+  }
+
+  String formatDate(String date) {
+    final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
+    final DateFormat serverFormater = DateFormat('MMM d, yyyy');
+    final DateTime displayDate = displayFormater.parse(date);
+    final String formatted = serverFormater.format(displayDate);
+    return formatted;
   }
 
   @override
   Widget build(BuildContext context) {
     final reservationProvider = Provider.of<ReservationService>(context);
+    Size mediaQuery = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
@@ -95,457 +129,340 @@ class _GetRoomS2 extends State<GetRoomS2> {
               const SizedBox(
                 height: 15,
               ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
-                    Text(
-                      'CHECK-IN DATE',
-                      style: TextStyle(
-                          color: Color(0xFF124559),
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'CHECK-OUT DATE',
-                      style: TextStyle(
-                          color: Color(0xFF124559),
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ]),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Card(
-                    child: Row(
-                      children: <Widget>[
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, bottom: 8, top: 10),
-                              child: Text('${super.widget.checkInDate.day}',
-                                  style: const TextStyle(
-                                      fontSize: 25, color: Color(0xFF49758B))),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(left: 10, right: 10),
-                              child: Icon(
-                                Icons.horizontal_rule_rounded,
-                                color: Colors.grey,
-                                size: 30.0,
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    ' ${super.widget.checkInDate.year}',
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFFF0972D),
-                                    ),
-                                  ),
-                                  Text(
-                                    DateFormat.MMMM()
-                                        .format(super.widget.checkInDate),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF124559),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Card(
-                    child: Row(
-                      children: <Widget>[
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, bottom: 8, top: 10),
-                              child: Text('${super.widget.checkOutDate.day}',
-                                  style: const TextStyle(
-                                      fontSize: 25, color: Color(0xFF49758B))),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(left: 10, right: 10),
-                              child: Icon(
-                                Icons.horizontal_rule_rounded,
-                                color: Colors.grey,
-                                size: 30.0,
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    ' ${super.widget.checkOutDate.year}',
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFFF0972D),
-                                    ),
-                                  ),
-                                  Text(
-                                    DateFormat.MMMM()
-                                        .format(super.widget.checkOutDate),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF124559),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Card(
-                    child: Row(
-                      children: <Widget>[
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/people.png',
-                              height: 50,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '${(super.widget.adults + super.widget.children)}',
-                              style: const TextStyle(
-                                  color: Color(0xFFF0972D),
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            const Text(
-                              'guests',
-                              style: TextStyle(
-                                  color: Color(0xFF124559),
-                                  fontSize: 17,
-                                  fontStyle: FontStyle.italic),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Icon(
-                              Icons.horizontal_rule_rounded,
-                              color: Colors.grey,
-                              size: 30.0,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Image.asset(
-                              'assets/images/night.png',
-                              height: 50,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '$nights',
-                              style: const TextStyle(
-                                  color: Color(0xFFF0972D),
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            const Text(
-                              'nights',
-                              style: TextStyle(
-                                  color: Color(0xFF124559),
-                                  fontSize: 17,
-                                  fontStyle: FontStyle.italic),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Card(
-                    child: Row(
-                      children: <Widget>[
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Text(
-                              'FACILITIES',
-                              style: TextStyle(
-                                  color: Color(0xFF124559),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                    constraints: const BoxConstraints(
-                                        minWidth: 100, maxWidth: 250),
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Text(
-                                      facilitiesEnumeration,
-                                      style: const TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          fontSize: 14,
-                                          color: Color(0xFF124559)),
-                                    )),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Image.asset(
-                          'assets/images/facilities.png',
-                          height: 50,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const Divider(
-                color: Color(0xFF124559),
-                thickness: 2,
-              ),
               Card(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    ListTile(
-                      title: Text(
-                        'ROOMS: $roomsNumber',
-                        style: const TextStyle(
-                            color: Color(0xFF124559),
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      leading: Image.asset(
-                        'assets/images/key.jpg',
-                        height: 50,
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Icon(
-                            Icons.euro,
-                            color: Color(0xFF124559),
-                            size: 25.0,
-                          ),
-                          Text(
-                            roomCost.toString(),
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF72B0D4),
+                semanticContainer: true,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                elevation: 6,
+                shadowColor: Color(Strings.darkTurquoise),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                color: const Color(0xFFFFFFFF),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, left: 10),
+                            child: Text(
+                              Strings.bookingDetails,
+                              style: TextStyle(
+                                  color: Color(Strings.darkTurquoise),
+                                  fontSize: mediaQuery.width * 0.044,
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ),
+                          )
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Card(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    ListTile(
-                      title: const Text(
-                        'Room',
-                        style: TextStyle(
-                          color: Color(0xFF124559),
-                          fontSize: 17,
+                      ListTile(
+                        leading: Icon(
+                          Icons.person,
+                          size: 30,
+                          color: Color(Strings.orange),
+                        ),
+                        title: Text(
+                          Strings.fullName,
+                          style: TextStyle(
+                            color: const Color(0xff848181),
+                            fontSize: mediaQuery.width * 0.040,
+                          ),
+                        ),
+                        horizontalTitleGap: 5,
+                        subtitle: Text(
+                          super.widget.name,
+                          style: TextStyle(
+                            color: Color(Strings.darkTurquoise),
+                            fontSize: mediaQuery.width * 0.040,
+                          ),
                         ),
                       ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Icon(
-                            Icons.euro,
-                            color: Color(0xFF124559),
-                            size: 25.0,
+                      ListTile(
+                        leading: Icon(
+                          Icons.email,
+                          size: 30,
+                          color: Color(Strings.orange),
+                        ),
+                        title: Text(
+                          Strings.email,
+                          style: TextStyle(
+                            color: const Color(0xff848181),
+                            fontSize: mediaQuery.width * 0.040,
                           ),
-                          Text(
-                            '$roomCost',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF72B0D4),
+                        ),
+                        horizontalTitleGap: 5,
+                        subtitle: Text(
+                          super.widget.email,
+                          style: TextStyle(
+                            color: Color(Strings.darkTurquoise),
+                            fontSize: mediaQuery.width * 0.040,
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.calendar_today,
+                          size: 30,
+                          color: Color(Strings.orange),
+                        ),
+                        title: Text(
+                          Strings.checkInCheckOut,
+                          style: TextStyle(
+                            color: const Color(0xff848181),
+                            fontSize: mediaQuery.width * 0.040,
+                          ),
+                        ),
+                        horizontalTitleGap: 5,
+                        subtitle: Text(
+                          formatDate(super.widget.checkInDate.toString()) +
+                              ' - ' +
+                              formatDate(super.widget.checkOutDate.toString()),
+                          style: TextStyle(
+                            color: Color(Strings.darkTurquoise),
+                            fontSize: mediaQuery.width * 0.040,
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.people,
+                          size: 30,
+                          color: Color(Strings.orange),
+                        ),
+                        title: Text(
+                          Strings.guests,
+                          style: TextStyle(
+                            color: const Color(0xff848181),
+                            fontSize: mediaQuery.width * 0.040,
+                          ),
+                        ),
+                        horizontalTitleGap: 5,
+                        subtitle: Text(
+                          '$guests (${super.widget.adults} adults + ${super.widget.children} children)',
+                          style: TextStyle(
+                            color: Color(Strings.darkTurquoise),
+                            fontSize: mediaQuery.width * 0.040,
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          CupertinoIcons.tag_fill,
+                          size: 30,
+                          color: Color(Strings.orange),
+                        ),
+                        title: Text(
+                          Strings.rooms,
+                          style: TextStyle(
+                            color: const Color(0xff848181),
+                            fontSize: mediaQuery.width * 0.040,
+                          ),
+                        ),
+                        horizontalTitleGap: 5,
+                        subtitle: Text(
+                          roomsNumber,
+                          style: TextStyle(
+                            color: Color(Strings.darkTurquoise),
+                            fontSize: mediaQuery.width * 0.040,
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.spa,
+                          size: 30,
+                          color: Color(Strings.orange),
+                        ),
+                        title: Text(
+                          Strings.facilities,
+                          style: TextStyle(
+                            color: const Color(0xff848181),
+                            fontSize: mediaQuery.width * 0.040,
+                          ),
+                        ),
+                        horizontalTitleGap: 5,
+                        subtitle: showFacilities(mediaQuery.width * 0.040),
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 10, bottom: 10),
+                            child: Text(
+                              Strings.paymentSummary,
+                              style: TextStyle(
+                                  color: Color(Strings.darkTurquoise),
+                                  fontSize: mediaQuery.width * 0.044,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    ListTile(
-                      title: const Text(
-                        'Extra Facilities',
-                        style:
-                            TextStyle(color: Color(0xFF124559), fontSize: 17),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Icon(
-                            Icons.euro,
-                            color: Color(0xFF124559),
-                            size: 25.0,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            Strings.roomCost,
+                            style: TextStyle(
+                              color: Color(Strings.darkTurquoise),
+                              fontSize: mediaQuery.width * 0.040,
+                            ),
                           ),
                           Text(
-                            '$extraFacilities',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF72B0D4),
+                            "\$" + roomCost.toString(),
+                            style: TextStyle(
+                              color: Color(Strings.darkTurquoise),
+                              fontSize: mediaQuery.width * 0.040,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    ListTile(
-                      title: const Text(
-                        'Total:',
-                        style: TextStyle(
-                            color: Color(0xFFF0972D),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Icon(
-                            Icons.euro,
-                            color: Color(0xFF124559),
-                            size: 25.0,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            Strings.facilitiesCost,
+                            style: TextStyle(
+                              color: Color(Strings.darkTurquoise),
+                              fontSize: mediaQuery.width * 0.040,
+                            ),
                           ),
                           Text(
-                            '$total',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF72B0D4),
+                            "\$" + extraFacilities.toString(),
+                            style: TextStyle(
+                              color: Color(Strings.darkTurquoise),
+                              fontSize: mediaQuery.width * 0.040,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  MaterialButton(
-                    onPressed: () async {
-                      List<String> facilities = [];
-                      for (var f in super.widget.selectedSpecialFacilities) {
-                        facilities.add(f.facility);
-                      }
-                      List<String> rooms = [];
-                      for (var r in super.widget.foundedRooms) {
-                        rooms.add(r.number);
-                      }
-                      final _prefs = await SharedPreferences.getInstance();
-                      final _value = _prefs.getString('email');
-                      final _name = _prefs.getString('name');
-
-                      if (_value != null) {
-                        ReservationModel r = ReservationModel(
-                            checkIn: super.widget.checkInDate.toString(),
-                            checkOut: super.widget.checkOutDate.toString(),
-                            date: DateTime.now().toString(),
-                            price: total,
-                            rooms: rooms,
-                            user: _value,
-                            approved: false,
-                            facilities: facilities,
-                            guests: super.widget.adults + super.widget.children,
-                            name: super.widget.name != ""
-                                ? super.widget.name
-                                : _name,
-                            id: DateTime.now().hour.toString() +
-                                DateTime.now().minute.toString() +
-                                DateTime.now().day.toString() +
-                                DateTime.now().month.toString() +
-                                DateTime.now().year.toString(),
-                            otherDetails: super.widget.otherDetails);
-
-                        await reservationProvider.addReservationsInFirebase(r);
-                        await reservationProvider
-                            .getReservationsCollectionFromFirebase();
-                        //await reservationProvider.actualizeInformation();
-                      }
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ConfirmReservation(),
-                          ));
-                    },
-                    height: 40,
-                    minWidth: 200,
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: const Text(
-                      "Confirm reservation",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            Strings.subtotal,
+                            style: TextStyle(
+                              color: Color(Strings.darkTurquoise),
+                              fontSize: mediaQuery.width * 0.040,
+                            ),
+                          ),
+                          Text(
+                            "\$" + total.toString(),
+                            style: TextStyle(
+                              color: Color(Strings.darkTurquoise),
+                              fontSize: mediaQuery.width * 0.040,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            Strings.vat,
+                            style: TextStyle(
+                              color: Color(Strings.darkTurquoise),
+                              fontSize: mediaQuery.width * 0.040,
+                            ),
+                          ),
+                          Text(
+                            "\$" + ((total * 23) / 100).toString(),
+                            style: TextStyle(
+                              color: Color(Strings.darkTurquoise),
+                              fontSize: mediaQuery.width * 0.040,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            Strings.total,
+                            style: TextStyle(
+                              color: Color(Strings.darkTurquoise),
+                              fontSize: mediaQuery.width * 0.040,
+                            ),
+                          ),
+                          Text(
+                            "\$" + (((total * 23) / 100) + total).toString(),
+                            style: TextStyle(
+                              color: Color(Strings.darkTurquoise),
+                              fontSize: mediaQuery.width * 0.040,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          MaterialButton(
+                            onPressed: () async {
+                              List<String> facilities = [];
+                              for (var f
+                                  in super.widget.selectedSpecialFacilities) {
+                                facilities.add(f.facility);
+                              }
+                              List<String> rooms = [];
+                              for (var r in super.widget.foundedRooms) {
+                                rooms.add(r.number);
+                              }
+
+                              ReservationModel r = ReservationModel(
+                                  checkIn: super.widget.checkInDate.toString(),
+                                  checkOut:
+                                      super.widget.checkOutDate.toString(),
+                                  date: DateTime.now().toString(),
+                                  price: total,
+                                  rooms: rooms,
+                                  user: super.widget.email,
+                                  approved: false,
+                                  facilities: facilities,
+                                  guests: super.widget.adults +
+                                      super.widget.children,
+                                  name: super.widget.name,
+                                  id: DateTime.now().hour.toString() +
+                                      DateTime.now().minute.toString() +
+                                      DateTime.now().day.toString() +
+                                      DateTime.now().month.toString() +
+                                      DateTime.now().year.toString(),
+                                  otherDetails: super.widget.otherDetails);
+
+                              await reservationProvider
+                                  .addReservationsInFirebase(r);
+                              await reservationProvider
+                                  .getReservationsCollectionFromFirebase();
+                              //await reservationProvider.actualizeInformation();
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ConfirmReservation(),
+                                  ));
+                            },
+                            height: 40,
+                            minWidth: 200,
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: const Text(
+                              "Confirm reservation",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ],
           ),

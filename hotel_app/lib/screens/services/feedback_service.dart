@@ -28,9 +28,19 @@ class FeedbackService with ChangeNotifier {
       var feedbacksData = data['feedbacks'] as List<dynamic>;
       for (var f in feedbacksData) {
         FeedbackModel feedback = FeedbackModel.fromJson(f);
-        _feedbacks.add(feedback);
+        if (!verifyIfAlreadyUserExist(feedback)) {
+          _feedbacks.add(feedback);
+        }
       }
     }
+  }
+
+  bool verifyIfAlreadyUserExist(FeedbackModel feedback) {
+    for (var f in _feedbacks) {
+      if (f.user == feedback.user && f.feedback == feedback.feedback)
+        return true;
+    }
+    return false;
   }
 
   Future<void> addFeedbackInFirebase(FeedbackModel f) async {

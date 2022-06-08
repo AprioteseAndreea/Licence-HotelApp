@@ -34,9 +34,18 @@ class RoomsService with ChangeNotifier {
       var roomsData = data['rooms'] as List<dynamic>;
       for (var roomData in roomsData) {
         RoomModel room = RoomModel.fromJson(roomData);
-        _rooms.add(room);
+        if (!verifyIfRoomAlreadyExist(room)) {
+          _rooms.add(room);
+        }
       }
     }
+  }
+
+  bool verifyIfRoomAlreadyExist(RoomModel roomModel) {
+    for (var r in _rooms) {
+      if (r.number == roomModel.number) return true;
+    }
+    return false;
   }
 
   bool verifyRoomNumber(String number) {

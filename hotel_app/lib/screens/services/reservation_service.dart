@@ -31,10 +31,24 @@ class ReservationService with ChangeNotifier {
       var reservationsData = data['reservations'] as List<dynamic>;
       for (var r in reservationsData) {
         ReservationModel f = ReservationModel.fromJson(r);
-        _reservations.add(f);
+        if (!verifyIfAlreadyReservationExist(f)) {
+          _reservations.add(f);
+        }
       }
     }
     // sortReservationByDate();
+  }
+
+  bool verifyIfAlreadyReservationExist(ReservationModel reservationModel) {
+    for (var r in _reservations) {
+      if (r.user == reservationModel.user &&
+          r.checkIn == reservationModel.checkIn &&
+          r.guests == reservationModel.guests &&
+          r.checkOut == reservationModel.checkOut &&
+          r.id == reservationModel.id &&
+          r.price == reservationModel.price) return true;
+    }
+    return false;
   }
 
   Future<List<ReservationModel>> getReservationsFromFirebase() async {

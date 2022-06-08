@@ -210,7 +210,7 @@ class _StaffProfile extends State<StaffProfile> {
                                       right: 10,
                                     ),
                                     child: Text(
-                                      "E-mail",
+                                      Strings.email,
                                       style: TextStyle(
                                         fontSize: 15.0,
                                         color: Color(Strings.darkTurquoise),

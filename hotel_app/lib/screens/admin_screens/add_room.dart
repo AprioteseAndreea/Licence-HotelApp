@@ -105,8 +105,8 @@ class _AddRoom extends State<AddRoom> {
                   child: TextField(
                     controller: _priceController,
                     decoration: InputDecoration(
-                      prefixIcon:
-                          const Icon(Icons.euro, color: Color(0xFF124559)),
+                      prefixIcon: const Icon(CupertinoIcons.money_dollar,
+                          color: Color(0xFF124559)),
                       border: const OutlineInputBorder(),
                       hintText: Strings.priceSmall,
                     ),

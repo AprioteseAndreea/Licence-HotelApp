@@ -55,14 +55,14 @@ class _Posts extends State<Posts> {
     postsList = postsService.getPosts();
     return Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Color(0xFF124559),
+          iconTheme: IconThemeData(
+            color: Color(Strings.darkTurquoise),
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: const Text(
-            'Posts',
-            style: TextStyle(color: Color(0xFF124559)),
+          title: Text(
+            Strings.posts,
+            style: TextStyle(color: Color(Strings.darkTurquoise)),
           ),
           actions: [
             IconButton(
@@ -100,29 +100,29 @@ class _Posts extends State<Posts> {
                     ListTile(
                       title: Text(
                         postsList[index].userName,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: Color(0xFF124559)),
+                            color: Color(Strings.darkTurquoise)),
                       ),
                       subtitle: Text('Posted ${postsList[index].date}'),
                       leading: postsList[index].gender == Strings.male
-                          ? const Padding(
-                              padding: EdgeInsets.only(top: 7, bottom: 4),
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 7, bottom: 4),
                               child: CircleAvatar(
                                   radius: 25,
-                                  backgroundColor: Color(0xFFF0972D),
-                                  child: CircleAvatar(
+                                  backgroundColor: Color(Strings.orange),
+                                  child: const CircleAvatar(
                                       radius: 20,
                                       backgroundImage: AssetImage(
                                           'assets/images/male2.png'))),
                             )
-                          : const Padding(
-                              padding: EdgeInsets.only(top: 7, bottom: 4),
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 7, bottom: 4),
                               child: CircleAvatar(
                                   radius: 25,
-                                  backgroundColor: Color(0xFFF0972D),
-                                  child: CircleAvatar(
+                                  backgroundColor: Color(Strings.orange),
+                                  child: const CircleAvatar(
                                       radius: 20,
                                       backgroundImage: AssetImage(
                                           'assets/images/female.png'))),

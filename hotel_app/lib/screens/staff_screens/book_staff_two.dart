@@ -76,7 +76,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
       );
     } else {
       return Text(
-        'No facilities selected',
+        Strings.noFacilitiesSelected,
         style: TextStyle(
           color: Color(Strings.darkTurquoise),
           fontSize: fontSize,
@@ -100,14 +100,14 @@ class _BookStaffTwo extends State<BookStaffTwo> {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color(0xFF124559),
+        iconTheme: IconThemeData(
+          color: Color(Strings.darkTurquoise),
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'Grand Hotel',
-          style: TextStyle(color: Color(0xFF124559)),
+        title: Text(
+          Strings.applicationTitle,
+          style: TextStyle(color: Color(Strings.darkTurquoise)),
         ),
       ),
       body: SafeArea(

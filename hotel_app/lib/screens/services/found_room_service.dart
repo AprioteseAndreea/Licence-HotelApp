@@ -100,30 +100,48 @@ class FoundRoomServices with ChangeNotifier {
           }
         }
       }
+
       int sumaMaxGuests = 0;
       for (var r in _rooms) {
         sumaMaxGuests += int.parse(r.maxGuests);
       }
+      //verific daca avem suficiente camere libere car ar putea satisface cererea
+      //atat dpdv al numarului de camere cat si al numarului de oaspeti
       if (_rooms.length <= rooms || sumaMaxGuests < (adults + children)) {
         _rooms.clear();
       }
+
+      //generam combinar de n luate cate k camere
+      //n = numarul total de camere disponibile in perioada respectiva
+      //k = numar de camere cerute de utilizator
+
+      //daca avem suficiente camere vom incerca sa gasim cea mai buna combinatie
       if (_rooms.length >= rooms) {
         final totalRooms = characters('');
         for (int i = 0; i < rooms; i++) {
           totalRooms.add(i.toString());
         }
         final combos = Combinations(rooms, totalRooms);
+        int minDifference = 0;
         for (final combo in combos()) {
           int maxGuests = 0;
           for (var c in combo) {
             maxGuests += int.parse(_rooms[int.parse(c)].maxGuests);
           }
-          if (maxGuests >= (adults + children)) {
+          //verific daca camera/grupul de camere poate sa-mi cazeze numarul
+          // de oaspeti ceruti
+
+          if (maxGuests >= (adults + children)
+              // && (maxGuests - adults - children < minDifference)
+              ) {
             for (var c in combo) {
               resultedList.add(_rooms[int.parse(c)]);
             }
           }
         }
+        //sortam lista rezultata crescator dupa diferenta dintre
+        // maxGuests si (adults + children)
+
         _rooms = resultedList;
       }
     }

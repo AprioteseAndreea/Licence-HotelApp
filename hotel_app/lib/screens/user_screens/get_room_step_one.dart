@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
+import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/facilities_service.dart';
 import 'package:first_app_flutter/screens/services/found_room_service.dart';
 import 'package:first_app_flutter/screens/user_screens/get_room_possible_rooms.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'get_room_step_two.dart';
 import 'notifiers.dart';
@@ -28,7 +31,7 @@ class _GetRoom extends State<GetRoom> {
   late DateTime checkIn = DateTime.now();
   late DateTime checkOut = DateTime.now();
 
-  late String day = '';
+  late String day = '', email = '', name = '';
   late String checkInFormat = DateFormat('dd-MM-yyyy').format(DateTime.now());
   late String checkOutFormat = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
@@ -40,12 +43,17 @@ class _GetRoom extends State<GetRoom> {
 
   late FacilityService facilityService = FacilityService();
 
+  AuthServices authServices = AuthServices();
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   @override
   void initState() {
     facilitiesCollection = facilityService.getFacilities();
     _otherDetailsController = TextEditingController();
 
-    nameController.text = "";
+    name = firebaseAuth.currentUser!.displayName!;
+    email = firebaseAuth.currentUser!.email!;
+
     super.initState();
     initializeDateFormatting();
   }
@@ -700,11 +708,11 @@ class _GetRoom extends State<GetRoom> {
                                       selectedSpecialFacilities:
                                           selectedSpecialFacilities,
                                       foundedRooms: rooms,
-                                      name: nameController.text,
+                                      name: name,
                                       otherDetails:
                                           _otherDetailsController.text,
                                       isStaff: false,
-                                      email: ""),
+                                      email: email),
                                 ));
                           } else {
                             Navigator.push(

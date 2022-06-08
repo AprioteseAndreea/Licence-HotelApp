@@ -10,6 +10,7 @@ class Strings {
   static String addRoom = "Add new room";
   static String addRoomPageTitle = "Add a new room for your guests";
   static String addStaff = "Add staff";
+  static String addYourCommentHere = "Add your comment here...";
   static String adults = "Adults";
   static String adminMode = "ADMINISTRATOR PANEL";
   static String adminHomePagePhrase =
@@ -39,6 +40,7 @@ class Strings {
   static String children = "Children";
   static String choose = "Choose...";
   static String close = "CLOSE";
+  static String comments = "Comments";
   static String confirmReservation = "Confirm reservation";
   static String contact = "Contact";
   static String contactUs = "Contact us";
@@ -100,13 +102,14 @@ class Strings {
   static String name = "Name";
   static String none = "none";
   static String night = "/night";
+  static String noFacilitiesSelected = "No facilities selected";
   static String noFeedbacks = "No feedbacks";
   static String noRoomAvailable =
       "We could not find any rooms available for the period you want";
   static String occupation = "Occupation";
   static String occupied = "occupied";
   static String occupiedCapital = "OCCUPIED";
-  static String ok = "Ok";
+  static String ok = "OK";
   static String otherDetails = "Other details ";
   static String password = "Password";
   static String paymentSummary = "Payment Summary";
@@ -115,6 +118,8 @@ class Strings {
   static String placesToVisitTitle = "Places to visit";
   static String pleaseTryAgain = "Please try again!";
   static String post = "Post";
+  static String posts = "Posts";
+
   static String profile = "Profile";
   static String price = "Price";
   static String priceSmall = "Price";
@@ -136,6 +141,7 @@ class Strings {
   static String salary = "Salary";
   static String sendFeedback = "Send feedback";
   static String sendUsYourFeedback = "Send us your feedback!";
+  static String selectYourSpecialFacilities = "Select your special facilities";
   static String selectedFacilities = "Selected facilities";
   static String selectStaffsOccupation = "Select the staff's occupation";
   static String signInToContinue = "sign in to continue";

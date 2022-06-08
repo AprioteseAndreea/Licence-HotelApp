@@ -14,13 +14,6 @@ class _FacilitiesScreen extends State<FacilitiesScreen> {
   @override
   void initState() {
     super.initState();
-
-    facilities.add("assets/images/spa.png");
-    facilities.add("assets/images/restaurant.png");
-    facilities.add("assets/images/pool.png");
-    facilities.add("assets/images/babysitter.png");
-    facilities.add("assets/images/car.png");
-    facilities.add("assets/images/pet.png");
   }
 
   @override

@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
+import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/screens/staff_screens/book_staff_two.dart';
 import 'package:first_app_flutter/utils/strings.dart';
@@ -116,15 +118,6 @@ class _PossibleRooms extends State<PossibleRooms> {
                   MaterialButton(
                     onPressed: () async {
                       if (super.widget.isStaff) {
-                        //
-                        //   required this.checkInDate,
-                        // required this.checkOutDate,
-                        // required this.adults,
-                        // required this.children,
-                        // required this.selectedSpecialFacilities,
-                        // required this.rooms,
-                        // required this.name,
-                        // required this.email,
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -153,6 +146,7 @@ class _PossibleRooms extends State<PossibleRooms> {
                                     super.widget.selectedSpecialFacilities,
                                 foundedRooms: super.widget.foundedRooms,
                                 name: super.widget.name,
+                                email: super.widget.email,
                                 otherDetails: super.widget.otherDetails,
                               ),
                             ));

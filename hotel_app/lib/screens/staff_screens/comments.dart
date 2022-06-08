@@ -5,7 +5,6 @@ import 'package:first_app_flutter/screens/staff_screens/posts.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Comments extends StatefulWidget {
@@ -34,14 +33,14 @@ class _Comments extends State<Comments> {
 
     return Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Color(0xFF124559),
+          iconTheme: IconThemeData(
+            color: Color(Strings.darkTurquoise),
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: const Text(
-            'Comments',
-            style: TextStyle(color: Color(0xFF124559)),
+          title: Text(
+            Strings.comments,
+            style: TextStyle(color: Color(Strings.darkTurquoise)),
           ),
           actions: [
             if (super.widget.loggedUser == super.widget.currentPost.userName)
@@ -86,10 +85,10 @@ class _Comments extends State<Comments> {
                     ListTile(
                       title: Text(
                         super.widget.currentPost.userName,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: Color(0xFF124559)),
+                            color: Color(Strings.darkTurquoise)),
                       ),
                       subtitle: Text('Posted ${super.widget.currentPost.date}'),
                       leading: super.widget.currentPost.gender == 'male'
@@ -178,9 +177,9 @@ class _Comments extends State<Comments> {
                 padding: const EdgeInsets.only(left: 3, right: 3),
                 child: TextField(
                   controller: _commentController,
-                  decoration: const InputDecoration(
-                    hintText: "Add you comment here...",
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    hintText: Strings.addYourCommentHere,
+                    border: const OutlineInputBorder(),
                   ),
                   keyboardType: TextInputType.multiline,
                   maxLines: 2,
@@ -217,9 +216,9 @@ class _Comments extends State<Comments> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Text(
-                      "Post",
-                      style: TextStyle(
+                    child: Text(
+                      Strings.post,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
