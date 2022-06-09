@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/annual_revenue_model.dart';
+import 'package:first_app_flutter/screens/services/statistics_service.dart';
+import 'package:first_app_flutter/utils/buttons/reservation_button.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,6 @@ class SecondScreen extends StatefulWidget {
 
 class _SecondScreenState extends State<SecondScreen> {
   late List<AnnualRModel> _monthlyReservations;
-
   late List<charts.Series<AnnualRModel, String>> series = [];
 
   _generateData(monthlyReservations) {
@@ -40,9 +41,50 @@ class _SecondScreenState extends State<SecondScreen> {
             height: mediaQuery.height * 0.6,
             child: _buildAnnualRevenue(context),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ReservationButton(
+                textButton: "See more details",
+                color: Strings.darkTurquoise,
+                onTap: () => {_showStatistics(context)},
+              ),
+            ],
+          ),
         ],
       )),
     ));
+  }
+
+  _showStatistics(BuildContext context) => showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(Strings.statistics),
+          content: SingleChildScrollView(
+            child:
+                SizedBox(width: double.infinity, child: getStatistics(context)),
+          ),
+          actions: [
+            // ignore: deprecated_member_use
+            FlatButton(
+              child: Text(Strings.close),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      });
+  getStatistics(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: _monthlyReservations
+          .map((e) => ListTile(
+                title: Text(e.year + " - " + "\$" + e.revenue.toString()),
+              ))
+          .toList(),
+    );
   }
 
   Widget _buildAnnualRevenue(BuildContext context) {

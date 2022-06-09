@@ -234,7 +234,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          Strings.statistics,
+                          Strings.facilities,
                           style: TextStyle(
                               fontSize: mediaQuery.width * 0.045,
                               color: Color(Strings.darkTurquoise),

@@ -1,5 +1,7 @@
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/models/staff_model.dart';
+import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/homeScreens/staff_home_screen.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:first_app_flutter/utils/strings.dart';
@@ -19,7 +21,8 @@ class StaffProfile extends StatefulWidget {
 class _StaffProfile extends State<StaffProfile> {
   String? email, name, role, gender, old, phoneNumber, position, salary;
   late UserService userService;
-
+  AuthServices authServices = AuthServices();
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final _formkey = GlobalKey<FormState>();
   late TextEditingController _staffNameController = TextEditingController();
   late TextEditingController _staffPhoneController = TextEditingController();
@@ -486,14 +489,14 @@ class _StaffProfile extends State<StaffProfile> {
 
                                         await userService.updateStaffInFirebase(
                                             currentStaff);
+                                        await firebaseAuth.currentUser!
+                                            .updateDisplayName(name);
 
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
+                                        Navigator.of(context).pushAndRemoveUntil(
                                             MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const StaffHomeScreen(),
-                                            ),
-                                            ModalRoute.withName('/'));
+                                                builder: (context) =>
+                                                    const StaffHomeScreen()),
+                                            (Route<dynamic> route) => false);
                                       }
                                     },
                                     height: 40,
