@@ -418,7 +418,7 @@ class _BookStaffTwo extends State<BookStaffTwo> {
                                   price: total,
                                   rooms: rooms,
                                   user: super.widget.email,
-                                  approved: true,
+                                  approved: false,
                                   facilities: facilities,
                                   guests: super.widget.adults +
                                       super.widget.children,

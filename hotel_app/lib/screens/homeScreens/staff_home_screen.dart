@@ -1,5 +1,6 @@
 import 'package:first_app_flutter/models/user_model.dart' as user_model;
 import 'package:first_app_flutter/screens/admin_screens/bookings.dart';
+import 'package:first_app_flutter/screens/admin_screens/bookings_screens.dart';
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
@@ -227,7 +228,7 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Bookings(),
+                              builder: (context) => const BookingsScreen(),
                             ),
                           )
                         },

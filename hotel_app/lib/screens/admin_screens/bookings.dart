@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Bookings extends StatefulWidget {
-  const Bookings({Key? key}) : super(key: key);
+  List<ReservationModel> reservations = [];
+  Bookings({Key? key, required this.reservations}) : super(key: key);
   @override
   _Bookings createState() => _Bookings();
 }
@@ -15,7 +16,7 @@ class Bookings extends StatefulWidget {
 class _Bookings extends State<Bookings> {
   final ScrollController _controller = ScrollController();
   ReservationService reservationService = ReservationService();
-  List<ReservationModel> reservations = [];
+
   @override
   void initState() {
     super.initState();
@@ -31,22 +32,8 @@ class _Bookings extends State<Bookings> {
 
   @override
   Widget build(BuildContext context) {
-    reservations = [];
-    reservations = reservationService.getReservations();
     Size mediaQuery = MediaQuery.of(context).size;
-
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color(0xFF124559), //change your color here
-        ),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          Strings.bookings,
-          style: const TextStyle(color: Color(0xFF124559)),
-        ),
-      ),
       body: SafeArea(
           child: SingleChildScrollView(
         child: ListView.builder(
@@ -54,23 +41,28 @@ class _Bookings extends State<Bookings> {
           scrollDirection: Axis.vertical,
           physics: const ClampingScrollPhysics(),
           controller: _controller,
-          itemCount: reservations.length,
+          itemCount: super.widget.reservations.length,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
                 ReservationModel resCurrent = ReservationModel(
-                    checkIn: reservations[index].checkIn,
-                    checkOut: reservations[index].checkOut,
-                    date: reservations[index].date,
-                    price: reservations[index].price,
-                    rooms: reservations[index].rooms,
-                    user: reservations[index].user,
-                    approved: reservations[index].approved,
-                    facilities: reservations[index].facilities.cast<String>(),
-                    guests: reservations[index].guests,
-                    name: reservations[index].name,
-                    id: reservations[index].id,
-                    otherDetails: reservations[index].otherDetails);
+                    checkIn: super.widget.reservations[index].checkIn,
+                    checkOut: super.widget.reservations[index].checkOut,
+                    date: super.widget.reservations[index].date,
+                    price: super.widget.reservations[index].price,
+                    rooms: super.widget.reservations[index].rooms,
+                    user: super.widget.reservations[index].user,
+                    approved: super.widget.reservations[index].approved,
+                    facilities: super
+                        .widget
+                        .reservations[index]
+                        .facilities
+                        .cast<String>(),
+                    guests: super.widget.reservations[index].guests,
+                    name: super.widget.reservations[index].name,
+                    id: super.widget.reservations[index].id,
+                    otherDetails:
+                        super.widget.reservations[index].otherDetails);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -105,7 +97,7 @@ class _Bookings extends State<Bookings> {
                                 height: mediaQuery.height * 0.04,
                               ),
                               Text(
-                                ' ${reservations[index].name}',
+                                ' ${super.widget.reservations[index].name}',
                                 style: TextStyle(
                                     color: Color(Strings.darkTurquoise),
                                     fontWeight: FontWeight.bold,
@@ -121,7 +113,8 @@ class _Bookings extends State<Bookings> {
                                 height: mediaQuery.height * 0.04,
                               ),
                               Text(
-                                Strings.room + reservations[index].rooms[0],
+                                Strings.room +
+                                    super.widget.reservations[index].rooms[0],
                                 style: TextStyle(
                                     color: Color(Strings.orange),
                                     fontWeight: FontWeight.bold,
@@ -142,7 +135,8 @@ class _Bookings extends State<Bookings> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                formatDate(reservations[index].checkIn),
+                                formatDate(
+                                    super.widget.reservations[index].checkIn),
                                 style: TextStyle(
                                   color: const Color(0xFFFFFFFF),
                                   fontSize: mediaQuery.width * 0.04,
@@ -154,7 +148,8 @@ class _Bookings extends State<Bookings> {
                                 width: mediaQuery.width * 0.06,
                               ),
                               Text(
-                                formatDate(reservations[index].checkOut),
+                                formatDate(
+                                    super.widget.reservations[index].checkOut),
                                 style: TextStyle(
                                   color: const Color(0xFFFFFFFF),
                                   fontSize: mediaQuery.width * 0.04,
@@ -170,13 +165,19 @@ class _Bookings extends State<Bookings> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          Strings.date + formatDate(reservations[index].date),
+                          Strings.date +
+                              formatDate(super.widget.reservations[index].date),
                           style: TextStyle(
                               color: Color(Strings.orange),
                               fontSize: mediaQuery.width * 0.04,
                               fontStyle: FontStyle.italic),
                         ),
-                        if (reservations[index].approved.toString() == 'true')
+                        if (super
+                                .widget
+                                .reservations[index]
+                                .approved
+                                .toString() ==
+                            'true')
                           Padding(
                               padding: const EdgeInsets.all(2),
                               child: Card(
@@ -193,17 +194,21 @@ class _Bookings extends State<Bookings> {
                                   ),
                                 ),
                               )),
-                        if (!reservations[index].approved)
+                        if (!super.widget.reservations[index].approved)
                           Padding(
                             padding: const EdgeInsets.all(2),
                             child: GestureDetector(
                                 onTap: () => {
                                       reservationService
-                                          .updateReservationInFirebase(
-                                              reservations[index].id),
+                                          .updateReservationInFirebase(super
+                                              .widget
+                                              .reservations[index]
+                                              .id),
                                       reservationService
-                                          .countNumberOfReservations(
-                                              reservations[index].user),
+                                          .countNumberOfReservations(super
+                                              .widget
+                                              .reservations[index]
+                                              .user),
                                     },
                                 child: Card(
                                   color: Colors.orange,
