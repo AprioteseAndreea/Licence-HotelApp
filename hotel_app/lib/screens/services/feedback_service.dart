@@ -37,8 +37,9 @@ class FeedbackService with ChangeNotifier {
 
   bool verifyIfAlreadyUserExist(FeedbackModel feedback) {
     for (var f in _feedbacks) {
-      if (f.user == feedback.user && f.feedback == feedback.feedback)
+      if (f.user == feedback.user && f.feedback == feedback.feedback) {
         return true;
+      }
     }
     return false;
   }

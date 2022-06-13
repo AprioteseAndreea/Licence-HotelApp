@@ -36,7 +36,6 @@ class ReservationService with ChangeNotifier {
         }
       }
     }
-    // sortReservationByDate();
   }
 
   bool verifyIfAlreadyReservationExist(ReservationModel reservationModel) {
@@ -65,7 +64,6 @@ class ReservationService with ChangeNotifier {
       }
     }
     return _reservations;
-    // sortReservationByDate();
   }
 
   Future<void> countNumberOfReservations(String? email) async {
@@ -75,30 +73,6 @@ class ReservationService with ChangeNotifier {
       if (r.user == email && r.approved) numberOfReservations++;
     }
   }
-
-  // Future<void> actualizeInformation() async {
-  //   RoomsService roomsService = RoomsService();
-  //   // _reservations.clear();
-  //   // await getReservationsCollectionFromFirebase();
-  //   for (var r in _reservations) {
-  //     DateTime checkOutReserv = DateTime.parse(r.checkOut);
-  //     DateTime checkInReserv = DateTime.parse(r.checkIn);
-  //
-  //     DateTime now = DateTime.now();
-  //     if (checkOutReserv.isAfter(now) && checkInReserv.isBefore(now)) {
-  //       roomsService.updateRoom(r.room, "occupied", r.name!,
-  //           '${checkInReserv.day}/${checkInReserv.month} - ${checkOutReserv.day}/${checkOutReserv.month}');
-  //     } else {
-  //       roomsService.updateRoom(
-  //           r.room, "free", r.name!, '$checkInReserv - $checkOutReserv');
-  //     }
-  //   }
-  //   roomsService.updateRoomStatusInFirebase();
-  // }
-  //
-  // Future<void> sortReservationByDate() async {
-  //   _reservations.sort((a, b) => a.date.compareTo(b.date));
-  // }
 
   Future<void> addReservationsInFirebase(ReservationModel f) async {
     DocumentReference<Map<String, dynamic>> reservations =

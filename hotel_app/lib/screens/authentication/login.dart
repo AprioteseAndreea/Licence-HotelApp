@@ -20,11 +20,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   late List<User> users = [];
+  bool _obscuredText = true, _checked = false;
 
-  bool _obscuredText = true;
-  bool _checked = false;
   @override
   void initState() {
     _emailController = TextEditingController();

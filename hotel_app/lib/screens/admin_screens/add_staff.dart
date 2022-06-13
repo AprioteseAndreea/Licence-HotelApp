@@ -26,20 +26,20 @@ class _AddStaff extends State<AddStaff> {
   late TextEditingController _staffEmailController = TextEditingController();
   late TextEditingController _staffPhoneController = TextEditingController();
   late TextEditingController _staffSalaryController = TextEditingController();
-  String selectedOccupation = "";
-  String name = "", date = "";
+
+  String selectedOccupation = "", name = "", date = "";
+  late String _selectedGender, occupation, pageTitle;
+
   final _formkey = GlobalKey<FormState>();
-  late String occupation;
+
   AuthServices authServices = AuthServices();
-  late UserService userService;
+  UserService userService = UserService();
+
   double rating = 5.0;
-  late String _selectedGender;
-  late String pageTitle;
 
   @override
   void initState() {
     DateTime dateToday = DateTime.now();
-    userService = UserService();
     date = DateFormat('MMMM dd, yyyy').format(dateToday);
     _staffNameController = super.widget.staff.name == Strings.none
         ? TextEditingController()

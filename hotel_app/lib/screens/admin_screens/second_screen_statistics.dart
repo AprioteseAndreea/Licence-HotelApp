@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/annual_revenue_model.dart';
-import 'package:first_app_flutter/screens/services/statistics_service.dart';
 import 'package:first_app_flutter/utils/buttons/reservation_button.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';

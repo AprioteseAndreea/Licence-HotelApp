@@ -113,7 +113,9 @@ class _Rooms extends State<Rooms> {
                                   padding: const EdgeInsets.only(
                                       left: 7, right: 7, top: 5, bottom: 5),
                                   child: Text(
-                                    Strings.room + roomsList[index].number,
+                                    Strings.room +
+                                        " " +
+                                        roomsList[index].number,
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,

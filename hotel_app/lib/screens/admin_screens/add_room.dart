@@ -1,9 +1,11 @@
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/admin_screens/rooms.dart';
 import 'package:first_app_flutter/screens/services/rooms_service.dart';
+import 'package:first_app_flutter/utils/form_text_field_title.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 
@@ -62,54 +64,125 @@ class _AddRoom extends State<AddRoom> {
                         ),
                       ),
                     )),
+                TextFormFieldTitle(title: Strings.roomNumber),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: Text(
-                    Strings.addRoomPageTitle,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Color(Strings.darkTurquoise),
-                    ),
+                  padding: const EdgeInsets.only(
+                      left: 10, top: 10, right: 10, bottom: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _numberController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          validator: (val) =>
+                              val!.isNotEmpty ? null : Strings.enterRoomNumber,
+                          decoration: InputDecoration(
+                              hintText: Strings.enterRoomNumber,
+                              hintStyle: const TextStyle(fontSize: 15),
+                              prefixIcon: Container(
+                                margin: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Color(Strings.darkTurquoise),
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                        width: 2,
+                                        color: Color(Strings.darkTurquoise))),
+                                child: Icon(
+                                  Icons.confirmation_number,
+                                  color: Color(Strings.orange),
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              )),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                TextFormFieldTitle(title: Strings.roomMaxGuests),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                  child: TextField(
-                    controller: _numberController,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.confirmation_number,
-                          color: Color(Strings.darkTurquoise)),
-                      border: const OutlineInputBorder(),
-                      hintText: Strings.roomsNumber,
-                    ),
+                  padding: const EdgeInsets.only(
+                      left: 10, top: 10, right: 10, bottom: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _maxGuestsController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          validator: (val) => val!.isNotEmpty
+                              ? null
+                              : Strings.enterRoomMaxGuests,
+                          decoration: InputDecoration(
+                              hintText: Strings.enterRoomMaxGuests,
+                              hintStyle: const TextStyle(fontSize: 15),
+                              prefixIcon: Container(
+                                margin: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Color(Strings.darkTurquoise),
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                        width: 2,
+                                        color: Color(Strings.darkTurquoise))),
+                                child: Icon(
+                                  Icons.people,
+                                  color: Color(Strings.orange),
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              )),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                TextFormFieldTitle(title: Strings.roomPrice),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                  child: TextField(
-                    controller: _maxGuestsController,
-                    decoration: InputDecoration(
-                      prefixIcon:
-                          const Icon(Icons.people, color: Color(0xFF124559)),
-                      border: const OutlineInputBorder(),
-                      hintText: Strings.maxGuestsSmall,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                  child: TextField(
-                    controller: _priceController,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(CupertinoIcons.money_dollar,
-                          color: Color(0xFF124559)),
-                      border: const OutlineInputBorder(),
-                      hintText: Strings.priceSmall,
-                    ),
+                  padding: const EdgeInsets.only(
+                      left: 10, top: 10, right: 10, bottom: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _priceController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          validator: (val) =>
+                              val!.isNotEmpty ? null : Strings.priceSmall,
+                          decoration: InputDecoration(
+                              hintText: Strings.enterRoomPrice,
+                              hintStyle: const TextStyle(fontSize: 15),
+                              prefixIcon: Container(
+                                margin: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Color(Strings.darkTurquoise),
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                        width: 2,
+                                        color: Color(Strings.darkTurquoise))),
+                                child: Icon(
+                                  CupertinoIcons.money_dollar,
+                                  color: Color(Strings.orange),
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              )),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Row(

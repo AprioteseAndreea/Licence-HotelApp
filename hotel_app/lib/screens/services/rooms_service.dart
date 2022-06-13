@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/room_model.dart';
+import 'package:first_app_flutter/screens/services/reservation_service.dart';
+import 'package:first_app_flutter/screens/services/statistics_service.dart';
 import 'package:flutter/cupertino.dart';
 
 class RoomsService with ChangeNotifier {
@@ -39,6 +41,31 @@ class RoomsService with ChangeNotifier {
         }
       }
     }
+    await actualizeInformation();
+  }
+
+  Future<void> actualizeInformation() async {
+    ReservationService reservationService = ReservationService();
+    for (int i = 0; i < _rooms.length; i++) {
+      _rooms[i].idUser = "none";
+      _rooms[i].interval = "none";
+      _rooms[i].free = true;
+    }
+    for (var r in _rooms) {
+      for (var reservation in reservationService.getReservations()) {
+        DateTime checkOutReserv = DateTime.parse(reservation.checkOut);
+        DateTime checkInReserv = DateTime.parse(reservation.checkIn);
+        DateTime now = DateTime.now();
+        if (checkInReserv.isBefore(now) &&
+            checkOutReserv.isAfter(now) &&
+            reservation.rooms.contains(r.number)) {
+          updateRoom(r.number, "occupied", reservation.name!,
+              '${checkInReserv.day}/${checkInReserv.month} - ${checkOutReserv.day}/${checkOutReserv.month}');
+          break;
+        }
+      }
+    }
+    await updateRoomStatusInFirebase();
   }
 
   bool verifyIfRoomAlreadyExist(RoomModel roomModel) {
@@ -101,7 +128,6 @@ class RoomsService with ChangeNotifier {
   Future<void> updateRoomStatusInFirebase() async {
     DocumentReference<Map<String, dynamic>> rooms =
         FirebaseFirestore.instance.collection('users').doc('rooms');
-
     final roomsMap = <Map<String, dynamic>>[];
     for (var f in _rooms) {
       roomsMap.add(f.toJson());

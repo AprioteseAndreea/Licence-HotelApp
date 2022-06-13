@@ -106,7 +106,7 @@ class _GetRoom extends State<GetRoom> {
     );
     if (d != null) {
       setState(() {
-        checkIn = d;
+        checkIn = DateTime(d.year, d.month, d.day, 14, 0, 0);
         checkInFormat = DateFormat('dd-MM-yyyy').format(checkIn);
       });
     }
@@ -181,7 +181,7 @@ class _GetRoom extends State<GetRoom> {
     );
     if (d != null) {
       setState(() {
-        checkOut = d;
+        checkOut = DateTime(d.year, d.month, d.day, 11, 0, 0);
         checkOutFormat = DateFormat('dd-MM-yyyy').format(checkOut);
       });
     }

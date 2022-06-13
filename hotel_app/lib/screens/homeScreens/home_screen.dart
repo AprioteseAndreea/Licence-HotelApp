@@ -102,8 +102,8 @@ class _HomeState extends State<HomeScreen> {
   }
 
   Future<void> instantiateDataForAdmin() async {
-    await roomsService.getRoomsCollectionFromFirebase();
     await reservationService.getReservationsCollectionFromFirebase();
+    await roomsService.getRoomsCollectionFromFirebase();
     await userService.getStaffCollectionFromFirebase();
     await userService.getUsersCollectionFromFirebase();
     // await statisticsService.getRoomStatisticsCollectionFromFirebase();

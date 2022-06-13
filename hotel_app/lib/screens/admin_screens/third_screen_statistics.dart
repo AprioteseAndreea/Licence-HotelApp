@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/rooms_statistics.dart';
+import 'package:first_app_flutter/screens/services/statistics_service.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,22 @@ class ThirdScreen extends StatefulWidget {
 }
 
 class _ThirdScreenState extends State<ThirdScreen> {
-  late List<RoomStatisticsModel> _roomsStatistics;
-
+  StatisticsService statisticsService = StatisticsService();
+  List<RoomStatisticsModel> _roomsStatistics = [];
   late List<charts.Series<RoomStatisticsModel, String>> series = [];
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      await getRoomsStatistics();
+    });
+    super.initState();
+  }
+
+  Future<void> getRoomsStatistics() async {
+    await statisticsService.calculateRoomsStatistics();
+    _roomsStatistics = statisticsService.getRoomsStatistics();
+  }
+
   calculatePercentage(int value) {
     return ((value * 100) /
             (_roomsStatistics[0].value + _roomsStatistics[1].value))
@@ -37,7 +51,6 @@ class _ThirdScreenState extends State<ThirdScreen> {
   @override
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
-
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -46,28 +59,21 @@ class _ThirdScreenState extends State<ThirdScreen> {
           SizedBox(
             height: mediaQuery.height * 0.6,
             child: _buildRoomsStatistics(context),
-          ),
+          )
         ],
       )),
     ));
   }
 
   Widget _buildRoomsStatistics(BuildContext context) {
-    List<RoomStatisticsModel> roomsStatistics = [];
-    RoomStatisticsModel r1 =
-        RoomStatisticsModel(status: "free", value: 2, color: "#124559");
-    RoomStatisticsModel r2 =
-        RoomStatisticsModel(status: "occupied", value: 5, color: "#f0972d");
-    roomsStatistics.add(r2);
-    roomsStatistics.add(r1);
-
-    return _buildChart(context, roomsStatistics);
+    _roomsStatistics = statisticsService.getRoomsStatistics();
+    return _buildChart(context, _roomsStatistics);
   }
 
-  Widget _buildChart(BuildContext context, List<dynamic> roomsStatistics) {
-    _roomsStatistics = roomsStatistics.cast<RoomStatisticsModel>();
+  Widget _buildChart(
+      BuildContext context, List<RoomStatisticsModel> roomsStatistics) {
     Size mediaQuery = MediaQuery.of(context).size;
-
+    _roomsStatistics = statisticsService.getRoomsStatistics();
     _generateData(_roomsStatistics);
     return Padding(
       padding: const EdgeInsets.all(8.0),

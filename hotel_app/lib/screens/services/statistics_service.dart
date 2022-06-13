@@ -4,6 +4,7 @@ import 'package:first_app_flutter/models/reservation_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/models/rooms_statistics.dart';
 import 'package:first_app_flutter/models/staff_model.dart';
+import 'package:first_app_flutter/screens/services/rooms_service.dart';
 import 'package:flutter/cupertino.dart';
 
 class StatisticsService with ChangeNotifier {
@@ -23,13 +24,12 @@ class StatisticsService with ChangeNotifier {
     return _monthlyIncome;
   }
 
+  List<RoomStatisticsModel> getRoomsStatistics() {
+    return _roomStatistics;
+  }
+
   factory StatisticsService() {
     return _singletonStatistics;
-    // getMonthlyReservationsCollectionFromFirebase();
-    // getMonthlyIncomeCollectionFromFirebase();
-    // getRoomStatisticsCollectionFromFirebase();
-    // calculateMonthlyReservations();
-    // calculateMonthlyIncome();
   }
 
   Future<void> getMonthlyReservationsCollectionFromFirebase() async {
@@ -46,22 +46,6 @@ class StatisticsService with ChangeNotifier {
         _monthlyReservations.add(m);
       }
     }
-  }
-
-  Future<void> getRoomStatisticsCollectionFromFirebase() async {
-    _instance = FirebaseFirestore.instance;
-    CollectionReference categories = _instance!.collection('users');
-    _roomStatistics.clear();
-    DocumentSnapshot snapshot = await categories.doc('roomStatistics').get();
-    if (snapshot.exists) {
-      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      var roomStatisticsData = data['roomStatistics'] as List<dynamic>;
-      for (var catData in roomStatisticsData) {
-        RoomStatisticsModel m = RoomStatisticsModel.fromJson(catData);
-        _roomStatistics.add(m);
-      }
-    }
-    calculateRoomsStatistics();
   }
 
   Future<void> getMonthlyIncomeCollectionFromFirebase() async {
@@ -128,41 +112,16 @@ class StatisticsService with ChangeNotifier {
   }
 
   Future<void> calculateRoomsStatistics() async {
-    _instance = FirebaseFirestore.instance;
-    CollectionReference categories = _instance!.collection('users');
-    int free = 0, occupied = 0;
-    DocumentSnapshot snapshot = await categories.doc('rooms').get();
-    if (snapshot.exists) {
-      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      var monthlyRData = data['rooms'] as List<dynamic>;
-      for (var catData in monthlyRData) {
-        RoomModel r = RoomModel.fromJson(catData);
-        r.free ? free++ : occupied++;
-      }
-    }
-
-    updateRoomsStatistics(free, occupied);
-  }
-
-  Future<void> updateRoomsStatistics(int free, int occupied) async {
+    RoomsService roomsService = RoomsService();
     _roomStatistics.clear();
-    await getRoomStatisticsCollectionFromFirebase();
-    for (int i = 0; i < _roomStatistics.length; i++) {
-      if (_roomStatistics[i].status == "free") {
-        _roomStatistics[i].value = free;
-      } else if (_roomStatistics[i].status == "occupied") {
-        _roomStatistics[i].value = occupied;
-      }
+    int free = 0, occupied = 0;
+    for (var r in roomsService.getRooms()) {
+      r.free ? free++ : occupied++;
     }
-    DocumentReference<Map<String, dynamic>> rooms =
-        FirebaseFirestore.instance.collection('users').doc('roomStatistics');
-    final roomsMap = <Map<String, dynamic>>[];
-    for (var room in _roomStatistics) {
-      roomsMap.add(room.toJson());
-    }
-    rooms.set({
-      'roomStatistics': roomsMap,
-    });
+    _roomStatistics.add(
+        RoomStatisticsModel(status: "free", value: free, color: "#124559"));
+    _roomStatistics.add(RoomStatisticsModel(
+        status: "occupied", value: occupied, color: "#f0972d"));
   }
 
   Future<void> calculateMonthlyIncome() async {

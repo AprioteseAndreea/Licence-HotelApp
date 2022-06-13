@@ -59,6 +59,9 @@ class Strings {
   static String enterClientEmail = "Please enter client's email";
   static String enterMoreThanSixChars = "Enter more than 6 chars";
   static String enterOccupation = "Please enter occupation";
+  static String enterRoomNumber = "Please enter room number";
+  static String enterRoomPrice = "Please enter room price";
+  static String enterRoomMaxGuests = "Please enter room max guests";
   static String enterPhoneNumber = "Phone number must have 10 characters";
   static String enterSalary = "Please enter salary";
   static String enterStaffsEmail = "Enter staff's email";
@@ -119,17 +122,19 @@ class Strings {
   static String pleaseTryAgain = "Please try again!";
   static String post = "Post";
   static String posts = "Posts";
-
   static String profile = "Profile";
   static String price = "Price";
   static String priceSmall = "Price";
   static String register = "Register";
   static String rememberMe = "Remember me";
   static String reservationDate = "Reservation date: ";
-  static String room = "ROOM";
+  static String room = "Room";
   static String roomCost = "Room cost";
   static String roomDetails = "Room details";
+  static String roomMaxGuests = "Room max guests";
   static String rooms = "Rooms";
+  static String roomNumber = "Room number";
+  static String roomPrice = "Room price";
   static String roomsCapital = "ROOMS";
   static String roomsStats = "Rooms stats";
   static String roomsStatistics = "Rooms statistics";

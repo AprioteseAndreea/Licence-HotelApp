@@ -20,11 +20,12 @@ class AboutReservation extends StatefulWidget {
 }
 
 class _AboutReservation extends State<AboutReservation> {
-  late String name;
+  String name = '';
+  String rooms = '';
   String buttonText = Strings.approve;
   final List<String> timeLineList = [];
   Color cardBackgroundColor = Colors.orange;
-  String rooms = '';
+
   void changeColor(Color changeToColor) {
     setState(() {
       cardBackgroundColor = changeToColor;
