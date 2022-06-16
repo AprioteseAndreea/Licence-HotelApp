@@ -48,6 +48,11 @@ class _ThirdScreenState extends State<ThirdScreen> {
             charts.Color.fromHex(code: m.color)));
   }
 
+  Widget _buildRoomsStatistics(BuildContext context) {
+    _roomsStatistics = statisticsService.getRoomsStatistics();
+    return _buildChart(context, _roomsStatistics);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
@@ -63,11 +68,6 @@ class _ThirdScreenState extends State<ThirdScreen> {
         ],
       )),
     ));
-  }
-
-  Widget _buildRoomsStatistics(BuildContext context) {
-    _roomsStatistics = statisticsService.getRoomsStatistics();
-    return _buildChart(context, _roomsStatistics);
   }
 
   Widget _buildChart(

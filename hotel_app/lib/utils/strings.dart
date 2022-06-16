@@ -57,6 +57,8 @@ class Strings {
   static String doYouWantToVisitUs = "Do you want to visit us?";
   static String email = "Email";
   static String enterClientEmail = "Please enter client's email";
+  static String enterClientName = "Please enter client's name";
+
   static String enterMoreThanSixChars = "Enter more than 6 chars";
   static String enterOccupation = "Please enter occupation";
   static String enterRoomNumber = "Please enter room number";
@@ -68,7 +70,9 @@ class Strings {
   static String enterStaffsName = "Enter staff's name";
   static String enterStaffsOccupation = "Enter staff's occupation";
   static String enterStaffsPhoneNumber = "Enter staff's phone number";
-  static String errorEmail = "Please enter a valid email";
+  static String errorEmail = "Please enter a valid email!";
+  static String errorPassword = "Please enter the password!";
+
   static String errorEnterEmail = "Please enter a email address";
   static String errorFullName = "Please enter full name";
   static String facilities = "Facilities";

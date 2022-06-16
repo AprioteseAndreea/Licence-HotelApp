@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/services/reservation_service.dart';
-import 'package:first_app_flutter/screens/services/statistics_service.dart';
 import 'package:flutter/cupertino.dart';
 
 class RoomsService with ChangeNotifier {
@@ -25,12 +24,12 @@ class RoomsService with ChangeNotifier {
   factory RoomsService() {
     return _singletonRooms;
   }
+
   Future<void> getRoomsCollectionFromFirebase() async {
     _instance = FirebaseFirestore.instance;
     CollectionReference users = _instance!.collection('users');
     _rooms.clear();
     DocumentSnapshot snapshot = await users.doc('rooms').get();
-    //DocumentSnapshot reservations = await users.doc('reservations').get();
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
       var roomsData = data['rooms'] as List<dynamic>;

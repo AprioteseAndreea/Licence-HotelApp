@@ -1,12 +1,14 @@
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:first_app_flutter/models/staff_model.dart';
+import 'package:first_app_flutter/models/user_model.dart';
 import 'package:first_app_flutter/screens/admin_screens/staff_screen.dart';
 import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
 import 'package:first_app_flutter/utils/form_text_field_title.dart';
 import 'package:first_app_flutter/utils/strings.dart';
+import 'package:first_app_flutter/utils/validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -194,9 +196,8 @@ class _AddStaff extends State<AddStaff> {
                                         child: TextFormField(
                                           controller: _staffEmailController,
                                           validator: (value) =>
-                                              EmailValidator.validate(value)
-                                                  ? null
-                                                  : Strings.errorEmail,
+                                              FieldValidator.validateEmail(
+                                                  value),
                                           decoration: InputDecoration(
                                               hintText:
                                                   Strings.enterStaffsEmail,
@@ -247,9 +248,8 @@ class _AddStaff extends State<AddStaff> {
                                             FilteringTextInputFormatter
                                                 .digitsOnly
                                           ],
-                                          validator: (val) => val!.length < 10
-                                              ? Strings.enterPhoneNumber
-                                              : null,
+                                          validator: (val) => FieldValidator
+                                              .validatePhoneNumber(val),
                                           decoration: InputDecoration(
                                               hintText: Strings
                                                   .enterStaffsPhoneNumber,
@@ -402,10 +402,27 @@ class _AddStaff extends State<AddStaff> {
                                             salary: int.parse(
                                                 _staffSalaryController.text),
                                           );
+
+                                          User currentUser = User(
+                                              email: _staffEmailController.text,
+                                              gender: _selectedGender,
+                                              name: _staffNameController.text,
+                                              old: date,
+                                              phoneNumber:
+                                                  _staffPhoneController.text,
+                                              role: "staff");
                                           if (pageTitle == Strings.addStaff) {
+                                            await userService
+                                                .addUserInFirebase(currentUser);
                                             await userService
                                                 .addStaffInFirebase(
                                                     currentStaff);
+                                            await authServices.register(
+                                                _staffEmailController.text,
+                                                "GrandHotelStaff123",
+                                                _staffNameController.text,
+                                                _staffPhoneController.text);
+                                            //si creeaza cont in FirebaseAuthentication
                                           } else if (pageTitle ==
                                               Strings.updateStaff) {
                                             await userService

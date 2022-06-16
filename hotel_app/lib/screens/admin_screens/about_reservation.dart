@@ -20,17 +20,10 @@ class AboutReservation extends StatefulWidget {
 }
 
 class _AboutReservation extends State<AboutReservation> {
-  String name = '';
-  String rooms = '';
+  String name = '', rooms = '';
   String buttonText = Strings.approve;
   final List<String> timeLineList = [];
   Color cardBackgroundColor = Colors.orange;
-
-  void changeColor(Color changeToColor) {
-    setState(() {
-      cardBackgroundColor = changeToColor;
-    });
-  }
 
   @override
   void initState() {
@@ -49,6 +42,12 @@ class _AboutReservation extends State<AboutReservation> {
     final DateTime displayDate = displayFormater.parse(date);
     final String formatted = serverFormater.format(displayDate);
     return formatted;
+  }
+
+  void changeColor(Color changeToColor) {
+    setState(() {
+      cardBackgroundColor = changeToColor;
+    });
   }
 
   @override
@@ -420,6 +419,7 @@ class _AboutReservation extends State<AboutReservation> {
           ],
         );
       });
+
   getFacilities(BuildContext context) {
     if (super.widget.reservationModel.facilities.isEmpty) {
       return const Text('No facilities selected!');

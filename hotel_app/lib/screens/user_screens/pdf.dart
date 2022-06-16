@@ -1,5 +1,7 @@
 import 'dart:ui';
+import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:first_app_flutter/models/reservation_model.dart';
+import 'package:first_app_flutter/screens/services/facilities_service.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
@@ -17,40 +19,65 @@ Future<void> createPDF(ReservationModel reservationModel) async {
       bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
       pen: PdfPen(PdfColor(142, 170, 219, 255)));
 
-  final PdfGrid grid = getGrid();
+  final PdfGrid grid = getGrid(reservationModel);
   final PdfLayoutResult? result =
       drawHeader(page, pageSize, grid, reservationModel);
-  drawGrid(page, grid, result!);
-  drawFooter(page, pageSize);
+  drawGrid(page, grid, result!, reservationModel);
+  drawFooter(page, pageSize, reservationModel);
   List<int> bytes = document.save();
   final directory = await getApplicationDocumentsDirectory();
 
   final path = directory.path;
 
-  final file = File('$path/HelloWorld.pdf');
+  final file = File('$path/Bill.pdf');
   await file.writeAsBytes(bytes, flush: true);
 
-  OpenFile.open('$path/HelloWorld.pdf');
+  OpenFile.open('$path/Bill.pdf');
 }
 
-PdfGrid getGrid() {
+double getFacilitiesPrice(List<String> facilities, int days) {
+  FacilityService facilityService = FacilityService();
+  double totalCost = 0;
+  for (var f in facilityService.getFacilities()) {
+    if (facilities.contains(f.facility)) {
+      totalCost += int.parse(f.cost);
+    }
+  }
+  return (totalCost * days);
+}
+
+double calculateVAT(int total) {
+  return ((23 * total) / 100);
+}
+
+double calculateRoomsPrice(int total, facilitiesPrice) {
+  return total - calculateVAT(total) - facilitiesPrice;
+}
+
+PdfGrid getGrid(ReservationModel reservationModel) {
   final PdfGrid grid = PdfGrid();
+
+  DateTime checkIn = DateTime.parse(reservationModel.checkIn);
+  DateTime checkOut = DateTime.parse(reservationModel.checkOut);
+
+  int days = checkOut.difference(checkIn).inDays + 1;
+  double facilitiesPrice =
+      getFacilitiesPrice(reservationModel.facilities, days);
   grid.columns.add(count: 5);
   final PdfGridRow headerRow = grid.headers.add(1)[0];
+
   headerRow.style.backgroundBrush = PdfSolidBrush(PdfColor(68, 114, 196));
   headerRow.style.textBrush = PdfBrushes.white;
-  headerRow.cells[0].value = 'Product Id';
+
+  headerRow.cells[0].value = 'Product name';
   headerRow.cells[0].stringFormat.alignment = PdfTextAlignment.center;
-  headerRow.cells[1].value = 'Product Name';
-  headerRow.cells[2].value = 'Price';
-  headerRow.cells[3].value = 'Quantity';
-  headerRow.cells[4].value = 'Total';
-  addProducts('CA-1098', 'AWC Logo Cap', 8.99, 2, 17.98, grid);
-  addProducts('LJ-0192', 'Long-Sleeve Logo Jersey,M', 49.99, 3, 149.97, grid);
-  addProducts('So-B909-M', 'Mountain Bike Socks,M', 9.5, 2, 19, grid);
-  addProducts('LJ-0192', 'Long-Sleeve Logo Jersey,M', 49.99, 4, 199.96, grid);
-  addProducts('FK-5136', 'ML Fork', 175.49, 6, 1052.94, grid);
-  addProducts('HL-U509', 'Sports-100 Helmet,Black', 34.99, 1, 34.99, grid);
+  headerRow.cells[1].value = 'Price';
+  headerRow.cells[1].stringFormat.alignment = PdfTextAlignment.center;
+
+  addProducts('Facilities', facilitiesPrice, grid);
+  addProducts('Rooms',
+      calculateRoomsPrice(reservationModel.price, facilitiesPrice), grid);
+  addProducts('VAT(23%)', calculateVAT(reservationModel.price), grid);
 
   grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
   grid.columns[1].width = 200;
@@ -73,14 +100,10 @@ PdfGrid getGrid() {
 }
 
 //Create row for the grid.
-void addProducts(String productId, String productName, double price,
-    int quantity, double total, PdfGrid grid) {
+void addProducts(String productName, double price, PdfGrid grid) {
   PdfGridRow row = grid.rows.add();
-  row.cells[0].value = productId;
-  row.cells[1].value = productName;
-  row.cells[2].value = price.toString();
-  row.cells[3].value = quantity.toString();
-  row.cells[4].value = total.toString();
+  row.cells[0].value = productName;
+  row.cells[1].value = price.toString();
 }
 
 PdfLayoutResult? drawHeader(PdfPage page, Size pageSize, PdfGrid grid,
@@ -98,14 +121,6 @@ PdfLayoutResult? drawHeader(PdfPage page, Size pageSize, PdfGrid grid,
   page.graphics.drawRectangle(
       bounds: Rect.fromLTWH(350, 0, pageSize.width - 350, 90),
       brush: PdfSolidBrush(PdfColor(8, 52, 69)));
-
-  // page.graphics.drawString(
-  //     '\$' + "720", PdfStandardFont(PdfFontFamily.helvetica, 18),
-  //     bounds: Rect.fromLTWH(300, 0, pageSize.width - 300, 100),
-  //     brush: PdfBrushes.white,
-  //     format: PdfStringFormat(
-  //         alignment: PdfTextAlignment.center,
-  //         lineAlignment: PdfVerticalAlignment.middle));
 
   final PdfFont contentFont = PdfStandardFont(PdfFontFamily.helvetica, 9);
 
@@ -146,7 +161,8 @@ PdfLayoutResult? drawHeader(PdfPage page, Size pageSize, PdfGrid grid,
           pageSize.height - 120));
 }
 
-void drawFooter(PdfPage page, Size pageSize) {
+void drawFooter(
+    PdfPage page, Size pageSize, ReservationModel reservationModel) {
   final PdfPen linePen =
       PdfPen(PdfColor(142, 170, 219, 255), dashStyle: PdfDashStyle.custom);
   linePen.dashPattern = <double>[3, 3];
@@ -154,7 +170,7 @@ void drawFooter(PdfPage page, Size pageSize) {
       Offset(pageSize.width, pageSize.height - 100));
 
   const String footerContent =
-      '800 Interchange Blvd.\r\n\r\nSuite 2501, Austin, TX 78721\r\n\r\nAny Questions? support@adventure-works.com';
+      '800 Interchange Blvd.\r\n\r\nSuite 2501, Austin, TX 78721\r\n\r\nAny Questions? support@grand-hotel.com';
 
   page.graphics.drawString(
       footerContent, PdfStandardFont(PdfFontFamily.helvetica, 9),
@@ -162,7 +178,8 @@ void drawFooter(PdfPage page, Size pageSize) {
       bounds: Rect.fromLTWH(pageSize.width - 30, pageSize.height - 70, 0, 0));
 }
 
-void drawGrid(PdfPage page, PdfGrid grid, PdfLayoutResult result) {
+void drawGrid(PdfPage page, PdfGrid grid, PdfLayoutResult result,
+    ReservationModel reservationModel) {
   Rect totalPriceCellBounds = const Rect.fromLTWH(10, 10, 10, 10);
   Rect quantityCellBounds = const Rect.fromLTWH(10, 10, 10, 10);
   //Invoke the beginCellLayout event.
@@ -179,11 +196,11 @@ void drawGrid(PdfPage page, PdfGrid grid, PdfLayoutResult result) {
       page: page, bounds: Rect.fromLTWH(0, result.bounds.bottom + 40, 0, 0))!;
 
   //Draw grand total.
-  page.graphics.drawString('Grand Total',
+  page.graphics.drawString('Total',
       PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
       bounds: Rect.fromLTWH(quantityCellBounds.left, result.bounds.bottom + 10,
           quantityCellBounds.width, quantityCellBounds.height));
-  page.graphics.drawString("720",
+  page.graphics.drawString(reservationModel.price.toString(),
       PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
       bounds: Rect.fromLTWH(
           totalPriceCellBounds.left,

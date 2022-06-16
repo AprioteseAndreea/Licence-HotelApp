@@ -17,17 +17,23 @@ class UsersScreen extends StatefulWidget {
 class _UsersScreen extends State<UsersScreen> {
   UserService userService = UserService();
   List<User> usersList = [];
+  List<User> filteredList = [];
   final ScrollController _controller = ScrollController();
   @override
   void initState() {
     super.initState();
+    usersList = userService.getUsers();
+    for (var u in usersList) {
+      if (u.role == "user") {
+        filteredList.add(u);
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     userService = Provider.of<UserService>(context);
-    usersList = [];
-    usersList = userService.getUsers();
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
@@ -47,7 +53,7 @@ class _UsersScreen extends State<UsersScreen> {
             scrollDirection: Axis.vertical,
             physics: const ClampingScrollPhysics(),
             controller: _controller,
-            itemCount: usersList.length,
+            itemCount: filteredList.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
@@ -55,11 +61,11 @@ class _UsersScreen extends State<UsersScreen> {
                       context: context,
                       builder: (BuildContext context) {
                         return CustomDialogBox(
-                            userName: usersList[index].name,
-                            userPhone: usersList[index].phoneNumber,
-                            userEmail: usersList[index].email,
-                            userOld: usersList[index].old,
-                            userGender: usersList[index].gender);
+                            userName: filteredList[index].name,
+                            userPhone: filteredList[index].phoneNumber,
+                            userEmail: filteredList[index].email,
+                            userOld: filteredList[index].old,
+                            userGender: filteredList[index].gender);
                       });
                 },
                 child: Card(
@@ -68,15 +74,15 @@ class _UsersScreen extends State<UsersScreen> {
                   shadowColor: const Color(0xFF124559),
                   child: ListTile(
                     title: Text(
-                      usersList[index].name,
+                      filteredList[index].name,
                       style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
-                    subtitle: Text('Since: ${usersList[index].old}'),
-                    leading: usersList[index].gender == 'male'
+                    subtitle: Text('Since: ${filteredList[index].old}'),
+                    leading: filteredList[index].gender == 'male'
                         ? const Padding(
                             padding: EdgeInsets.only(top: 7, bottom: 4),
                             child: CircleAvatar(
@@ -101,7 +107,7 @@ class _UsersScreen extends State<UsersScreen> {
                       icon: const Icon(Icons.phone),
                       color: const Color(0xFFF0972D),
                       onPressed: () {
-                        launch('tel: +${usersList[index].phoneNumber}');
+                        launch('tel: +${filteredList[index].phoneNumber}');
                       },
                     ),
                   ),

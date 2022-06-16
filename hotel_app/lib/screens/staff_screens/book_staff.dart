@@ -7,6 +7,7 @@ import 'package:first_app_flutter/screens/user_screens/get_room_possible_rooms.d
 import 'package:first_app_flutter/screens/user_screens/not_found_room.dart';
 import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
 import 'package:first_app_flutter/utils/strings.dart';
+import 'package:first_app_flutter/utils/validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -257,10 +258,9 @@ class _BookStaff extends State<BookStaff> {
                                           controller: _nameController,
                                           validator: (val) => val!.isNotEmpty
                                               ? null
-                                              : Strings.enterClientEmail,
+                                              : Strings.enterClientName,
                                           decoration: InputDecoration(
-                                              hintText:
-                                                  Strings.enterClientEmail,
+                                              hintText: Strings.enterClientName,
                                               hintStyle:
                                                   const TextStyle(fontSize: 15),
                                               prefixIcon: Container(
@@ -322,9 +322,8 @@ class _BookStaff extends State<BookStaff> {
                                         child: TextFormField(
                                           controller: _emailController,
                                           validator: (value) =>
-                                              EmailValidator.validate(value)
-                                                  ? null
-                                                  : Strings.enterClientEmail,
+                                              FieldValidator.validateEmail(
+                                                  value),
                                           decoration: InputDecoration(
                                               hintText:
                                                   Strings.enterClientEmail,
@@ -963,7 +962,8 @@ class _BookStaff extends State<BookStaff> {
                                             selectedSpecialFacilities);
 
                                         if (foundRoomProvider.errorMessage ==
-                                            "") {
+                                                "" &&
+                                            _formkey.currentState!.validate()) {
                                           List<RoomModel> rooms =
                                               foundRoomProvider.getRooms();
                                           if (rooms.isNotEmpty) {

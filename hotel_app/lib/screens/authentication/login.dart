@@ -129,7 +129,8 @@ class _LoginState extends State<Login> {
                           fontSize: mediaQuery.width * 0.04,
                         ),
                         controller: _passwordController,
-                        // validator: FieldValidator.validatePassword,
+                        validator: (val) =>
+                            val!.isNotEmpty ? null : Strings.errorPassword,
                         obscureText: _obscuredText,
                         decoration: InputDecoration(
                             suffixIcon: TextButton(

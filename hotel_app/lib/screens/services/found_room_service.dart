@@ -122,7 +122,7 @@ class FoundRoomServices with ChangeNotifier {
           totalRooms.add(i.toString());
         }
         final combos = Combinations(rooms, totalRooms);
-        int minDifference = 0;
+        int minDifference = 3;
         for (final combo in combos()) {
           int maxGuests = 0;
           for (var c in combo) {
@@ -132,7 +132,7 @@ class FoundRoomServices with ChangeNotifier {
           // de oaspeti ceruti
 
           if (maxGuests >= (adults + children)
-              // && (maxGuests - adults - children < minDifference)
+              //&& (maxGuests - adults - children < minDifference)
               ) {
             for (var c in combo) {
               resultedList.add(_rooms[int.parse(c)]);

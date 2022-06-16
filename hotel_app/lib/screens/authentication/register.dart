@@ -4,6 +4,7 @@ import 'package:first_app_flutter/screens/authentication/login.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:first_app_flutter/utils/strings.dart';
+import 'package:first_app_flutter/utils/validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -103,9 +104,8 @@ class _RegisterState extends State<Register> {
                           fontSize: mediaQuery.width * 0.035,
                         ),
                         controller: _emailController,
-                        validator: (value) => EmailValidator.validate(value)
-                            ? null
-                            : Strings.errorEmail,
+                        validator: (value) =>
+                            FieldValidator.validateEmail(value),
                         decoration: InputDecoration(
                           hintText: Strings.email,
                           prefixIcon:
@@ -123,9 +123,8 @@ class _RegisterState extends State<Register> {
                         style: TextStyle(
                           fontSize: mediaQuery.width * 0.035,
                         ),
-                        validator: (val) => val!.length < 6
-                            ? Strings.enterMoreThanSixChars
-                            : null,
+                        validator: (val) =>
+                            FieldValidator.validatePassword(val!),
                         controller: _passwordController,
                         obscureText: _obscuredText,
                         decoration: InputDecoration(
