@@ -20,6 +20,11 @@ class _MyBookings extends State<MyBookings> {
   ReservationService reservationService = ReservationService();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final ScrollController _controller = ScrollController();
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -214,6 +219,8 @@ class _MyBookings extends State<MyBookings> {
             child: SingleChildScrollView(
           child: myBookings.isNotEmpty
               ? ListView.builder(
+                  addAutomaticKeepAlives: false,
+                  addRepaintBoundaries: false,
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   padding: const EdgeInsets.all(5),

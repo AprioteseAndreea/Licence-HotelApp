@@ -71,6 +71,8 @@ class _StaffScreen extends State<StaffScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: ListView.builder(
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             physics: const ClampingScrollPhysics(),
@@ -86,9 +88,9 @@ class _StaffScreen extends State<StaffScreen> {
                       staffList[index].name,
                       textAlign: TextAlign.justify,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 16,
-                          color: Color(0xFF124559),
+                          color: Color(Strings.darkTurquoise),
                           fontWeight: FontWeight.bold),
                       maxLines: 1,
                     ),

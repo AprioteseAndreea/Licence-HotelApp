@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class GetRoomS2 extends StatefulWidget {
@@ -37,13 +36,8 @@ class GetRoomS2 extends StatefulWidget {
 }
 
 class _GetRoomS2 extends State<GetRoomS2> {
-  late String facilitiesEnumeration = '';
-  late String roomsNumber = '';
-  late int extraFacilities = 0;
-  late int roomCost = 0;
-  late int nights = 0;
-  late int total = 0;
-  late int guests = 0;
+  late String facilitiesEnumeration = '', roomsNumber = '';
+  late int extraFacilities = 0, roomCost = 0, nights = 0, total = 0, guests = 0;
 
   @override
   void initState() {
@@ -103,14 +97,14 @@ class _GetRoomS2 extends State<GetRoomS2> {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color(0xFF124559),
+        iconTheme: IconThemeData(
+          color: Color(Strings.darkTurquoise),
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Step 3',
-          style: TextStyle(color: Color(0xFF124559)),
+          style: TextStyle(color: Color(Strings.darkTurquoise)),
         ),
       ),
       body: SafeArea(
@@ -119,12 +113,12 @@ class _GetRoomS2 extends State<GetRoomS2> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const StepProgressIndicator(
+              StepProgressIndicator(
                 totalSteps: 3,
                 currentStep: 3,
                 size: 13,
-                selectedColor: Color(0xFF124559),
-                unselectedColor: Color(0xFF72B0D4),
+                selectedColor: Color(Strings.darkTurquoise),
+                unselectedColor: Color(Strings.lightBlue),
               ),
               const SizedBox(
                 height: 15,
@@ -450,9 +444,9 @@ class _GetRoomS2 extends State<GetRoomS2> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
-                            child: const Text(
-                              "Confirm reservation",
-                              style: TextStyle(
+                            child: Text(
+                              Strings.confirmReservation,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),

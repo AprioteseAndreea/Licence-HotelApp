@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../wrapper.dart';
+
 class StaffHomeScreen extends StatefulWidget {
   const StaffHomeScreen({Key? key}) : super(key: key);
   @override
@@ -79,8 +81,16 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                     CupertinoIcons.square_arrow_right,
                     size: 25,
                   ),
-                  onPressed: () async =>
-                      {firebaseAuth.signOut(), await loginProvider.logout()},
+                  onPressed: () async => {
+                    await loginProvider.logout(),
+                    Navigator.pop(context),
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Wrapper(),
+                        ),
+                        ModalRoute.withName('/'))
+                  },
                 ),
               ],
             ),
@@ -411,7 +421,16 @@ class _StaffHomeScreen extends State<StaffHomeScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () async => await loginProvider.logout(),
+                                onTap: () async => {
+                                  await loginProvider.logout(),
+                                  Navigator.pop(context),
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Wrapper(),
+                                      ),
+                                      ModalRoute.withName('/'))
+                                },
                                 child: Card(
                                   semanticContainer: true,
                                   clipBehavior: Clip.antiAliasWithSaveLayer,

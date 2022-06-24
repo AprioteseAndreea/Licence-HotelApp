@@ -10,7 +10,10 @@ import 'package:first_app_flutter/screens/authentication/authentication_services
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:provider/provider.dart';
+
+import '../wrapper.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({Key? key}) : super(key: key);
@@ -160,10 +163,19 @@ class _AdminHomeScreen extends State<AdminHomeScreen> {
                         },
                       ),
                       HomeCard(
-                        title: Strings.logout.toUpperCase(),
-                        icon: Icons.logout,
-                        onPressed: () async => await loginProvider.logout(),
-                      ),
+                          title: Strings.logout.toUpperCase(),
+                          icon: Icons.logout,
+                          onPressed: () async => {
+                                await loginProvider.logout(),
+                                Navigator.pop(context),
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Wrapper(),
+                                    ),
+                                    ModalRoute.withName('/')),
+                                await DefaultCacheManager().emptyCache(),
+                              }),
                     ]),
               ],
             ),

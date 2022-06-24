@@ -37,10 +37,12 @@ class _AboutReservation extends State<AboutReservation> {
   }
 
   String formatDate(String date) {
-    final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
-    final DateFormat serverFormater = DateFormat('MMM d, yyyy');
-    final DateTime displayDate = displayFormater.parse(date);
-    final String formatted = serverFormater.format(displayDate);
+    final DateFormat displayFormatter = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
+    final DateFormat serverFormatter = DateFormat('MMM d, yyyy');
+
+    final DateTime displayDate = displayFormatter.parse(date);
+    final String formatted = serverFormatter.format(displayDate);
+
     return formatted;
   }
 
@@ -118,7 +120,7 @@ class _AboutReservation extends State<AboutReservation> {
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
                   elevation: 6,
-                  shadowColor: const Color(0xFF124559),
+                  shadowColor: Color(Strings.darkTurquoise),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
@@ -142,15 +144,15 @@ class _AboutReservation extends State<AboutReservation> {
                           ],
                         ),
                         ListTile(
-                          leading: const Icon(
+                          leading: Icon(
                             CupertinoIcons.person_solid,
                             size: 30,
-                            color: Color(0xff848181),
+                            color: Color(Strings.grey),
                           ),
                           title: Text(
                             Strings.userName,
                             style: TextStyle(
-                              color: const Color(0xff848181),
+                              color: Color(Strings.grey),
                               fontSize: mediaQuery.width * 0.040,
                             ),
                           ),
@@ -170,9 +172,9 @@ class _AboutReservation extends State<AboutReservation> {
                             color: Color(Strings.orange),
                           ),
                           title: Text(
-                            'Check-In - Check-Out',
+                            Strings.checkInCheckOut,
                             style: TextStyle(
-                              color: const Color(0xff848181),
+                              color: Color(Strings.grey),
                               fontSize: mediaQuery.width * 0.040,
                             ),
                           ),
@@ -188,15 +190,15 @@ class _AboutReservation extends State<AboutReservation> {
                           ),
                         ),
                         ListTile(
-                          leading: const Icon(
+                          leading: Icon(
                             CupertinoIcons.tag_fill,
                             size: 30,
-                            color: Color(0xff848181),
+                            color: Color(Strings.grey),
                           ),
                           title: Text(
                             Strings.rooms,
                             style: TextStyle(
-                              color: const Color(0xff848181),
+                              color: Color(Strings.grey),
                               fontSize: mediaQuery.width * 0.040,
                             ),
                           ),
@@ -218,7 +220,7 @@ class _AboutReservation extends State<AboutReservation> {
                           title: Text(
                             Strings.guests,
                             style: TextStyle(
-                              color: const Color(0xff848181),
+                              color: Color(Strings.grey),
                               fontSize: mediaQuery.width * 0.040,
                             ),
                           ),
@@ -232,15 +234,15 @@ class _AboutReservation extends State<AboutReservation> {
                           ),
                         ),
                         ListTile(
-                          leading: const Icon(
+                          leading: Icon(
                             CupertinoIcons.pencil_ellipsis_rectangle,
                             size: 30,
-                            color: Color(0xff848181),
+                            color: Color(Strings.grey),
                           ),
                           title: Text(
                             Strings.otherDetails,
                             style: TextStyle(
-                              color: const Color(0xff848181),
+                              color: Color(Strings.grey),
                               fontSize: mediaQuery.width * 0.040,
                             ),
                           ),
@@ -390,7 +392,7 @@ class _AboutReservation extends State<AboutReservation> {
       );
     } else {
       return Text(
-        'No other details added',
+        Strings.noOtherDetailsAdded,
         style: TextStyle(
           color: Color(Strings.darkTurquoise),
           fontSize: fontSize,
@@ -422,7 +424,7 @@ class _AboutReservation extends State<AboutReservation> {
 
   getFacilities(BuildContext context) {
     if (super.widget.reservationModel.facilities.isEmpty) {
-      return const Text('No facilities selected!');
+      return Text(Strings.noFacilitiesSelected);
     } else {
       return Column(
         mainAxisSize: MainAxisSize.min,

@@ -7,6 +7,7 @@ import 'package:first_app_flutter/screens/user_screens/feedback.dart'
 import 'package:first_app_flutter/screens/user_screens/get_room_step_one.dart';
 import 'package:first_app_flutter/screens/user_screens/my_bookings.dart';
 import 'package:first_app_flutter/screens/user_screens/profile.dart';
+import 'package:first_app_flutter/screens/wrapper.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -155,14 +156,21 @@ class SideDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
-              CupertinoIcons.square_arrow_right,
-              color: Color(Strings.darkTurquoise),
-            ),
-            title: textWidget(Strings.logout),
-            onTap: () async =>
-                {firebaseAuth.signOut(), await loginProvider.logout()},
-          ),
+              leading: Icon(
+                Icons.logout,
+                color: Color(Strings.darkTurquoise),
+              ),
+              title: textWidget(Strings.logout),
+              onTap: () async => {
+                    await loginProvider.logout(),
+                    Navigator.pop(context),
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Wrapper(),
+                        ),
+                        ModalRoute.withName('/'))
+                  }),
         ],
       ),
     );

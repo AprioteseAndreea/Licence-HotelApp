@@ -26,6 +26,13 @@ class _Rooms extends State<Rooms> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    roomsService.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
     roomsService = Provider.of<RoomsService>(context);
@@ -62,6 +69,8 @@ class _Rooms extends State<Rooms> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: ListView.builder(
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             physics: const ClampingScrollPhysics(),
@@ -71,7 +80,7 @@ class _Rooms extends State<Rooms> {
               return Card(
                 margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
                 elevation: 6,
-                shadowColor: const Color(0xFF124559),
+                shadowColor: Color(Strings.darkTurquoise),
                 child: InkWell(
                     onTap: () {
                       RoomModel currentRoom = RoomModel(
@@ -108,7 +117,7 @@ class _Rooms extends State<Rooms> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Card(
-                                color: const Color(0xFF124559),
+                                color: Color(Strings.darkTurquoise),
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       left: 7, right: 7, top: 5, bottom: 5),
@@ -133,24 +142,26 @@ class _Rooms extends State<Rooms> {
                                           left: 3, top: 3, bottom: 3, right: 3),
                                       child: Row(
                                         children: [
-                                          const Icon(
+                                          Icon(
                                             Icons.euro,
-                                            color: Color(0xFF124559),
+                                            color: Color(Strings.darkTurquoise),
                                             size: 23.0,
                                           ),
                                           Text(
                                             roomsList[index].cost.toString(),
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
-                                              color: Color(0xFF124559),
+                                              color:
+                                                  Color(Strings.darkTurquoise),
                                             ),
                                           ),
                                           Text(
                                             Strings.night,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 15,
-                                              color: Color(0xFF124559),
+                                              color:
+                                                  Color(Strings.darkTurquoise),
                                             ),
                                           ),
                                         ],
@@ -214,16 +225,16 @@ class _Rooms extends State<Rooms> {
                                           style: TextStyle(
                                             fontSize: mediaQuery.width * 0.04,
                                             fontWeight: FontWeight.bold,
-                                            color: const Color(0xFF124559),
+                                            color: Color(Strings.darkTurquoise),
                                           ),
                                         ),
                                       ),
-                                      const Padding(
-                                        padding: EdgeInsets.only(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
                                             left: 10, right: 10),
                                         child: Icon(
                                           Icons.horizontal_rule_rounded,
-                                          color: Color(0xFF124559),
+                                          color: Color(Strings.darkTurquoise),
                                           size: 40.0,
                                         ),
                                       ),
@@ -234,7 +245,7 @@ class _Rooms extends State<Rooms> {
                                           roomsList[index].interval,
                                           style: TextStyle(
                                             fontSize: mediaQuery.width * 0.04,
-                                            color: const Color(0xFF124559),
+                                            color: Color(Strings.darkTurquoise),
                                           ),
                                         ),
                                       ),

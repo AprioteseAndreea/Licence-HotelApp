@@ -1,4 +1,3 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
 import 'package:first_app_flutter/screens/services/facilities_service.dart';

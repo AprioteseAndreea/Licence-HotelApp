@@ -130,9 +130,9 @@ class _ThirdScreenState extends State<ThirdScreen> {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          const Icon(
+                          Icon(
                             CupertinoIcons.bed_double_fill,
-                            color: Color(0xFFF0972D),
+                            color: Color(Strings.orange),
                             size: 30,
                           ),
                           Text(

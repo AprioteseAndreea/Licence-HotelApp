@@ -87,6 +87,8 @@ class _Posts extends State<Posts> {
         body: SafeArea(
             child: SingleChildScrollView(
           child: ListView.builder(
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             physics: const ClampingScrollPhysics(),

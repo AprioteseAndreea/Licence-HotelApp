@@ -32,6 +32,14 @@ class _AddRoom extends State<AddRoom> {
   }
 
   @override
+  void dispose() {
+    _numberController.dispose();
+    _maxGuestsController.dispose();
+    _priceController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final roomsService = Provider.of<RoomsService>(context);
     rooms = roomsService.getRooms();
@@ -210,7 +218,7 @@ class _AddRoom extends State<AddRoom> {
                           color: Colors.white,
                         ),
                         tagDecoration: BoxDecoration(
-                          color: const Color(0xFF124559),
+                          color: Color(Strings.darkTurquoise),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         tagCancelIcon: const Icon(Icons.cancel,
@@ -220,7 +228,7 @@ class _AddRoom extends State<AddRoom> {
                       facilities.add(tag);
                     },
                     textFieldStyler: TextFieldStyler(
-                      cursorColor: const Color(0xFF124559),
+                      cursorColor: Color(Strings.darkTurquoise),
                     ),
                     onDelete: (String tag) {
                       facilities.remove(tag);

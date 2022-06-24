@@ -30,6 +30,15 @@ class _StaffProfile extends State<StaffProfile> {
   late TextEditingController _staffSalaryController = TextEditingController();
 
   @override
+  void dispose() {
+    _staffNameController.dispose();
+    _staffPhoneController.dispose();
+    _staffEmailController.dispose();
+    _staffSalaryController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) async {

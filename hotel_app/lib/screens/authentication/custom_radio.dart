@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class CustomRadio extends StatelessWidget {
   final Gender _gender;
-
   const CustomRadio(this._gender);
 
   @override

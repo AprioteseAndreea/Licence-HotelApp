@@ -5,9 +5,12 @@ import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/screens/services/rooms_service.dart';
 import 'package:first_app_flutter/screens/services/statistics_service.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AuthServices with ChangeNotifier {
   bool _isLoading = false;
@@ -76,16 +79,32 @@ class AuthServices with ChangeNotifier {
     notifyListeners();
   }
 
-  Future logout() async {
+  Future<void> logout() async {
+    await DefaultCacheManager().emptyCache();
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      await _deleteCacheDir();
+      await _deleteAppDir();
+    }
+
     await firebaseAuth.signOut();
-    // await actualizeInformation();
     notifyListeners();
   }
 
-  // Future<void> actualizeInformation() async {
-  //   ReservationService reservationService = ReservationService();
-  //   await reservationService.actualizeInformation();
-  // }
+  Future<void> _deleteCacheDir() async {
+    final cacheDir = await getTemporaryDirectory();
+
+    if (cacheDir.existsSync()) {
+      cacheDir.deleteSync(recursive: true);
+    }
+  }
+
+  Future<void> _deleteAppDir() async {
+    final appDir = await getApplicationSupportDirectory();
+
+    if (appDir.existsSync()) {
+      appDir.deleteSync(recursive: true);
+    }
+  }
 
   void setLoading(val) {
     _isLoading = val;

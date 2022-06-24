@@ -22,11 +22,17 @@ class _Bookings extends State<Bookings> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   String formatDate(String date) {
-    final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
-    final DateFormat serverFormater = DateFormat('MMM d, yyyy');
-    final DateTime displayDate = displayFormater.parse(date);
-    final String formatted = serverFormater.format(displayDate);
+    final DateFormat displayFormatter = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
+    final DateFormat serverFormatter = DateFormat('MMM d, yyyy');
+    final DateTime displayDate = displayFormatter.parse(date);
+    final String formatted = serverFormatter.format(displayDate);
     return formatted;
   }
 
@@ -38,6 +44,8 @@ class _Bookings extends State<Bookings> {
       child: SingleChildScrollView(
           child: super.widget.reservations.isNotEmpty
               ? ListView.builder(
+                  addAutomaticKeepAlives: false,
+                  addRepaintBoundaries: false,
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   physics: const ClampingScrollPhysics(),
@@ -136,7 +144,7 @@ class _Bookings extends State<Bookings> {
                             padding: const EdgeInsets.only(
                                 left: 20, right: 20, top: 5, bottom: 5),
                             child: Card(
-                                color: const Color(0xFF124559),
+                                color: Color(Strings.darkTurquoise),
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.only(top: 5, bottom: 5),
@@ -265,7 +273,7 @@ class _Bookings extends State<Bookings> {
                     height: 20,
                   ),
                   Text(
-                    "No reservations found!",
+                    Strings.noReservationsFound,
                     style: TextStyle(
                         color: Colors.grey,
                         fontSize: mediaQuery.width * 0.05,

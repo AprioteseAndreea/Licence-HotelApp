@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../wrapper.dart';
+
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({Key? key}) : super(key: key);
   @override
@@ -53,13 +55,20 @@ class _UserHomeScreen extends State<UserHomeScreen> {
     facilities.add("assets/images/car.png");
     facilities.add("assets/images/pet.png");
 
-    placeToVisitPath.add("assets/images/ptv1.jpg");
-    placeToVisitPath.add("assets/images/ptv2.jpg");
-    placeToVisitPath.add("assets/images/ptv3.jpg");
-    placeToVisitPath.add("assets/images/ptv4.jpg");
-    placeToVisitPath.add("assets/images/ptv5.jpg");
-    placeToVisitPath.add("assets/images/ptv6.jpg");
-    placeToVisitPath.add("assets/images/ptv7.jpg");
+    placeToVisitPath.add(
+        "https://images.unsplash.com/photo-1545671953-0e564e4838a5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8NHx8fGVufDB8fHx8&w=1000&q=80");
+    placeToVisitPath.add(
+        "https://img.freepik.com/free-photo/lake-central-park-new-york-usa_1268-14965.jpg?w=2000");
+    placeToVisitPath.add(
+        "https://cdn.sanity.io/images/bs9rmafh/main/339ff10691f4eec5f3aac374d8d79dea34f78718-6000x4000.jpg?w=1600&h=1067&fit=crop");
+    placeToVisitPath
+        .add("https://media.timeout.com/images/105813641/750/422/image.jpg");
+    placeToVisitPath.add(
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Empire_State_Building_from_the_Top_of_the_Rock.jpg/447px-Empire_State_Building_from_the_Top_of_the_Rock.jpg");
+    placeToVisitPath.add(
+        "https://cdn.britannica.com/66/154566-050-36E73C15/Times-Square-New-York-City.jpg");
+    placeToVisitPath.add(
+        "https://img-lumas-avensogmbh1.netdna-ssl.com/showimg_rja21_search.jpg");
   }
 
   Future<void> _readEmail() async {
@@ -103,8 +112,8 @@ class _UserHomeScreen extends State<UserHomeScreen> {
         phoneNumber: phoneNumber ?? "",
       ),
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color(0xFF124559),
+        iconTheme: IconThemeData(
+          color: Color(Strings.darkTurquoise),
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
@@ -114,8 +123,16 @@ class _UserHomeScreen extends State<UserHomeScreen> {
               CupertinoIcons.square_arrow_right,
               size: 25,
             ),
-            onPressed: () async =>
-                {firebaseAuth.signOut(), await loginProvider.logout()},
+            onPressed: () async => {
+              await loginProvider.logout(),
+              Navigator.pop(context),
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Wrapper(),
+                  ),
+                  ModalRoute.withName('/'))
+            },
           ),
         ],
         leading: Builder(
@@ -280,6 +297,8 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                             top: 10, bottom: 20, left: 5, right: 5),
                         height: mediaQuery.height * 0.18,
                         child: ListView.builder(
+                            addAutomaticKeepAlives: false,
+                            addRepaintBoundaries: false,
                             scrollDirection: Axis.horizontal,
                             itemCount: facilities.length,
                             itemBuilder: (context, index) {
@@ -342,6 +361,8 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                         padding: const EdgeInsets.only(top: 10, bottom: 20),
                         height: mediaQuery.height * 0.3,
                         child: ListView.builder(
+                            addAutomaticKeepAlives: false,
+                            addRepaintBoundaries: false,
                             scrollDirection: Axis.horizontal,
                             itemCount: placeToVisitPath.length,
                             itemBuilder: (context, index) {
@@ -373,7 +394,7 @@ class _UserHomeScreen extends State<UserHomeScreen> {
                                           child: Container(
                                             decoration: BoxDecoration(
                                               image: DecorationImage(
-                                                image: ExactAssetImage(
+                                                image: NetworkImage(
                                                     placeToVisitPath[index]
                                                         .toString()),
                                                 fit: BoxFit.cover,

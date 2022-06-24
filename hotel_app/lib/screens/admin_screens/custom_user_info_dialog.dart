@@ -73,9 +73,9 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                         overflow: TextOverflow.clip,
                         maxLines: 1,
                         softWrap: false,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
-                          color: Color(0xFF124559),
+                          color: Color(Strings.darkTurquoise),
                         ),
                       ),
                     ),
@@ -87,18 +87,18 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               ),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     CupertinoIcons.phone_fill,
-                    color: Color(0xFFF0972D),
+                    color: Color(Strings.orange),
                     size: 20,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: Text(
                       widget.userPhone,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
-                        color: Color(0xFF124559),
+                        color: Color(Strings.darkTurquoise),
                       ),
                     ),
                   )
@@ -130,17 +130,17 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(45)),
                 child: widget.userGender == Strings.male
-                    ? const CircleAvatar(
+                    ? CircleAvatar(
                         radius: 45,
-                        backgroundColor: Color(0xFFF0972D),
-                        child: CircleAvatar(
+                        backgroundColor: Color(Strings.orange),
+                        child: const CircleAvatar(
                             radius: 42,
                             backgroundImage:
                                 AssetImage('assets/images/male2.png')))
-                    : const CircleAvatar(
+                    : CircleAvatar(
                         radius: 45,
-                        backgroundColor: Color(0xFFF0972D),
-                        child: CircleAvatar(
+                        backgroundColor: Color(Strings.orange),
+                        child: const CircleAvatar(
                             radius: 42,
                             backgroundImage:
                                 AssetImage('assets/images/female.png')))),

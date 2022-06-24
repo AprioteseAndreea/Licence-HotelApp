@@ -19,7 +19,9 @@ class AboutRoom extends StatefulWidget {
 class _AboutRoom extends State<AboutRoom> {
   late List<String> facilities = [];
   late List<RoomModel> rooms = [];
-  final _formkey = GlobalKey<FormState>();
+
+  final formkey = GlobalKey<FormState>();
+
   late String _selectedStatus;
   late String priceController;
   late String maxGuestsController;
@@ -28,11 +30,13 @@ class _AboutRoom extends State<AboutRoom> {
   late TextEditingController _maxGuestsController;
   late TextEditingController _priceController;
   late RoomsService roomsService;
+
   @override
   void initState() {
     _numberController = TextEditingController();
     _maxGuestsController = TextEditingController();
     _priceController = TextEditingController();
+
     _numberController.text = super.widget.roomModel.number;
     _maxGuestsController.text = super.widget.roomModel.maxGuests;
     _priceController.text = super.widget.roomModel.cost;
@@ -44,8 +48,16 @@ class _AboutRoom extends State<AboutRoom> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _numberController.dispose();
+    _maxGuestsController.dispose();
+    _priceController.dispose();
+
+    super.dispose();
+  }
+
   showAlertDialog(BuildContext context) {
-    // set up the buttons
     Widget cancelButton = TextButton(
       child: Text(Strings.cancel),
       onPressed: () {
@@ -74,7 +86,6 @@ class _AboutRoom extends State<AboutRoom> {
         okButton,
       ],
     );
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -91,13 +102,13 @@ class _AboutRoom extends State<AboutRoom> {
     rooms = roomsService.getRooms();
     return Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Color(0xFF124559), //change your color here
+          iconTheme: IconThemeData(
+            color: Color(Strings.darkTurquoise), //change your color here
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(Strings.roomDetails,
-              style: const TextStyle(color: Color(0xFF124559))),
+              style: TextStyle(color: Color(Strings.darkTurquoise))),
           actions: [
             IconButton(
               icon: const Icon(
@@ -116,7 +127,7 @@ class _AboutRoom extends State<AboutRoom> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
                   child: Form(
-                    key: _formkey,
+                    key: formkey,
                     child: Card(
                       semanticContainer: true,
                       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -194,7 +205,7 @@ class _AboutRoom extends State<AboutRoom> {
                               title: Text(
                                 Strings.price,
                                 style: TextStyle(
-                                  color: const Color(0xff848181),
+                                  color: Color(Strings.grey),
                                   fontSize: mediaQuery.width * 0.040,
                                 ),
                               ),
@@ -226,7 +237,7 @@ class _AboutRoom extends State<AboutRoom> {
                               title: Text(
                                 Strings.maxGuests,
                                 style: TextStyle(
-                                  color: const Color(0xff848181),
+                                  color: Color(Strings.grey),
                                   fontSize: mediaQuery.width * 0.040,
                                 ),
                               ),
@@ -360,8 +371,8 @@ class _AboutRoom extends State<AboutRoom> {
             child: ListBody(
               children: <Widget>[
                 title == Strings.modifyPriceForRoom
-                    ? const Text("New price:")
-                    : const Text("New max guests:"),
+                    ? const Text("New price: ")
+                    : const Text("New max guests: "),
                 title == Strings.modifyPriceForRoom
                     ? WheelChooser.integer(
                         listWidth: 60,
@@ -400,13 +411,13 @@ class _AboutRoom extends State<AboutRoom> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              child: Text(Strings.cancel),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Ok'),
+              child: Text(Strings.ok),
               onPressed: () {
                 Navigator.of(context).pop();
               },

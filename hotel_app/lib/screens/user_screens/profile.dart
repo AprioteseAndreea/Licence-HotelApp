@@ -35,7 +35,7 @@ class _Profile extends State<Profile> {
   late TextEditingController _fullNameController = TextEditingController();
   late TextEditingController _phoneController = TextEditingController();
   UserService userService = UserService();
-  final _formkey = GlobalKey<FormState>();
+  final formkey = GlobalKey<FormState>();
 
   late bool _fullNameIsEnable = false;
   late bool _phoneIsEnable = false;
@@ -57,13 +57,11 @@ class _Profile extends State<Profile> {
   void dispose() {
     _fullNameController.dispose();
     _phoneController.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final userService = Provider.of<UserService>(context);
     int reserv = ReservationService.numberOfReservations;
     Size mediaQuery = MediaQuery.of(context).size;
 
@@ -85,7 +83,7 @@ class _Profile extends State<Profile> {
                 size: 30,
               ),
               onPressed: () => {
-                if (_formkey.currentState!.validate())
+                if (formkey.currentState!.validate())
                   {
                     _saveProfileData(),
                   }
@@ -167,7 +165,7 @@ class _Profile extends State<Profile> {
                   ),
                 ),
                 Form(
-                  key: _formkey,
+                  key: formkey,
                   child: Padding(
                     padding:
                         const EdgeInsets.only(left: 10, right: 10, top: 20),

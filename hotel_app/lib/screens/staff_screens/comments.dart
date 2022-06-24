@@ -131,6 +131,8 @@ class _Comments extends State<Comments> {
                 child: Column(
                   children: [
                     ListView.builder(
+                        addAutomaticKeepAlives: false,
+                        addRepaintBoundaries: false,
                         shrinkWrap: true,
                         itemCount: super.widget.currentPost.comments.length,
                         itemBuilder: (BuildContext context, int index) {

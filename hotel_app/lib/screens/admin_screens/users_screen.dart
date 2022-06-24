@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app_flutter/models/user_model.dart';
 import 'package:first_app_flutter/screens/admin_screens/custom_user_info_dialog.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -31,24 +32,32 @@ class _UsersScreen extends State<UsersScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     userService = Provider.of<UserService>(context);
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color(0xFF124559), //change your color here
+        iconTheme: IconThemeData(
+          color: Color(Strings.darkTurquoise), //change your color here
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'Users',
-          style: TextStyle(color: Color(0xFF124559)),
+        title: Text(
+          Strings.usersTitle,
+          style: TextStyle(color: Color(Strings.darkTurquoise)),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: ListView.builder(
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             physics: const ClampingScrollPhysics(),
@@ -71,7 +80,7 @@ class _UsersScreen extends State<UsersScreen> {
                 child: Card(
                   margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
                   elevation: 6,
-                  shadowColor: const Color(0xFF124559),
+                  shadowColor: Color(Strings.darkTurquoise),
                   child: ListTile(
                     title: Text(
                       filteredList[index].name,
@@ -83,29 +92,29 @@ class _UsersScreen extends State<UsersScreen> {
                     ),
                     subtitle: Text('Since: ${filteredList[index].old}'),
                     leading: filteredList[index].gender == 'male'
-                        ? const Padding(
-                            padding: EdgeInsets.only(top: 7, bottom: 4),
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 7, bottom: 4),
                             child: CircleAvatar(
                                 radius: 25,
-                                backgroundColor: Color(0xFFF0972D),
-                                child: CircleAvatar(
+                                backgroundColor: Color(Strings.orange),
+                                child: const CircleAvatar(
                                     radius: 20,
                                     backgroundImage:
                                         AssetImage('assets/images/male2.png'))),
                           )
-                        : const Padding(
-                            padding: EdgeInsets.only(top: 7, bottom: 4),
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 7, bottom: 4),
                             child: CircleAvatar(
                                 radius: 25,
-                                backgroundColor: Color(0xFFF0972D),
-                                child: CircleAvatar(
+                                backgroundColor: Color(Strings.orange),
+                                child: const CircleAvatar(
                                     radius: 20,
                                     backgroundImage: AssetImage(
                                         'assets/images/female.png'))),
                           ),
                     trailing: IconButton(
                       icon: const Icon(Icons.phone),
-                      color: const Color(0xFFF0972D),
+                      color: Color(Strings.orange),
                       onPressed: () {
                         launch('tel: +${filteredList[index].phoneNumber}');
                       },

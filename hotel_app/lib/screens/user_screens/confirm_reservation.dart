@@ -38,12 +38,12 @@ class _ConfirmReservation extends State<ConfirmReservation> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const StepProgressIndicator(
+              StepProgressIndicator(
                 totalSteps: 3,
                 currentStep: 3,
                 size: 13,
-                selectedColor: Color(0xFF124559),
-                unselectedColor: Color(0xFF72B0D4),
+                selectedColor: Color(Strings.darkTurquoise),
+                unselectedColor: Color(Strings.lightBlue),
               ),
               const SizedBox(
                 height: 50,
@@ -119,10 +119,10 @@ class _ConfirmReservation extends State<ConfirmReservation> {
                 children: [
                   MaterialButton(
                     onPressed: () {
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => const HomeScreen()),
-                          (Route<dynamic> route) => false);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const HomeScreen()),
+                      );
                     },
                     height: 40,
                     minWidth: 200,

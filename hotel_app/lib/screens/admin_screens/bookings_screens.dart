@@ -49,24 +49,24 @@ class _BookingsScreen extends State<BookingsScreen> {
       length: 3,
       child: Scaffold(
           appBar: AppBar(
-            iconTheme: const IconThemeData(
-              color: Color(0xFF124559), //change your color here
+            iconTheme: IconThemeData(
+              color: Color(Strings.darkTurquoise), //change your color here
             ),
             backgroundColor: Colors.white,
             centerTitle: true,
             title: Text(Strings.bookings,
-                style: const TextStyle(color: Color(0xFF124559))),
-            bottom: const TabBar(
-              labelColor: Color(0xFF124559),
+                style: TextStyle(color: Color(Strings.darkTurquoise))),
+            bottom: TabBar(
+              labelColor: Color(Strings.darkTurquoise),
               tabs: [
                 Tab(
-                  text: 'Last day',
+                  text: Strings.lastDay,
                 ),
                 Tab(
-                  text: 'Last month',
+                  text: Strings.lastMonth,
                 ),
                 Tab(
-                  text: 'Last year',
+                  text: Strings.lastYear,
                 )
               ],
             ),

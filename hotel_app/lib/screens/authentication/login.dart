@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../wrapper.dart';
 import 'forgot_password.dart';
 
 class Login extends StatefulWidget {
@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
 
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late List<User> users = [];
   bool _obscuredText = true, _checked = false;
 
@@ -39,7 +39,6 @@ class _LoginState extends State<Login> {
     final _prefs = await SharedPreferences.getInstance();
     final _value = _prefs.getString('email');
     final _rememberIsChecked = _prefs.getString('rememberIsChecked');
-
     if (_value != null && _rememberIsChecked == "true") {
       setState(() {
         _emailController.text = _value;
@@ -52,7 +51,6 @@ class _LoginState extends State<Login> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-
     super.dispose();
   }
 
@@ -66,6 +64,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<AuthServices>(context);
     final userService = Provider.of<UserService>(context);
+    final user = Provider.of<User?>(context);
 
     Size mediaQuery = MediaQuery.of(context).size;
 
@@ -84,7 +83,7 @@ class _LoginState extends State<Login> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Form(
-                  key: _formkey,
+                  key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -92,7 +91,7 @@ class _LoginState extends State<Login> {
                       Text(
                         Strings.welcomeBack,
                         style: TextStyle(
-                          color: const Color(0xFF124559),
+                          color: Color(Strings.darkTurquoise),
                           fontSize: mediaQuery.width * 0.05,
                           fontWeight: FontWeight.bold,
                         ),
@@ -114,9 +113,9 @@ class _LoginState extends State<Login> {
                             val!.isNotEmpty ? null : Strings.errorEnterEmail,
                         decoration: InputDecoration(
                           hintText: Strings.email,
-                          prefixIcon: const Icon(
+                          prefixIcon: Icon(
                             Icons.mail,
-                            color: Color(0xFF124559),
+                            color: Color(Strings.darkTurquoise),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -138,11 +137,11 @@ class _LoginState extends State<Login> {
                                 child: Icon(Icons.remove_red_eye,
                                     color: _obscuredText
                                         ? Colors.black12
-                                        : const Color(0xFFF0972D))),
+                                        : Color(Strings.orange))),
                             hintText: Strings.password,
-                            prefixIcon: const Icon(
+                            prefixIcon: Icon(
                               Icons.vpn_key,
-                              color: Color(0xFF124559),
+                              color: Color(Strings.darkTurquoise),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -153,7 +152,7 @@ class _LoginState extends State<Login> {
                           Strings.rememberMe,
                           style: TextStyle(
                               fontSize: mediaQuery.width * 0.04,
-                              color: const Color(0xFF124559),
+                              color: Color(Strings.darkTurquoise),
                               fontWeight: FontWeight.bold),
                         ),
                         controlAffinity: ListTileControlAffinity.leading,
@@ -184,7 +183,7 @@ class _LoginState extends State<Login> {
                               Strings.forgotPassword,
                               style: TextStyle(
                                   fontSize: mediaQuery.width * 0.035,
-                                  color: const Color(0xFFF0972D),
+                                  color: Color(Strings.orange),
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -193,7 +192,7 @@ class _LoginState extends State<Login> {
                       SizedBox(height: mediaQuery.height * 0.05),
                       MaterialButton(
                         onPressed: () async {
-                          if (_formkey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             await prefs.setString(
@@ -207,6 +206,15 @@ class _LoginState extends State<Login> {
                               _emailController.text.trim(),
                               _passwordController.text.trim(),
                             );
+                            if (user != null) {
+                              Navigator.pop(context);
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Wrapper(),
+                                  ),
+                                  ModalRoute.withName('/'));
+                            }
                           }
                         },
                         height: mediaQuery.width * 0.12,
@@ -252,7 +260,7 @@ class _LoginState extends State<Login> {
                               Strings.register,
                               style: TextStyle(
                                   fontSize: mediaQuery.width * 0.035,
-                                  color: const Color(0xFFF0972D),
+                                  color: Color(Strings.orange),
                                   fontWeight: FontWeight.bold),
                             ),
                           )

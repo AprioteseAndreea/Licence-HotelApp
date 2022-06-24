@@ -23,15 +23,15 @@ class _Statistics extends State<Statistics> {
       length: 3,
       child: Scaffold(
           appBar: AppBar(
-            iconTheme: const IconThemeData(
-              color: Color(0xFF124559), //change your color here
-            ),
+            iconTheme: IconThemeData(
+                color: Color(Strings.darkTurquoise) //change your color here
+                ),
             backgroundColor: Colors.white,
             centerTitle: true,
             title: Text(Strings.statistics,
-                style: const TextStyle(color: Color(0xFF124559))),
+                style: TextStyle(color: Color(Strings.darkTurquoise))),
             bottom: TabBar(
-              labelColor: const Color(0xFF124559),
+              labelColor: Color(Strings.darkTurquoise),
               tabs: [
                 Tab(
                   text: Strings.monthlyStats,

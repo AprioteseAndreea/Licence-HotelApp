@@ -17,7 +17,7 @@ class AddFeedback extends StatefulWidget {
 }
 
 class _AddFeedback extends State<AddFeedback> {
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late List<FeedbackModel> feedbacks = [];
   late TextEditingController _feedbackController;
   String name = "", date = "";
@@ -93,7 +93,7 @@ class _AddFeedback extends State<AddFeedback> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Form(
-                    key: _formkey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -153,13 +153,6 @@ class _AddFeedback extends State<AddFeedback> {
                               feedbackService.addFeedbackInFirebase(feedback);
                             }
                             Navigator.pop(context);
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const FeedBackScreen.Feedback(),
-                                ));
                           },
                           height: 55,
                           color: Theme.of(context).primaryColor,

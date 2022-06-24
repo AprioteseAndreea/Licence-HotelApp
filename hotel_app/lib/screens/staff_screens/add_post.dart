@@ -24,6 +24,12 @@ class _AddPost extends State<AddPost> {
   }
 
   @override
+  void dispose() {
+    _postController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final postsService = Provider.of<PostsService>(context);
     Size mediaQuery = MediaQuery.of(context).size;

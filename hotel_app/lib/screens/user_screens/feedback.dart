@@ -57,6 +57,8 @@ class _Feedback extends State<Feedback> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: ListView.builder(
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             physics: const ClampingScrollPhysics(),

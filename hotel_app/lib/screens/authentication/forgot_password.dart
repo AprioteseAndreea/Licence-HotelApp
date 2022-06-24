@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:first_app_flutter/screens/authentication/login.dart';
 
@@ -11,7 +12,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final _formKey = GlobalKey<FormState>();
-  var email = "";
+  String email = "";
   final emailController = TextEditingController();
 
   @override
@@ -24,22 +25,22 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           backgroundColor: Colors.orangeAccent,
           content: Text(
-            'Password Reset Email has been sent !',
-            style: TextStyle(fontSize: 18.0),
+            Strings.resetPasswordMessage,
+            style: const TextStyle(fontSize: 18.0),
           ),
         ),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             backgroundColor: Colors.orangeAccent,
             content: Text(
-              'No user found for that email.',
-              style: TextStyle(fontSize: 18.0),
+              Strings.userNotFound,
+              style: const TextStyle(fontSize: 18.0),
             ),
           ),
         );
@@ -103,10 +104,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // ignore: prefer_const_constructors
-                              Text("Remember password?"),
-                              // ignore: prefer_const_constructors
-                              SizedBox(width: 5),
+                              Text(Strings.rememberPassword),
+                              const SizedBox(width: 5),
                               TextButton(
                                 onPressed: () => {
                                   Navigator.pushAndRemoveUntil(
@@ -119,9 +118,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       ),
                                       (route) => false)
                                 },
-                                child: const Text(
-                                  "Login",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                child: Text(
+                                  Strings.login,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ),
                               )
                             ],
@@ -129,7 +129,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           const SizedBox(height: 20),
                           MaterialButton(
                             onPressed: () {
-                              // Validate returns true if the form is valid, otherwise false.
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
                                   email = emailController.text;
@@ -145,9 +144,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
-                            child: const Text(
-                              'Send Email',
-                              style: TextStyle(
+                            child: Text(
+                              Strings.sendEmail,
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ),

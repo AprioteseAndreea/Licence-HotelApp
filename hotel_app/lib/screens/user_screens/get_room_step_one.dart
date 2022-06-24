@@ -13,9 +13,7 @@ import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'get_room_step_two.dart';
 import 'notifiers.dart';
 
 class GetRoom extends StatefulWidget {
@@ -195,14 +193,14 @@ class _GetRoom extends State<GetRoom> {
 
     return Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Color(0xFF124559),
+          iconTheme: IconThemeData(
+            color: Color(Strings.darkTurquoise),
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: const Text(
+          title: Text(
             'Step 1',
-            style: TextStyle(color: Color(0xFF124559)),
+            style: TextStyle(color: Color(Strings.darkTurquoise)),
           ),
         ),
         body: SafeArea(
@@ -211,12 +209,12 @@ class _GetRoom extends State<GetRoom> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const StepProgressIndicator(
+                StepProgressIndicator(
                   totalSteps: 3,
                   currentStep: 1,
                   size: 13,
-                  selectedColor: Color(0xFF124559),
-                  unselectedColor: Color(0xFF72B0D4),
+                  selectedColor: Color(Strings.darkTurquoise),
+                  unselectedColor: Color(Strings.lightBlue),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -227,7 +225,7 @@ class _GetRoom extends State<GetRoom> {
                       child: Text(
                         'CHECK-IN',
                         style: TextStyle(
-                            color: const Color(0xFF124559),
+                            color: Color(Strings.darkTurquoise),
                             fontSize: mediaQuery.width * 0.04,
                             fontWeight: FontWeight.bold),
                       ),
@@ -238,7 +236,7 @@ class _GetRoom extends State<GetRoom> {
                       child: Text(
                         'CHECK-OUT',
                         style: TextStyle(
-                            color: const Color(0xFF124559),
+                            color: Color(Strings.darkTurquoise),
                             fontSize: mediaQuery.width * 0.04,
                             fontWeight: FontWeight.bold),
                       ),
@@ -257,7 +255,7 @@ class _GetRoom extends State<GetRoom> {
                                   icon: Icon(
                                     CupertinoIcons.calendar_badge_plus,
                                     size: mediaQuery.width * 0.05,
-                                    color: const Color(0xFFF0972D),
+                                    color: Color(Strings.orange),
                                   ),
                                   tooltip: 'Tap to open date picker',
                                   onPressed: () {

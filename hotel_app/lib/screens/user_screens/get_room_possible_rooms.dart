@@ -1,14 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_app_flutter/models/extra_facility_model.dart';
 import 'package:first_app_flutter/models/room_model.dart';
-import 'package:first_app_flutter/screens/authentication/authentication_services/auth_services.dart';
-import 'package:first_app_flutter/screens/services/reservation_service.dart';
 import 'package:first_app_flutter/screens/staff_screens/book_staff_two.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'get_room_step_two.dart';
 
@@ -49,7 +45,6 @@ class _PossibleRooms extends State<PossibleRooms> {
 
   @override
   Widget build(BuildContext context) {
-    final reservationProvider = Provider.of<ReservationService>(context);
     Size mediaQuery = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -81,6 +76,8 @@ class _PossibleRooms extends State<PossibleRooms> {
                 height: 15,
               ),
               ListView.builder(
+                addAutomaticKeepAlives: false,
+                addRepaintBoundaries: false,
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 physics: const ClampingScrollPhysics(),

@@ -22,6 +22,12 @@ class _AuthenticationState extends State<Authentication>
     });
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   void toggleScreen() {
     setState(() {
       isToggle = !isToggle;
@@ -32,12 +38,6 @@ class _AuthenticationState extends State<Authentication>
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override

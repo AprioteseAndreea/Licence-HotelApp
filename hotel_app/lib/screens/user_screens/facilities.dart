@@ -21,14 +21,14 @@ class _FacilitiesScreen extends State<FacilitiesScreen> {
     Size mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Color(0xFF124559), //change your color here
+        iconTheme: IconThemeData(
+          color: Color(Strings.darkTurquoise), //change your color here
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text(
-          'Facilities',
-          style: TextStyle(color: Color(0xFF124559)),
+        title: Text(
+          Strings.facilities,
+          style: TextStyle(color: Color(Strings.darkTurquoise)),
         ),
       ),
       body: SafeArea(
@@ -49,7 +49,7 @@ class _FacilitiesScreen extends State<FacilitiesScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 10),
                   child: Text(
-                    'Spa',
+                    Strings.spa,
                     style: TextStyle(
                         color: Color(Strings.darkTurquoise),
                         fontSize: mediaQuery.width * 0.05,
@@ -154,7 +154,7 @@ class _FacilitiesScreen extends State<FacilitiesScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 10),
                   child: Text(
-                    ' - Upto 4 persons per session',
+                    ' - Up to 4 persons per session',
                     style: TextStyle(
                       color: Color(Strings.darkTurquoise),
                       fontSize: mediaQuery.width * 0.040,

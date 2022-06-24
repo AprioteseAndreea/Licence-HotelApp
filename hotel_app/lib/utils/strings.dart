@@ -58,7 +58,6 @@ class Strings {
   static String email = "Email";
   static String enterClientEmail = "Please enter client's email";
   static String enterClientName = "Please enter client's name";
-
   static String enterMoreThanSixChars = "Enter more than 6 chars";
   static String enterOccupation = "Please enter occupation";
   static String enterRoomNumber = "Please enter room number";
@@ -72,7 +71,6 @@ class Strings {
   static String enterStaffsPhoneNumber = "Enter staff's phone number";
   static String errorEmail = "Please enter a valid email!";
   static String errorPassword = "Please enter the password!";
-
   static String errorEnterEmail = "Please enter a email address";
   static String errorFullName = "Please enter full name";
   static String facilities = "Facilities";
@@ -94,6 +92,9 @@ class Strings {
   static String hotelEmail = "grandluxuryhotel@gmail.com";
   static String hotelPhone = "800 234 583";
   static String howWasYourExperience = "How was your experience?";
+  static String lastDay = "Last day";
+  static String lastMonth = "Last month";
+  static String lastYear = "Last year";
   static String login = "Login";
   static String logout = "Logout";
   static String male = "male";
@@ -110,6 +111,8 @@ class Strings {
   static String none = "none";
   static String night = "/night";
   static String noFacilitiesSelected = "No facilities selected";
+  static String noOtherDetailsAdded = "No other details added";
+  static String noReservationsFound = "No reservations found!";
   static String noFeedbacks = "No feedbacks";
   static String noRoomAvailable =
       "We could not find any rooms available for the period you want";
@@ -131,7 +134,9 @@ class Strings {
   static String priceSmall = "Price";
   static String register = "Register";
   static String rememberMe = "Remember me";
+  static String rememberPassword = "Remember password?";
   static String reservationDate = "Reservation date: ";
+  static String resetPasswordMessage = "Password Reset Email has been sent !";
   static String room = "Room";
   static String roomCost = "Room cost";
   static String roomDetails = "Room details";
@@ -149,11 +154,13 @@ class Strings {
   static String roomsNumber = "Rooms' number";
   static String salary = "Salary";
   static String sendFeedback = "Send feedback";
+  static String sendEmail = "Send Email";
   static String sendUsYourFeedback = "Send us your feedback!";
   static String selectYourSpecialFacilities = "Select your special facilities";
   static String selectedFacilities = "Selected facilities";
   static String selectStaffsOccupation = "Select the staff's occupation";
   static String signInToContinue = "sign in to continue";
+  static String spa = "Spa";
   static String specialFacilities = "Special facilities";
   static String settings = "Settings";
   static String step1 = "Step 1";
@@ -171,7 +178,9 @@ class Strings {
   static String updateRoom = "Update room";
   static String updateStaff = "Update staff";
   static String users = "USERS";
+  static String usersTitle = "Users";
   static String userName = " User name";
+  static String userNotFound = "No user found for that email.";
   static String vat = "VAT (23%)";
   static String viewInfo = "View info";
   static String welcomeBack = "Welcome back";
@@ -182,6 +191,7 @@ class Strings {
   static int lightGrey = 0xFF637E8D;
   static int lightTurquoise = 0xFF82adb8;
   static int orange = 0xFFF0972D;
+  static int grey = 0xFF848181;
 
   static Map<String, String> genderMap = {'male': 'male', 'female': 'female'};
   static Map<String, String> statusMap = {
