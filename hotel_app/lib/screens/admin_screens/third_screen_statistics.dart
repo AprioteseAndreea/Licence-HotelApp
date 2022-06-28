@@ -5,6 +5,7 @@ import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:provider/provider.dart';
 
 class ThirdScreen extends StatefulWidget {
   const ThirdScreen({Key? key}) : super(key: key);
@@ -19,15 +20,8 @@ class _ThirdScreenState extends State<ThirdScreen> {
   late List<charts.Series<RoomStatisticsModel, String>> series = [];
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await getRoomsStatistics();
-    });
-    super.initState();
-  }
-
-  Future<void> getRoomsStatistics() async {
-    await statisticsService.calculateRoomsStatistics();
     _roomsStatistics = statisticsService.getRoomsStatistics();
+    super.initState();
   }
 
   calculatePercentage(int value) {
@@ -48,14 +42,17 @@ class _ThirdScreenState extends State<ThirdScreen> {
             charts.Color.fromHex(code: m.color)));
   }
 
-  Widget _buildRoomsStatistics(BuildContext context) {
-    _roomsStatistics = statisticsService.getRoomsStatistics();
+  Widget _buildRoomsStatistics(
+      BuildContext context, List<RoomStatisticsModel> roomsStatistics) {
     return _buildChart(context, _roomsStatistics);
   }
 
   @override
   Widget build(BuildContext context) {
     Size mediaQuery = MediaQuery.of(context).size;
+    statisticsService = Provider.of<StatisticsService>(context);
+    statisticsService.calculateRoomsStatistics();
+    _roomsStatistics = statisticsService.getRoomsStatistics();
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -63,7 +60,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
         children: [
           SizedBox(
             height: mediaQuery.height * 0.6,
-            child: _buildRoomsStatistics(context),
+            child: _buildRoomsStatistics(context, _roomsStatistics),
           )
         ],
       )),

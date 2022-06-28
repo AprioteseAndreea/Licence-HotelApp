@@ -418,7 +418,7 @@ class _Profile extends State<Profile> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        super.widget.old ?? "",
+                                        "Feb 21, 2020",
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: Color(Strings.darkTurquoise),

@@ -4,6 +4,7 @@ import 'package:first_app_flutter/models/user_model.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
 import 'package:first_app_flutter/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
@@ -73,219 +74,297 @@ class _LoginState extends State<Login> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(
                 height: 10,
               ),
-              Image.asset(
-                'assets/images/grand_hotel_logo4.jpg',
-              ), //   <--- image
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: mediaQuery.height * 0.015),
-                      Text(
-                        Strings.welcomeBack,
-                        style: TextStyle(
-                          color: Color(Strings.darkTurquoise),
-                          fontSize: mediaQuery.width * 0.05,
-                          fontWeight: FontWeight.bold,
-                        ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: defaultTargetPlatform == TargetPlatform.android
+                        ? mediaQuery.width
+                        : mediaQuery.width * 0.4,
+                    child: Card(
+                      semanticContainer: true,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                      elevation: 6,
+                      shadowColor: const Color(0xFF124559),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
                       ),
-                      SizedBox(height: mediaQuery.height * 0.015),
-                      Text(
-                        Strings.signInToContinue,
-                        style: TextStyle(
-                            fontSize: mediaQuery.width * 0.045,
-                            color: Colors.grey),
-                      ),
-                      SizedBox(height: mediaQuery.height * 0.03),
-                      TextFormField(
-                        style: TextStyle(
-                          fontSize: mediaQuery.width * 0.04,
-                        ),
-                        controller: _emailController,
-                        validator: (val) =>
-                            val!.isNotEmpty ? null : Strings.errorEnterEmail,
-                        decoration: InputDecoration(
-                          hintText: Strings.email,
-                          prefixIcon: Icon(
-                            Icons.mail,
-                            color: Color(Strings.darkTurquoise),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: mediaQuery.height * 0.03),
-                      TextFormField(
-                        style: TextStyle(
-                          fontSize: mediaQuery.width * 0.04,
-                        ),
-                        controller: _passwordController,
-                        validator: (val) =>
-                            val!.isNotEmpty ? null : Strings.errorPassword,
-                        obscureText: _obscuredText,
-                        decoration: InputDecoration(
-                            suffixIcon: TextButton(
-                                onPressed: _toggle,
-                                child: Icon(Icons.remove_red_eye,
-                                    color: _obscuredText
-                                        ? Colors.black12
-                                        : Color(Strings.orange))),
-                            hintText: Strings.password,
-                            prefixIcon: Icon(
-                              Icons.vpn_key,
-                              color: Color(Strings.darkTurquoise),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                      ),
-                      CheckboxListTile(
-                        title: Text(
-                          Strings.rememberMe,
-                          style: TextStyle(
-                              fontSize: mediaQuery.width * 0.04,
-                              color: Color(Strings.darkTurquoise),
-                              fontWeight: FontWeight.bold),
-                        ),
-                        controlAffinity: ListTileControlAffinity.leading,
-                        value: _checked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _checked = value!;
-                          });
-                        },
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 0.0),
-                        activeColor: Colors.white,
-                        checkColor: Theme.of(context).primaryColor,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      color: const Color(0xFAFAFAFA),
+                      child: Column(
                         children: [
-                          TextButton(
-                            onPressed: () => {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ForgotPassword(),
-                                ),
-                              )
-                            },
-                            child: Text(
-                              Strings.forgotPassword,
-                              style: TextStyle(
-                                  fontSize: mediaQuery.width * 0.035,
-                                  color: Color(Strings.orange),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: mediaQuery.height * 0.05),
-                      MaterialButton(
-                        onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            await prefs.setString(
-                                'email', _emailController.text);
-                            if (_checked) {
-                              prefs.setString(
-                                  'rememberIsChecked', _checked.toString());
-                            }
-
-                            await loginProvider.login(
-                              _emailController.text.trim(),
-                              _passwordController.text.trim(),
-                            );
-                            if (user != null) {
-                              Navigator.pop(context);
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Wrapper(),
+                          Image.asset(
+                            'assets/images/grand_hotel_logo4.jpg',
+                          ), //   <--- image
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Form(
+                              key: formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: mediaQuery.height * 0.015),
+                                  Text(
+                                    Strings.welcomeBack,
+                                    style: TextStyle(
+                                      color: Color(Strings.darkTurquoise),
+                                      fontSize: defaultTargetPlatform ==
+                                              TargetPlatform.android
+                                          ? mediaQuery.width * 0.05
+                                          : mediaQuery.width * 0.02,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                  ModalRoute.withName('/'));
-                            }
-                          }
-                        },
-                        height: mediaQuery.width * 0.12,
-                        minWidth: loginProvider.isLoading ? null : 150,
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: loginProvider.isLoading
-                            ? const CircularProgressIndicator()
-                            : Text(
-                                Strings.login,
-                                style: TextStyle(
-                                  fontSize: mediaQuery.width * 0.042,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                  SizedBox(
+                                    height: defaultTargetPlatform ==
+                                            TargetPlatform.android
+                                        ? mediaQuery.height * 0.015
+                                        : mediaQuery.height * 0.02,
+                                  ),
+                                  Text(
+                                    Strings.signInToContinue,
+                                    style: TextStyle(
+                                        fontSize: defaultTargetPlatform ==
+                                                TargetPlatform.android
+                                            ? mediaQuery.width * 0.045
+                                            : mediaQuery.width * 0.02,
+                                        color: Colors.grey),
+                                  ),
+                                  SizedBox(
+                                    height: defaultTargetPlatform ==
+                                            TargetPlatform.android
+                                        ? mediaQuery.height * 0.03
+                                        : mediaQuery.height * 0.02,
+                                  ),
+                                  TextFormField(
+                                    style: TextStyle(
+                                      fontSize: defaultTargetPlatform ==
+                                              TargetPlatform.android
+                                          ? mediaQuery.width * 0.04
+                                          : mediaQuery.width * 0.015,
+                                    ),
+                                    controller: _emailController,
+                                    validator: (val) => val!.isNotEmpty
+                                        ? null
+                                        : Strings.errorEnterEmail,
+                                    decoration: InputDecoration(
+                                      hintText: Strings.email,
+                                      prefixIcon: Icon(
+                                        Icons.mail,
+                                        color: Color(Strings.darkTurquoise),
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: mediaQuery.height * 0.03),
+                                  TextFormField(
+                                    style: TextStyle(
+                                      fontSize: defaultTargetPlatform ==
+                                              TargetPlatform.android
+                                          ? mediaQuery.width * 0.04
+                                          : mediaQuery.width * 0.015,
+                                    ),
+                                    controller: _passwordController,
+                                    validator: (val) => val!.isNotEmpty
+                                        ? null
+                                        : Strings.errorPassword,
+                                    obscureText: _obscuredText,
+                                    decoration: InputDecoration(
+                                        suffixIcon: TextButton(
+                                            onPressed: _toggle,
+                                            child: Icon(Icons.remove_red_eye,
+                                                color: _obscuredText
+                                                    ? Colors.black12
+                                                    : Color(Strings.orange))),
+                                        hintText: Strings.password,
+                                        prefixIcon: Icon(
+                                          Icons.vpn_key,
+                                          color: Color(Strings.darkTurquoise),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        )),
+                                  ),
+                                  CheckboxListTile(
+                                    title: Text(
+                                      Strings.rememberMe,
+                                      style: TextStyle(
+                                          fontSize: defaultTargetPlatform ==
+                                                  TargetPlatform.android
+                                              ? mediaQuery.width * 0.04
+                                              : mediaQuery.width * 0.015,
+                                          color: Color(Strings.darkTurquoise),
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    value: _checked,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        _checked = value!;
+                                      });
+                                    },
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 0.0),
+                                    activeColor: Colors.white,
+                                    checkColor: Theme.of(context).primaryColor,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () => {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const ForgotPassword(),
+                                            ),
+                                          )
+                                        },
+                                        child: Text(
+                                          Strings.forgotPassword,
+                                          style: TextStyle(
+                                              fontSize: defaultTargetPlatform ==
+                                                      TargetPlatform.android
+                                                  ? mediaQuery.width * 0.035
+                                                  : mediaQuery.width * 0.015,
+                                              color: Color(Strings.orange),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: mediaQuery.height * 0.05),
+                                  MaterialButton(
+                                    onPressed: () async {
+                                      if (formKey.currentState!.validate()) {
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        await prefs.setString(
+                                            'email', _emailController.text);
+                                        if (_checked) {
+                                          prefs.setString('rememberIsChecked',
+                                              _checked.toString());
+                                        }
+
+                                        await loginProvider.login(
+                                          _emailController.text.trim(),
+                                          _passwordController.text.trim(),
+                                        );
+                                        if (user != null) {
+                                          Navigator.pop(context);
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Wrapper(),
+                                              ),
+                                              ModalRoute.withName('/'));
+                                        }
+                                      }
+                                    },
+                                    height: defaultTargetPlatform ==
+                                            TargetPlatform.android
+                                        ? mediaQuery.width * 0.1
+                                        : mediaQuery.width * 0.035,
+                                    minWidth:
+                                        loginProvider.isLoading ? null : 150,
+                                    color: Theme.of(context).primaryColor,
+                                    textColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: loginProvider.isLoading
+                                        ? const CircularProgressIndicator()
+                                        : Text(
+                                            Strings.login,
+                                            style: TextStyle(
+                                              fontSize: defaultTargetPlatform ==
+                                                      TargetPlatform.android
+                                                  ? mediaQuery.width * 0.042
+                                                  : mediaQuery.width * 0.015,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                  ),
+                                  SizedBox(height: mediaQuery.height * 0.02),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      // ignore: prefer_const_constructors
+                                      Text(
+                                        Strings.doYouHaveAnAccount,
+                                        style: TextStyle(
+                                          fontSize: defaultTargetPlatform ==
+                                                  TargetPlatform.android
+                                              ? mediaQuery.width * 0.035
+                                              : mediaQuery.width * 0.015,
+                                        ),
+                                      ),
+                                      // ignore: prefer_const_constructors
+                                      SizedBox(width: mediaQuery.height * 0.01),
+                                      TextButton(
+                                        // onPressed: () => widget.toggleScreen(),
+                                        onPressed: () => {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Register(),
+                                            ),
+                                          )
+                                        },
+                                        child: Text(
+                                          Strings.register,
+                                          style: TextStyle(
+                                              fontSize: defaultTargetPlatform ==
+                                                      TargetPlatform.android
+                                                  ? mediaQuery.width * 0.035
+                                                  : mediaQuery.width * 0.015,
+                                              color: Color(Strings.orange),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: mediaQuery.height * 0.02),
+                                  if (loginProvider.errorMessage != "")
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 5),
+                                      color: Colors.amberAccent,
+                                      child: ListTile(
+                                        title: Text(loginProvider.errorMessage,
+                                            style: TextStyle(
+                                                fontSize:
+                                                    mediaQuery.width * 0.035)),
+                                        leading: const Icon(Icons.error),
+                                        trailing: IconButton(
+                                          icon: const Icon(Icons.close),
+                                          onPressed: () =>
+                                              loginProvider.setMessage(""),
+                                        ),
+                                      ),
+                                    )
+                                ],
                               ),
-                      ),
-                      SizedBox(height: mediaQuery.height * 0.02),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // ignore: prefer_const_constructors
-                          Text(
-                            Strings.doYouHaveAnAccount,
-                            style:
-                                TextStyle(fontSize: mediaQuery.width * 0.035),
-                          ),
-                          // ignore: prefer_const_constructors
-                          SizedBox(width: mediaQuery.height * 0.01),
-                          TextButton(
-                            // onPressed: () => widget.toggleScreen(),
-                            onPressed: () => {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Register(),
-                                ),
-                              )
-                            },
-                            child: Text(
-                              Strings.register,
-                              style: TextStyle(
-                                  fontSize: mediaQuery.width * 0.035,
-                                  color: Color(Strings.orange),
-                                  fontWeight: FontWeight.bold),
                             ),
-                          )
+                          ),
                         ],
                       ),
-                      SizedBox(height: mediaQuery.height * 0.02),
-                      if (loginProvider.errorMessage != "")
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 5),
-                          color: Colors.amberAccent,
-                          child: ListTile(
-                            title: Text(loginProvider.errorMessage,
-                                style: TextStyle(
-                                    fontSize: mediaQuery.width * 0.035)),
-                            leading: const Icon(Icons.error),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.close),
-                              onPressed: () => loginProvider.setMessage(""),
-                            ),
-                          ),
-                        )
-                    ],
-                  ),
-                ),
+                    ),
+                  )
+                ],
               ),
             ],
           ),

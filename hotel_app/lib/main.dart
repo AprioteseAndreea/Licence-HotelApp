@@ -10,22 +10,23 @@ import 'package:first_app_flutter/screens/services/statistics_service.dart';
 import 'package:first_app_flutter/screens/user_screens/notifiers.dart';
 import 'package:first_app_flutter/screens/wrapper.dart';
 import 'package:first_app_flutter/screens/services/user_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      // options: const FirebaseOptions(
-      //     apiKey: "AIzaSyBgaJM8Qfu8iTIm79eW2z-BN8vseP-28wE",
-      //     authDomain: "license-hotelapplication.firebaseapp.com",
-      //     projectId: "license-hotelapplication",
-      //     storageBucket: "license-hotelapplication.appspot.com",
-      //     messagingSenderId: "301348829669",
-      //     appId: "1:301348829669:web:ec91e24ba3399d5287d70c")
-      );
+      options: defaultTargetPlatform == TargetPlatform.windows
+          ? const FirebaseOptions(
+              apiKey: "AIzaSyBgaJM8Qfu8iTIm79eW2z-BN8vseP-28wE",
+              authDomain: "license-hotelapplication.firebaseapp.com",
+              projectId: "license-hotelapplication",
+              storageBucket: "license-hotelapplication.appspot.com",
+              messagingSenderId: "301348829669",
+              appId: "1:301348829669:web:ec91e24ba3399d5287d70c")
+          : null);
 
   runApp(const MyApp());
 }
@@ -50,14 +51,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     MaterialColor colorCustom = MaterialColor(0xFF124559, color);
     final _init = Firebase.initializeApp(
-        // options: const FirebaseOptions(
-        //     apiKey: "AIzaSyBgaJM8Qfu8iTIm79eW2z-BN8vseP-28wE",
-        //     authDomain: "license-hotelapplication.firebaseapp.com",
-        //     projectId: "license-hotelapplication",
-        //     storageBucket: "license-hotelapplication.appspot.com",
-        //     messagingSenderId: "301348829669",
-        //     appId: "1:301348829669:web:ec91e24ba3399d5287d70c")
-        );
+        options: defaultTargetPlatform == TargetPlatform.windows
+            ? const FirebaseOptions(
+                apiKey: "AIzaSyBgaJM8Qfu8iTIm79eW2z-BN8vseP-28wE",
+                authDomain: "license-hotelapplication.firebaseapp.com",
+                projectId: "license-hotelapplication",
+                storageBucket: "license-hotelapplication.appspot.com",
+                messagingSenderId: "301348829669",
+                appId: "1:301348829669:web:ec91e24ba3399d5287d70c")
+            : null);
     return FutureBuilder(
       future: _init,
       builder: (context, snapshot) {
